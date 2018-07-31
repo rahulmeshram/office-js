@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Ο καθορισμένος τύ�
 Strings.OfficeOM.L_ColIndexOutOfRange = "Η τιμή δείκτη στήλης βρίσκεται εκτός της επιτρεπόμενης περιοχής. Χρησιμοποιήστε μια τιμή (0 ή υψηλότερη) η οποία θα είναι μικρότερη από το πλήθος των στηλών.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Η αίτηση απέτυχε με κωδικό κατάστασης {0}, κωδικό σφάλματος {1} και το ακόλουθο μήνυμα σφάλματος: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Η αίτηση απέτυχε με κωδικό κατάστασης {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Πρέπει να υπάρχει μια ιδιότητα με αυτό το όνομα που αναπαριστά τον ορισμό της συνάρτησης στην κλάση Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Η ιδιότητα με αυτό το όνομα στην κλάση Excel.CustomFunctions που αναπαριστά τον ορισμό της συνάρτησης πρέπει να περιέχει μια ιδιότητα 'call' που υλοποιεί τη συνάρτηση.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Μια ιδιότητα με αυτό το όνομα που αντιπροσωπεύει τον ορισμό της συνάρτησης πρέπει να υπάρχει στην κλάση Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Η ιδιότητα με αυτό το όνομα στην κλάση Excel.Script.CustomFunctions, η οποία αντιπροσωπεύει τον ορισμό της συνάρτησης πρέπει να περιέχει μια ιδιότητα "call" που υλοποιεί τη συνάρτηση.';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Το όνομα της συνάρτησης πρέπει να περιέχει έναν μη κενό χώρο ονομάτων και ένα μη κενό σύντομο όνομα.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Το όνομα της συνάρτησης πρέπει να περιέχει μόνο γράμματα, ψηφία, χαρακτήρες υπογράμμισης και τελείες.";
 Strings.OfficeOM.L_CustomXmlError = "Σφάλμα προσαρμοσμένης XML.";

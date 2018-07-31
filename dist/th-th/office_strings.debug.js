@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "ชนิดการบังค
 Strings.OfficeOM.L_ColIndexOutOfRange = "ค่าดัชนีคอลัมน์อยู่นอกช่วงที่อนุญาต ใช้ค่า (0 หรือมากกว่า) ที่มีค่าน้อยกว่าจำนวนคอลัมน์";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "คำขอล้มเหลวโดยมีรหัสสถานะ {0} รหัสข้อผิดพลาด {1} และข้อความแสดงข้อผิดพลาดต่อไปนี้: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "คำขอล้มเหลวโดยมีรหัสสถานะ {0}";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "คุณสมบัติที่มีชื่อนี้ซึ่งแสดงถึงคำนิยามของฟังก์ชันต้องมีอยู่ใน Excel.CustomFunctions";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "คุณสมบัติที่มีชื่อนี้ใน Excel.CustomFunctions ที่แสดงคำนิยามของฟังก์ชันต้องประกอบด้วยคุณสมบัติ 'เรียกใช้' ที่ประมวลผลฟังก์ชัน";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "คุณสมบัติที่มีชื่อนี้ซึ่งแสดงถึงคำนิยามของฟังก์ชันต้องมีอยู่ใน Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "คุณสมบัติที่มีชื่อนี้ใน Excel.CustomFunctions ที่แสดงคำนิยามของฟังก์ชันต้องมีคุณสมบัติ 'โทรศัพท์' ที่ดำเนินการฟังก์ชัน";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "ชื่อฟังก์ชันต้องประกอบด้วยเนมสเปซไม่ว่างเปล่าและชื่อย่อไม่ว่างเปล่า";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "ชื่อฟังก์ชันอาจประกอบด้วยตัวอักษร ตัวเลข ขีดล่าง และมหัพภาคเท่านั้น";
 Strings.OfficeOM.L_CustomXmlError = "ข้อผิดพลาด XML แบบกำหนดเอง";

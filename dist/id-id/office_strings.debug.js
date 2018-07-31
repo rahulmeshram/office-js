@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Tipe koersi yang ditentukan tidak
 Strings.OfficeOM.L_ColIndexOutOfRange = "Nilai indeks kolom berada di luar rentang yang diperbolehkan. Gunakan nilai (0 atau lebih tinggi) yang kurang dari jumlah kolom.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Permintaan gagal dengan kode status {0}, kode kesalahan {1} dan pesan kesalahan berikut: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Permintaan gagal dengan kode status {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Properti dengan nama ini yang mewakili definisi fungsi harus ada pada Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Properti dengan nama ini pada Excel.CustomFunctions yang mewakili definisi fungsi harus berisi properti 'panggilan' yang menerapkan fungsi.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Properti dengan nama ini yang mewakili definisi fungsi harus ada pada Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Properti dengan nama ini pada Excel.Script.CustomFunctions yang mewakili definisi fungsi harus berisi properti 'panggilan' yang menerapkan fungsi.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Nama fungsi harus berisi kumpulan nama dan nama pendek yang tidak kosong.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Nama fungsi hanya dapat berisi huruf, angka, garis bawah, dan titik.";
 Strings.OfficeOM.L_CustomXmlError = "Kesalahan XML Kustom.";

@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Ez da zehaztutako hertsadura mota
 Strings.OfficeOM.L_ColIndexOutOfRange = "Zutabe-indizearen balioa baimendutako barrutitik kanpo dago. Erabili zutabe kopurua baino txikiagoa den balio positiboa (0 edo handiagoa).";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = 'Eskaerak huts egin du eta egoera-kode honekin erantzun du: "{0}" egoera-kodea, "{1}" errore-kodea eta "{2}" errore-mezua.';
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Eskaerak huts egin du eta egoera-kode honekin erantzun du: {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Funtzioaren definizioak dituen propietate bat izan behar duzu izen horrekin Excel.CustomFunctions klasean.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Izen hori duen eta funtzioaren definizioak dituen Excel.CustomFunctions klaseko propietateak "call" (deitu) propietatea izan behar du funtzioa inplementatu ahal izateko.';
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Funtzioaren definizioa adierazten duen eta izen hau duen propietate bat izan behar duzu Excel.Script.CustomFunctions klasean.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Funtzioaren definizioa adierazten duen eta izen hau duen Excel.Script.CustomFunctions klaseko propietateak "call" (deitu) propietatea izan behar du funtzioa inplementatu ahal izateko.';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Funtzio-izenak hutsik ez dauden izen-leku bat eta izen labur bat izan behar ditu.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Funtzio-izenak hizkiak, digituak, azpimarrak eta puntuak baino ezin ditu izan.";
 Strings.OfficeOM.L_CustomXmlError = "XML errore pertsonalizatua.";

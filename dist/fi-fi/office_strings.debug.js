@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Määritettyä pakotustyyppiä ei
 Strings.OfficeOM.L_ColIndexOutOfRange = "Sarakkeen indeksiarvo on sallitun alueen ulkopuolella. Käytä arvoa (vähintään 0), joka on pienempi kuin rivien määrä.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Pyyntö epäonnistui. Tilakoodi on {0} ja virhekoodi on {1}. Virheviesti on seuraava: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Pyyntö epäonnistui tilakoodilla {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.CustomFunctions-kohteessa on oltava tämänniminen ominaisuus, joka kuvaa funktion määritystä.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Excel.CustomFunctions-kohteen tämännimisessä ominaisuudessa, joka kuvaa funktion määritystä, on oltava call-ominaisuus, joka ottaa funktion käyttöön.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.Script.CustomFunctions-kohteessa on oltava tämän niminen ominaisuus, joka kuvaa funktion määritystä.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Excel.Script.CustomFunctions-kohteen tämän nimisessä ominaisuudessa, joka kuvaa funktion määritystä, on oltava call-ominaisuus, joka ottaa funktion käyttöön.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Funktion nimessä on oltava muu kuin tyhjä nimitila ja muu kuin tyhjä lyhyt nimi.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Funktion nimessä voi olla ainoastaan kirjaimia, lukuja, alaviivoja ja pisteitä.";
 Strings.OfficeOM.L_CustomXmlError = "Mukautettu XML -virhe.";

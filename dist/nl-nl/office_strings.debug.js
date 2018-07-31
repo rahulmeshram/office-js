@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,7 +33,7 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Het opgegeven forceringstype word
 Strings.OfficeOM.L_ColIndexOutOfRange = "De kolom-indexwaarde ligt buiten het toegestane bereik. Gebruik een waarde (0 of hoger) die lager is dan het aantal kolommen.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "De aanvraag is mislukt met statuscode {0}, foutcode {1} en het volgende foutbericht: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "De aanvraag is mislukt met statuscode {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.CustomFunctions moet een eigenschap met deze naam bevatten die de definitie van de functie vertegenwoordigt.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Er moet een eigenschap met deze naam voorkomen in Excel.Script.CustomFunctions die de definitie van de functie vertegenwoordigd.";
 Strings.OfficeOM.L_CustomFunctionImplementationMissing = "De eigenschap met deze naam in Excel.CustomFunctions die de definitie van de functie vertegenwoordigt, moet een eigenschap 'call' bevatten waarmee de functie wordt geïmplementeerd.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "De functienaam moet een niet-lege naamruimte en een niet-lege korte naam bevatten.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "De functienaam mag alleen letters, cijfers, onderstrepingstekens en punten bevatten.";

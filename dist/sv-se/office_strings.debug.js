@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Den angivna konverteringstypen ka
 Strings.OfficeOM.L_ColIndexOutOfRange = "Värdet för kolumnindex ligger utanför det tillåtna intervallet. Använd ett värde (0 eller högre) som är mindre än antalet kolumner.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Begäran misslyckades med statuskod {0}, felkod {1} och följande felmeddelande: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Begäran misslyckades med statuskod {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "En egenskap med det här namnet som representerar funktionens definition måste finns för Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Egenskapen med det här namnet för Excel.CustomFunctions som representerar funktionens definition måste innehålla en anropsegenskap som implementerar funktionen.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "En egenskap med det här namnet som representerar funktionens definition måste finnas på Excel.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Egenskapen med det här namnet på Excel.CustomFunctions som representerar funktionens definition måste innehålla en anropsegenskap som implementerar funktionen.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Funktionsnamnet måste innehålla ett icke-tomt namnområde och ett icke-tomt kortnamn.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Funktionsnamnet får bara innehålla bokstäver, siffror, understreck och punkter.";
 Strings.OfficeOM.L_CustomXmlError = "Anpassat XML-fel.";
