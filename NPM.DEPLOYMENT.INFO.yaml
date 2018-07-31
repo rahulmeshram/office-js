@@ -1,4 +1,9 @@
+version: 1.1.9-adhoc.13
 tag: adhoc
+githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.9-adhoc.13
+githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.9-adhoc.13
+deployedAt: 2018-07-31 4:45 am UTC  (2018-07-30 9:45 pm Pacific Time)
+
 history:
     adhocBranchName: >-
         __adhoc--beta--local-enlistment--2018-07-30--9.42pm--custom-functions-preview-refresh
@@ -33,3 +38,11 @@ history:
             message: >-
                 [BEGIN PUBLISH UPDATES] --
                 __adhoc--beta--local-enlistment--2018-07-30--9.42pm--custom-functions-preview-refresh
+
+
+unpkgUrls: |-
+    this specific build number:
+        https://unpkg.com/@microsoft/office-js@1.1.9-adhoc.13/dist/office.js
+        https://unpkg.com/@microsoft/office-js@1.1.9-adhoc.13/dist/office.d.ts
+
+buildLog: https://travis-ci.org/OfficeDev/office-js/builds/410160284
