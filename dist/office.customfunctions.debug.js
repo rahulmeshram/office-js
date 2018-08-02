@@ -4055,41 +4055,37 @@ var CustomFunctionProxy = /** @class */ (function () {
             var isStreaming = false;
             var isBatching = false;
             var metadata = exports.Script._CustomFunctionMetadata[message.functionName];
-            
-			// MZ manual fix
-			// This branch handles static (new-style) registration.
-			call = this_1._getCustomFunctionMappings(message.functionName);
-			if (_isNullOrUndefined(call)) {
-				if (_isNullOrUndefined(window)) {
-					throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionWindowMissing), 'CustomFunctionProxy._batchInvocationEntries');
-				}
-				// Verify a nest of parent objects exists.
-				var functionParent = window;
-				var beginOfSegmentIndex = 0;
-				var endOfSegmentIndex = message.functionName.indexOf('.', beginOfSegmentIndex);
-				while (endOfSegmentIndex > beginOfSegmentIndex) {
-					var functionNameSegment = message.functionName.substring(beginOfSegmentIndex, endOfSegmentIndex);
-					if (_isNullOrUndefined(functionParent[functionNameSegment]) ||
-						typeof functionParent[functionNameSegment] !== 'object') {
-						throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, message.functionName), 'CustomFunctionProxy._batchInvocationEntries');
-					}
-					functionParent = functionParent[functionNameSegment];
-					beginOfSegmentIndex = endOfSegmentIndex + 1; // +1 to skip the '.'
-					endOfSegmentIndex = message.functionName.indexOf('.', beginOfSegmentIndex);
-				}
-				// Verify the function exists.
-				var functionName = message.functionName.substring(beginOfSegmentIndex);
-				if (_isNullOrUndefined(functionParent[functionName])) {
-					throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, message.functionName), 'CustomFunctionProxy._batchInvocationEntries');
-				}
-				if (typeof functionParent[functionName] != 'function') {
-					throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionInvalidFunction, message.functionName), 'CustomFunctionProxy._batchInvocationEntries');
-				}
-				call = functionParent[functionName];
-			}
-			// MZ manual fix end
-				
-			if (!_isNullOrUndefined(metadata)) {
+            if (!_isNullOrUndefined(metadata)) {
+                // This branch handles static (new-style) registration.
+                call = this_1._getCustomFunctionMappings(message.functionName);
+                if (_isNullOrUndefined(call)) {
+                    if (_isNullOrUndefined(window)) {
+                        throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionWindowMissing), 'CustomFunctionProxy._batchInvocationEntries');
+                    }
+                    // Verify a nest of parent objects exists.
+                    var functionParent = window;
+                    var beginOfSegmentIndex = 0;
+                    var endOfSegmentIndex = message.functionName.indexOf('.', beginOfSegmentIndex);
+                    while (endOfSegmentIndex > beginOfSegmentIndex) {
+                        var functionNameSegment = message.functionName.substring(beginOfSegmentIndex, endOfSegmentIndex);
+                        if (_isNullOrUndefined(functionParent[functionNameSegment]) ||
+                            typeof functionParent[functionNameSegment] !== 'object') {
+                            throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, message.functionName), 'CustomFunctionProxy._batchInvocationEntries');
+                        }
+                        functionParent = functionParent[functionNameSegment];
+                        beginOfSegmentIndex = endOfSegmentIndex + 1; // +1 to skip the '.'
+                        endOfSegmentIndex = message.functionName.indexOf('.', beginOfSegmentIndex);
+                    }
+                    // Verify the function exists.
+                    var functionName = message.functionName.substring(beginOfSegmentIndex);
+                    if (_isNullOrUndefined(functionParent[functionName])) {
+                        throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, message.functionName), 'CustomFunctionProxy._batchInvocationEntries');
+                    }
+                    if (typeof functionParent[functionName] != 'function') {
+                        throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionInvalidFunction, message.functionName), 'CustomFunctionProxy._batchInvocationEntries');
+                    }
+                    call = functionParent[functionName];
+                }
                 isCancelable = metadata.options.cancelable;
                 isStreaming = metadata.options.stream;
             }
@@ -8030,3 +8026,4 @@ exports.Utility = Utility;
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=customfunctions.g.js.map
