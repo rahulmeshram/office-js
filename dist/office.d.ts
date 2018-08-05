@@ -279,9 +279,25 @@ declare namespace Office {
      * Specifies the result of an asynchronous call.
      * 
      * @remarks
-     * <table><tr><td>Hosts</td><td>Access, Excel, Outlook, PowerPoint, Project, Word</td></tr></table>
      * 
-     * Returned by the status property of the AsyncResult object.
+     * Returned by the `status` property of the {@link Office.AsyncResult | AsyncResult} object.
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th><th> OWA for Devices </th><th> Office for Mac </th></tr>
+     *   <tr><th> Access     </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Outlook    </th><td> Y                          </td><td> Y                          </td><td>                 </td><td> Y               </td><td> Y              </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *  </table>
      */
     enum AsyncResultStatus {
         /**
@@ -297,7 +313,20 @@ declare namespace Office {
      * Specifies whether the add-in was just inserted or was already contained in the document.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, Project, Word</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum InitializationReason {
         /**
@@ -313,7 +342,24 @@ declare namespace Office {
      * Specifies the host Office application in which the add-in is running.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, Word, PowerPoint, Outlook, OneNote, Project, Access</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th><th> OWA for Devices </th><th> Office for Mac </th></tr>
+     *   <tr><th> Access     </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> OneNote    </th><td>                            </td><td> Y                          </td><td>                 </td><td> Y               </td><td>                </td></tr>
+     *   <tr><th> Outlook    </th><td> Y                          </td><td> Y                          </td><td>                 </td><td> Y               </td><td> Y              </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *  </table>
      */
     enum HostType {
         /**
@@ -349,7 +395,24 @@ declare namespace Office {
      * Specifies the OS or other platform on which the Office host application is running.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, Word, PowerPoint, Outlook, OneNote, Project, Access</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th><th> OWA for Devices </th><th> Office for Mac </th></tr>
+     *   <tr><th> Access     </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> OneNote    </th><td>                            </td><td> Y                          </td><td>                 </td><td> Y               </td><td>                </td></tr>
+     *   <tr><th> Outlook    </th><td> Y                          </td><td> Y                          </td><td>                 </td><td> Y               </td><td> Y              </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *  </table>
      */
     enum PlatformType {
         /**
@@ -388,7 +451,7 @@ declare namespace Office {
         */
         interface AsyncResult {
         /**
-        * Gets the user-defined item passed to the optional `asyncContext` parameter of the invoked method in the same state as it was passed in. This the user-defined item (which can be of any JavaScript type: String, Number, Boolean, Object, Array, Null, or Undefined) passed to the optional `asyncContext` parameter of the invoked method. Returns Undefined, if you didn't pass anything to the asyncContext parameter.
+        * Gets the user-defined item passed to the optional `asyncContext` parameter of the invoked method in the same state as it was passed in. This returns the user-defined item (which can be of any JavaScript type: String, Number, Boolean, Object, Array, Null, or Undefined) passed to the optional `asyncContext` parameter of the invoked method. Returns Undefined, if you didn't pass anything to the asyncContext parameter.
         *
         * @remarks
         * <table><tr><td>Hosts</td><td>Access, Excel, Outlook, PowerPoint, Project, Word</td></tr></table>
@@ -414,9 +477,9 @@ declare namespace Office {
         * @remarks
         * <table><tr><td>Hosts</td><td>Access, Excel, Outlook, PowerPoint, Project, Word</td></tr></table>
         * 
-        * You access the AsyncResult object in the function passed as the argument to the callback parameter of an "Async" method, such as the `getSelectedDataAsync` and `setSelectedDataAsync` methods of the Document object.
+        * You access the AsyncResult object in the function passed as the argument to the callback parameter of an "Async" method, such as the `getSelectedDataAsync` and `setSelectedDataAsync` methods of the {@link Office.Document | Document} object.
         *
-        * Note: What the value property returns for a particular "Async" method varies depending on the purpose and context of that method. To determine what is returned by the value property for an "Async" method, refer to the "Callback value" section of the method's topic. For a complete listing of the "Async" methods, see the Remarks section of the AsyncResult object topic.
+        * Note: What the value property returns for a particular "Async" method varies depending on the purpose and context of that method. To determine what is returned by the value property for an "Async" method, refer to the "Callback value" section of the method's topic.
         */
         value: any;
     }
@@ -448,6 +511,7 @@ declare namespace Office {
         diagnostics: ContextInformation;
         /**
         * Gets the locale (language) specified by the user for the UI of the Office host application.
+        * 
         * @remarks
         * When using in Outlook, the applicable modes are Compose or read.
         */
@@ -760,7 +824,8 @@ declare namespace Office {
         * @remarks
         * <table><tr><td>Hosts</td><td>Excel, OneNote, Outlook, PowerPoint, Word</td></tr>
         *
-        * <tr><td>Requirement sets</td><td>IdentityAPI</td></tr></table>
+        * <tr><td>Requirement sets</td><td>{@link https://docs.microsoft.com/office/dev/add-ins/develop/specify-office-hosts-and-api-requirements
+| IdentityAPI}</td></tr></table>
         *
         * This API requires a single sign-on configuration that bridges the add-in to an Azure application. Office users sign-in with Organizational Accounts and Microsoft Accounts. Microsoft Azure returns tokens intended for both user account types to access resources in the Microsoft Graph.
         *
@@ -1157,7 +1222,18 @@ declare namespace Office {
     /**
      * Specifies the state of the active view of the document, for example, whether the user can edit the document.
      * @remarks
-     * <table><tr><td>Hosts</td><td>PowerPoint</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *  </table>
      */
     enum ActiveView {
         /**
@@ -1172,7 +1248,20 @@ declare namespace Office {
     /**
      * Specifies the type of the binding object that should be returned.
      * @remarks
-     * <table><tr><td>Hosts</td><td>Access, Excel, Word</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Access     </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *  </table>
      */
     enum BindingType {
         /**
@@ -1184,7 +1273,7 @@ declare namespace Office {
          */
         Matrix,
         /**
-         * Tabular data with a header row. Data is returned as a TableData object.
+         * Tabular data with a header row. Data is returned as a {@link Office.TableData | TableData} object.
          */
         Table
     }
@@ -1192,49 +1281,65 @@ declare namespace Office {
      * Specifies how to coerce data returned or set by the invoked method.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Access, Excel, Outlook, PowerPoint, Project, Word</td></tr></table>
+     * PowerPoint supports only `Office.CoercionType.Text`, `Office.CoercionType.Image`, and `Office.CoercionType.SlideRange`.
      * 
-     * PowerPoint supports only `Office.CoercionType.Text`, `Office.CoercionType.Image`, and `Office.CoercionType.SlideRange`. Project supports only `Office.CoercionType.Text`.
+     * Project supports only `Office.CoercionType.Text`.
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th><th> OWA for Devices </th><th> Office for Mac </th></tr>
+     *   <tr><th> Access     </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Outlook    </th><td> Y                          </td><td> Y                          </td><td>                 </td><td> Y               </td><td> Y              </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td><td>                 </td><td>                </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td> Y                          </td><td> Y               </td><td>                 </td><td>                </td></tr>
+     *  </table>
      */
     enum CoercionType {
         /**
-         * Return or set data as text (string).Data is returned or set as a one-dimensional run of characters.
+         * Return or set data as text (string). Data is returned or set as a one-dimensional run of characters.
          */
         Text,
         /**
          * Return or set data as tabular data with no headers. Data is returned or set as an array of arrays containing one-dimensional runs of characters. For example, three rows of  string values in two columns would be: [["R1C1", "R1C2"], ["R2C1", "R2C2"], ["R3C1", "R3C2"]].
-         * @remarks
-         * Only applies to data in Excel and Word.
+         *
+         * Note: Only applies to data in Excel and Word.
          */
         Matrix,
         /**
          * Return or set data as tabular data with optional headers. Data is returned or set as an array of arrays with optional headers.
-         * @remarks
-         * Only applies to data in Access, Excel and Word.
+         * 
+         * Note: Only applies to data in Access, Excel, and Word.
          */
         Table,
         /**
          * Return or set data as HTML.
-         * @remarks
-         * Only applies to data in add-ins for Word and Outlook add-ins for Outlook (compose mode).
+         * 
+         * Note: Only applies to data in add-ins for Word and Outlook add-ins for Outlook (compose mode).
          */
         Html,
         /**
          * Return or set data as Office Open XML.
-         * @remarks
-         * Only applies to data in Word.
+         * 
+         * Note: Only applies to data in Word.
          */
         Ooxml,
         /**
-         * Return a JSON object that contains an array of the ids, titles, and indexes of the selected slides.For example,  `{"slides":[{"id":257,"title":"Slide 2","index":2},{"id":256,"title":"Slide 1","index":1}]}` for a selection of two slides.
-         * @remarks
-         * Only applies to data in PowerPoint when calling the Document.getSelectedData method to get the current slide or selected range of slides.
+         * Return a JSON object that contains an array of the ids, titles, and indexes of the selected slides. For example, `{"slides":[{"id":257,"title":"Slide 2","index":2},{"id":256,"title":"Slide 1","index":1}]}` for a selection of two slides.
+         * 
+         * Note: Only applies to data in PowerPoint when calling the {@link Office.Document | Document}.getSelectedData method to get the current slide or selected range of slides.
          */
         SlideRange,
         /**
         * Data is returned or set as an image stream.
-        * @remarks
-        * Only applies to data in Excel, Word and PowerPoint.
+        * Note: Only applies to data in Excel, Word and PowerPoint.
         */
         Image
     }
@@ -1242,9 +1347,23 @@ declare namespace Office {
      * Specifies whether the document in the associated application is read-only or read-write.
      * 
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, PowerPoint, Project, Word</td></tr></table>
+     *  
+     * Returned by the mode property of the {@link Office.Document | Document} object.
      * 
-     * Returned by the mode property of the Document object.
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum DocumentMode {
         /**
@@ -1260,9 +1379,19 @@ declare namespace Office {
      * Specifies the type of the XML node.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Word</td></tr>
+     * <table><tr><td>Requirement Sets</td><td>CustomXmlParts</td></tr></table>
      * 
-     * <tr><td>Requirement Sets</td><td>CustomXmlParts</td></tr></table>
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *  </table>
      */
     enum CustomXMLNodeType {
         /**
@@ -1296,13 +1425,28 @@ declare namespace Office {
     }
     /**
      * Specifies the kind of event that was raised. Returned by the `type` property of an *EventArgs object.
-     *
-     * @remarks
-     * <table><tr><td>Hosts</td><td>Access, Excel, PowerPoint, Project, Word</td></tr>
-     * <tr><td>Hosts (BindingDataChanged and BindingSelectionChanged)</td><td>Access, Excel, Word</td></tr></table>
-     * 
      * 
      * Add-ins for Project support the `Office.EventType.ResourceSelectionChanged`, `Office.EventType.TaskSelectionChanged`, and `Office.EventType.ViewSelectionChanged` event types.
+     * 
+     * <table>BindingDataChanged and BindingSelectionChanged hosts</td><td>Access, Excel, Word</td></tr></table>
+     *
+     * @remarks
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Outlook    </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td>                 </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum EventType {
         /**
@@ -1330,27 +1474,33 @@ declare namespace Office {
          */
         DialogEventReceived,
         /**
-         * Triggers when a document level selection happens
+         * Triggers when a document level selection happens.
          */
         DocumentSelectionChanged,
         /**
-         * A Document.SelectionChanged event was raised.
+         * Triggers when the selected Outlook item was changed.
+         * 
+         * [Api set: Mailbox 1.1]
          */
         ItemChanged,
         /**
-         * Triggers when a customXmlPart node was deleted
+         * Triggers when a customXmlPart node was deleted.
          */
         NodeDeleted,
         /**
-         * Triggers when a customXmlPart node was inserted
+         * Triggers when a customXmlPart node was inserted.
          */
         NodeInserted,
         /**
-         * Triggers when a customXmlPart node was replaced
+         * Triggers when a customXmlPart node was replaced.
          */
         NodeReplaced,
         /**
-         * The recurrence pattern of the selected series has changed.
+         * Triggers when the recurrence pattern of the selected series was changed in Outlook.
+         * 
+         * [Api set: Mailbox Preview]
+         * 
+         * @beta
          */
         RecurrencePatternChanged,
         /**
@@ -1374,7 +1524,21 @@ declare namespace Office {
      * Specifies the format in which to return the document.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>PowerPoint, Word</td></tr></table>
+     * FileType.Text is only supported in Word, FileType.Pdf is only supported in Word for Windows, Word for Mac, Word Online, and PowerPoint.
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *  </table>
      */
     enum FileType {
         /**
@@ -1382,7 +1546,7 @@ declare namespace Office {
          */
         Text,
         /**
-         * Returns the entire document (.pptx, .docx, or .xslx) in Office Open XML (OOXML) format as a byte array.
+         * Returns the entire document (.pptx, .docx, or .xlsx) in Office Open XML (OOXML) format as a byte array.
          */
         Compressed,
         /**
@@ -1394,7 +1558,20 @@ declare namespace Office {
      * Specifies whether filtering from the host application is applied when the data is retrieved.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, Project, Word</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum FilterType {
         /**
@@ -1410,32 +1587,101 @@ declare namespace Office {
      * Specifies the type of place or object to navigate to.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, PowerPoint, Word</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum GoToType {
         /**
          * Goes to a binding object using the specified binding id.
+         * 
+         * Supported hosts: Excel, Word
          */
         Binding,
         /**
          * Goes to a named item using that item's name.
          * In Excel, you can use any structured reference for a named range or table: "Worksheet2!Table1"
+         * 
+         * Supported hosts: Excel
          */
         NamedItem,
         /**
          * Goes to a slide using the specified id.
+         * 
+         * Supported hosts: PowerPoint
          */
         Slide,
         /**
-         * Goes to the specified index by slide number or Office.Index
+         * Goes to the specified index by slide number or {@link Office.Index}.
+         * 
+         * Supported hosts: PowerPoint
          */
         Index
     }
     /**
-     * Specifies whether to select (highlight) the location to navigate to (when using the Document.goToByIdAsync method).
+     * Specifies the relative PowerPoint slide.
+     * 
+     * @remarks
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *  </table>
+     */
+    enum Index {
+        /**
+         * Represents the first PowerPoint slide
+         */
+        First,
+        /**
+         * Represents the last PowerPoint slide
+         */
+        Last,
+        /**
+         * Represents the next PowerPoint slide
+         */
+        Next,
+        /**
+         * Represents the previous PowerPoint slide
+         */
+        Previous
+    }
+    /**
+     * Specifies whether to select (highlight) the location to navigate to (when using the {@link Office.Document | Document}.goToByIdAsync method).
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, PowerPoint, Word</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> PowerPoint </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum SelectionMode {
         Default,
@@ -1444,7 +1690,7 @@ declare namespace Office {
          */
         Selected,
         /**
-         * The cursor is moved the beginning of the location.
+         * The cursor is moved to the beginning of the location.
          */
         None
     }
@@ -1452,10 +1698,22 @@ declare namespace Office {
      * Specifies whether values, such as numbers and dates, returned by the invoked method are returned with their formatting applied.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel, Project, Word</td></tr></table>
-     * 
      * For example, if the valueFormat parameter is specified as "formatted", a number formatted as currency, or a date formatted as mm/dd/yy in the host application will have its formatting preserved. 
      * If the valueFormat parameter is specified as "unformatted", a date will be returned in its underlying sequential serial number form.
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td><td>                 </td></tr>
+     *   <tr><th> Word       </th><td> Y                          </td><td>                            </td><td> Y               </td></tr>
+     *  </table>
      */
     enum ValueFormat {
         /**
@@ -3416,10 +3674,21 @@ declare namespace Office {
         rows: any[][];
     }
     /**
-     * Specifies enumerated values for the cells: property in the cellFormat parameter of {@link https://docs.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-tables#format-a-table | table formatting methods}.
+     * Specifies enumerated values for the `cells` property in the cellFormat parameter of {@link https://docs.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-tables#format-a-table | table formatting methods}.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Excel</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th><th> Office for iPad </th></tr>
+     *   <tr><th> Excel      </th><td> Y                          </td><td> Y                          </td><td> Y               </td></tr>
+     *  </table>
      */
     enum Table {
         /**
@@ -3447,12 +3716,23 @@ declare namespace Office {
     */
     interface TextBinding extends Binding { }
     /**
-     * Specifies the project fields that are available as a parameter for the getProjectFieldAsync method.
+     * Specifies the project fields that are available as a parameter for the {@link Office.Document | Document}.getProjectFieldAsync method.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Project</td></tr></table>
      * 
-     * A ProjectProjectFields constant can be used as a parameter of the getProjectFieldAsync method.
+     * A ProjectProjectFields constant can be used as a parameter of the {@link Office.Document | Document}.getProjectFieldAsync method.
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td></tr>
+     *  </table>
      */
     enum ProjectProjectFields {
         /**
@@ -3506,12 +3786,24 @@ declare namespace Office {
         WSSList
     }
     /**
-     * Specifies the resource fields that are available as a parameter for the getResourceFieldAsync method.
+     * Specifies the resource fields that are available as a parameter for the {@link Office.Document | Document}.getResourceFieldAsync method.
      *
      * @remarks
-     * A ProjectResourceFields constant can be used as a parameter of the getResourceFieldAsync method.
+     * A ProjectResourceFields constant can be used as a parameter of the {@link Office.Document | Document}.getResourceFieldAsync method.
      *
      * For more information about working with fields in Project, see {@link https://support.office.com/article/Available-fields-reference-615a4563-1cc3-40f4-b66f-1b17e793a460 | Available fields} reference. In Project Help, search for Available fields.
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td></tr>
+     *  </table>
      */
     enum ProjectResourceFields {
         /**
@@ -4316,14 +4608,24 @@ declare namespace Office {
         Text9
     }
     /**
-     * Specifies the task fields that are available as a parameter for the getTaskFieldAsync method.
+     * Specifies the task fields that are available as a parameter for the {@link Office.Document | Document}.getTaskFieldAsync method.
      *
      * @remarks
-     * A ProjectTaskFields constant can be used as a parameter of the getTaskFieldAsync method.
+     * A ProjectTaskFields constant can be used as a parameter of the {@link Office.Document | Document}.getTaskFieldAsync method.
      *
      * For more information about working with fields in Project, see the {@link https://support.office.com/article/Available-fields-reference-615a4563-1cc3-40f4-b66f-1b17e793a460 | Available fields} reference. In Project Help, search for Available fields.
-     *
-     * <table><tr><td>Hosts</td><td>Project</td></tr></table>
+     * 
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td></tr>
+     *  </table>
      */
     enum ProjectTaskFields {
         /**
@@ -5454,12 +5756,22 @@ declare namespace Office {
         WSSID
     }
     /**
-     * Specifies the types of views that the getSelectedViewAsync method can recognize.
+     * Specifies the types of views that the {@link Office.Document | Document}.getSelectedViewAsync method can recognize.
      *
      * @remarks
-     * <table><tr><td>Hosts</td><td>Project</td></tr></table>
+     * The {@link Office.Document | Document}.getSelectedViewAsync method returns the ProjectViewTypes constant value and name that corresponds to the active view.
      * 
-     * The getSelectedViewAsync method returns the ProjectViewTypes constant value and name that corresponds to the active view.
+     * **Support details**
+     * 
+     * A capital Y in the following matrix indicates that this enumeration is supported in the corresponding Office host application. An empty cell indicates that the Office host application doesn't support this enumeration.
+     * 
+     * For more information about Office host application and server requirements, see {@link https://docs.microsoft.com/office/dev/add-ins/concepts/requirements-for-running-office-add-ins | Requirements for running Office Add-ins}.
+     * 
+     * *Supported hosts, by platform*
+     *  <table>
+     *   <tr><th>            </th><th> Office for Windows desktop </th><th> Office Online (in browser) </th></tr>
+     *   <tr><th> Project    </th><td> Y                          </td><td>                            </td></tr>
+     *  </table>
      */
     enum ProjectViewTypes {
         /**
@@ -15968,11 +16280,18 @@ declare namespace Excel {
         getIsActiveCollabSession(): OfficeExtension.ClientResult<boolean>;
         /**
          *
-         * Gets the currently selected range from the workbook.
+         * Gets the currently selected single range from the workbook. If there are multiple ranges selected, this method will throw an error.
          *
          * [Api set: ExcelApi 1.1]
          */
-        getSelectedRange(allowMultiAreas?: boolean): Excel.Range;
+        getSelectedRange(): Excel.Range;
+        /**
+         *
+         * Gets the currently selected one or more ranges from the workbook. Unlike getSelectedRange(), this method returns a RangeAreas object that represents all the selected ranges.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        getSelectedRanges(): Excel.RangeAreas;
         /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          *
@@ -16097,6 +16416,13 @@ declare namespace Excel {
      * [Api set: ExcelApi 1.1]
      */
     class Worksheet extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Represents the AutoFilter object of the worksheet. Read-Only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly autoFilter: Excel.AutoFilter;
         /**
          *
          * Returns collection of charts that are part of the worksheet. Read-only.
@@ -16295,27 +16621,26 @@ declare namespace Excel {
         delete(): void;
         /**
          *
-         * Finds all occurances of the given string based on the criteria specified and returns them as a discontiguous range.
+         * Finds all occurrences of the given string based on the criteria specified and returns them as a RangeAreas object, comprising one or more rectangular ranges.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
          * @param text String to find.
          * @param criteria Additional Criteria.
-         * @returns The Range of cells that matched the search criteria or ItemNotFound error if no matches were found.
+         * @returns A RangeArea object, comprising one or more rectangular ranges, that matches the search criteria. If no cells meet this criteria, an ItemNotFound error will be thrown.
          */
-        findAll(text: string, criteria: Excel.WorksheetSearchCriteria): Excel.Range;
+        findAll(text: string, criteria: Excel.WorksheetSearchCriteria): Excel.RangeAreas;
         /**
          *
-         * Finds all occurances of the given string based on the criteria specified and returns them as a discontiguous range.
-            If there are no matches, this function will return a null object.
+         * Finds all occurrences of the given string based on the criteria specified and returns them as a RangeAreas object, comprising one or more rectangular ranges.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
          * @param text String to find.
          * @param criteria Additional Criteria.
-         * @returns The Range of cells that matched the search criteria.
+         * @returns A RangeArea object, comprising one or more rectangular ranges, that matches the search criteria. If there are no matches, this function will return a null object.
          */
-        findAllOrNullObject(text: string, criteria: Excel.WorksheetSearchCriteria): Excel.Range;
+        findAllOrNullObject(text: string, criteria: Excel.WorksheetSearchCriteria): Excel.RangeAreas;
         /**
          *
          * Gets the range object containing the single cell based on row and column numbers. The cell can be outside the bounds of its parent range, so long as it stays within the worksheet grid.
@@ -16364,11 +16689,11 @@ declare namespace Excel {
         getPreviousOrNullObject(visibleOnly?: boolean): Excel.Worksheet;
         /**
          *
-         * Gets the range object specified by the address or name.
+         * Gets the range object, represeting a single rectangular block of cells, specified by the address or name.
          *
          * [Api set: ExcelApi 1.1]
          *
-         * @param address Optional. The address or the name of the range. If not specified, the entire worksheet range is returned.
+         * @param address Optional. The string represeting the address or name of the range. For example, "A1:B2". If not specified, the entire worksheet range is returned.
          */
         getRange(address?: string): Excel.Range;
         /**
@@ -16383,6 +16708,15 @@ declare namespace Excel {
          * @param columnCount Number of columns to include in the range.
          */
         getRangeByIndexes(startRow: number, startColumn: number, rowCount: number, columnCount: number): Excel.Range;
+        /**
+         *
+         * Gets the RangeAreas object, representing one or more blocks of rectangular ranges, specified by the address or name.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param address Optional. A string containing the comma-separated addresses or names of the individual ranges. For example, "A1:B2, A5:B5". If not specified, an RangeArea object for the entire worksheet is returned.
+         */
+        getRanges(address?: string): Excel.RangeAreas;
         /**
          *
          * The used range is the smallest range that encompasses any cells that have a value or formatting assigned to them. If the entire worksheet is blank, this function will return the top left cell (i.e. it will *not* throw an error).
@@ -16854,13 +17188,6 @@ declare namespace Excel {
     class Range extends OfficeExtension.ClientObject {
         /**
          *
-         * Represents a collection of contiguous areas for the range.
-         *
-         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-         */
-        readonly areas: Excel.AreaCollection;
-        /**
-         *
          * Collection of ConditionalFormats that intersect the range. Read-only.
          *
          * [Api set: ExcelApi 1.6]
@@ -16896,7 +17223,7 @@ declare namespace Excel {
         readonly worksheet: Excel.Worksheet;
         /**
          *
-         * Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. Sheet1!A1:B4). Read-only.
+         * Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. "Sheet1!A1:B4"). Read-only.
          *
          * [Api set: ExcelApi 1.1]
          */
@@ -17121,28 +17448,30 @@ declare namespace Excel {
         convertToLinkedDataType(serviceID: number, languageCulture: string): void;
         /**
          *
-         * Copies cell data or formatting from the source range to the current range.
+         * Copies cell data or formatting from the source range or RangeAreas to the current range.
+            The destination range can be of different size than the source range or RangeAreas. The destination will be expanded automatically if it is smaller than the source.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
-         * @param sourceRange The source range to copy from.
+         * @param sourceRange The source range or RangeAreas to copy from. When the source RangeAreas has multiple ranges, it must in the outline form which can be created by removing full rows or columns from a rectangular range.
          * @param copyType The type of cell data or formatting to copy over. Default is "All".
          * @param skipBlanks True if to skip blank cells in the source range. Default is false.
          * @param transpose True if to transpose the cells in the destination range. Default is false.
          */
-        copyFrom(sourceRange: Range | string, copyType?: Excel.RangeCopyType, skipBlanks?: boolean, transpose?: boolean): void;
+        copyFrom(sourceRange: Range | RangeAreas | string, copyType?: Excel.RangeCopyType, skipBlanks?: boolean, transpose?: boolean): void;
         /**
          *
-         * Copies cell data or formatting from the source range to the current range.
+         * Copies cell data or formatting from the source range or RangeAreas to the current range.
+            The destination range can be of different size than the source range or RangeAreas. The destination will be expanded automatically if it is smaller than the source.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
-         * @param sourceRange The source range to copy from.
+         * @param sourceRange The source range or RangeAreas to copy from. When the source RangeAreas has multiple ranges, it must in the outline form which can be created by removing full rows or columns from a rectangular range.
          * @param copyType The type of cell data or formatting to copy over. Default is "All".
          * @param skipBlanks True if to skip blank cells in the source range. Default is false.
          * @param transpose True if to transpose the cells in the destination range. Default is false.
          */
-        copyFrom(sourceRange: Range | string, copyType?: "All" | "Formulas" | "Values" | "Formats", skipBlanks?: boolean, transpose?: boolean): void;
+        copyFrom(sourceRange: Range | RangeAreas | string, copyType?: "All" | "Formulas" | "Values" | "Formats", skipBlanks?: boolean, transpose?: boolean): void;
         /**
          *
          * Deletes the cells associated with the range.
@@ -17198,7 +17527,7 @@ declare namespace Excel {
         getAbsoluteResizedRange(numRows: number, numColumns: number): Excel.Range;
         /**
          *
-         * Gets the smallest range object that encompasses the given ranges. For example, the GetBoundingRect of "B2:C5" and "D10:E15" is "B2:E16".
+         * Gets the smallest range object that encompasses the given ranges. For example, the GetBoundingRect of "B2:C5" and "D10:E15" is "B2:E15".
          *
          * [Api set: ExcelApi 1.1]
          *
@@ -17351,44 +17680,48 @@ declare namespace Excel {
         getRowsBelow(count?: number): Excel.Range;
         /**
          *
-         * Gets the range object that represents all the cells that match the specified type and value. Throws an error if no special cells are found that match the criteria.
+         * Gets the RangeAreas object, comprising one or more rectangular ranges, that represents all the cells that match the specified type and value.
+            If no special cells are found, an ItemNotFound error will be thrown.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
          * @param cellType The type of cells to include.
          * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
          */
-        getSpecialCells(cellType: Excel.SpecialCellType, cellValueType?: Excel.SpecialCellValueType): Excel.Range;
+        getSpecialCells(cellType: Excel.SpecialCellType, cellValueType?: Excel.SpecialCellValueType): Excel.RangeAreas;
         /**
          *
-         * Gets the range object that represents all the cells that match the specified type and value. Throws an error if no special cells are found that match the criteria.
+         * Gets the RangeAreas object, comprising one or more rectangular ranges, that represents all the cells that match the specified type and value.
+            If no special cells are found, an ItemNotFound error will be thrown.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
          * @param cellType The type of cells to include.
          * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
          */
-        getSpecialCells(cellType: "ConditionalFormats" | "DataValidations" | "Blanks" | "Comments" | "Constants" | "Formulas" | "SameConditionalFormat" | "SameDataValidation" | "Visible", cellValueType?: "All" | "Errors" | "ErrorsLogical" | "ErrorsNumbers" | "ErrorsText" | "ErrorsLogicalNumber" | "ErrorsLogicalText" | "ErrorsNumberText" | "Logical" | "LogicalNumbers" | "LogicalText" | "LogicalNumbersText" | "Numbers" | "NumbersText" | "Text"): Excel.Range;
+        getSpecialCells(cellType: "ConditionalFormats" | "DataValidations" | "Blanks" | "Comments" | "Constants" | "Formulas" | "SameConditionalFormat" | "SameDataValidation" | "Visible", cellValueType?: "All" | "Errors" | "ErrorsLogical" | "ErrorsNumbers" | "ErrorsText" | "ErrorsLogicalNumber" | "ErrorsLogicalText" | "ErrorsNumberText" | "Logical" | "LogicalNumbers" | "LogicalText" | "LogicalNumbersText" | "Numbers" | "NumbersText" | "Text"): Excel.RangeAreas;
         /**
          *
-         * Gets the range object that represents all the cells that match the specified type and value. Returns a null object if no special cells are found that match the criteria.
+         * Gets the RangeAreas object, comprising one or more ranges, that represents all the cells that match the specified type and value.
+            If no special cells are found, a null object will be returned.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
          * @param cellType The type of cells to include.
          * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
          */
-        getSpecialCellsOrNullObject(cellType: Excel.SpecialCellType, cellValueType?: Excel.SpecialCellValueType): Excel.Range;
+        getSpecialCellsOrNullObject(cellType: Excel.SpecialCellType, cellValueType?: Excel.SpecialCellValueType): Excel.RangeAreas;
         /**
          *
-         * Gets the range object that represents all the cells that match the specified type and value. Returns a null object if no special cells are found that match the criteria.
+         * Gets the RangeAreas object, comprising one or more ranges, that represents all the cells that match the specified type and value.
+            If no special cells are found, a null object will be returned.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
          * @param cellType The type of cells to include.
          * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
          */
-        getSpecialCellsOrNullObject(cellType: "ConditionalFormats" | "DataValidations" | "Blanks" | "Comments" | "Constants" | "Formulas" | "SameConditionalFormat" | "SameDataValidation" | "Visible", cellValueType?: "All" | "Errors" | "ErrorsLogical" | "ErrorsNumbers" | "ErrorsText" | "ErrorsLogicalNumber" | "ErrorsLogicalText" | "ErrorsNumberText" | "Logical" | "LogicalNumbers" | "LogicalText" | "LogicalNumbersText" | "Numbers" | "NumbersText" | "Text"): Excel.Range;
+        getSpecialCellsOrNullObject(cellType: "ConditionalFormats" | "DataValidations" | "Blanks" | "Comments" | "Constants" | "Formulas" | "SameConditionalFormat" | "SameDataValidation" | "Visible", cellValueType?: "All" | "Errors" | "ErrorsLogical" | "ErrorsNumbers" | "ErrorsText" | "ErrorsLogicalNumber" | "ErrorsLogicalText" | "ErrorsNumberText" | "Logical" | "LogicalNumbers" | "LogicalText" | "LogicalNumbersText" | "Numbers" | "NumbersText" | "Text"): Excel.RangeAreas;
         /**
          *
          * Returns a Range object that represents the surrounding region for the top-left cell in this range. A surrounding region is a range bounded by any combination of blank rows and blank columns relative to this range.
@@ -17483,11 +17816,10 @@ declare namespace Excel {
         /**
          *
          * Selects the specified range in the Excel UI.
-            If true, a multi-area range can be selected; otherwise, only the first area will be selected. Default is false.
          *
          * [Api set: ExcelApi 1.1]
          */
-        select(allowMultiAreas?: boolean): void;
+        select(): void;
         /**
          *
          * Set a range to be recalculated when the next recalculation occurs.
@@ -17590,6 +17922,330 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         textToDisplay?: string;
+    }
+    /**
+     *
+     * RangeAreas represents a collection of one or more rectangular ranges in the same worksheet.
+     *
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
+    class RangeAreas extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Returns a collection of rectangular ranges that comprise this RangeAreas object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly areas: Excel.RangeCollection;
+        /**
+         *
+         * Returns a collection of ConditionalFormats that intersect with any cells in this RangeAreas object. Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly conditionalFormats: Excel.ConditionalFormatCollection;
+        /**
+         *
+         * Returns a dataValidation object for all ranges in the RangeAreas.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly dataValidation: Excel.DataValidation;
+        /**
+         *
+         * Returns a rangeFormat object, encapsulating the the font, fill, borders, alignment, and other properties for all ranges in the RangeAreas object. Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly format: Excel.RangeFormat;
+        /**
+         *
+         * Returns the worksheet for the current RangeAreas. Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly worksheet: Excel.Worksheet;
+        /**
+         *
+         * Returns the RageAreas reference in A1-style. Address value will contain the worksheet name for each rectangular block of cells (e.g. "Sheet1!A1:B4, Sheet1!D1:D4"). Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly address: string;
+        /**
+         *
+         * Returns the RageAreas reference in the user locale. Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly addressLocal: string;
+        /**
+         *
+         * Returns the number of rectangular ranges that comprise this RangeAreas object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly areaCount: number;
+        /**
+         *
+         * Returns the number of cells in the RangeAreas object, summing up the cell counts of all of the individual rectangular ranges. Returns -1 if the cell count exceeds 2^31-1 (2,147,483,647). Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly cellCount: number;
+        /**
+         *
+         * Indicates whether all the ranges on this RangeAreas object represent entire columns (e.g., "A:C, Q:Z"). Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly isEntireColumn: boolean;
+        /**
+         *
+         * Indicates whether all the ranges on this RangeAreas object represent entire rows (e.g., "1:3, 5:7"). Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly isEntireRow: boolean;
+        /**
+         *
+         * Represents the style for all ranges in this RangeAreas object.
+            If the styles of the cells are inconsistent, null will be returned.
+            For custom styles, the style name will be returned. For built-in styles, a string representing a value in the BuiltInStyle enum will be returned.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        style: string;
+        /** Sets multiple properties of an object at the same time. You can pass either a plain object with the appropriate properties, or another API object of the same type.
+         *
+         * @remarks
+         *
+         * This method has the following additional signature:
+         *
+         * `set(properties: Excel.RangeAreas): void`
+         *
+         * @param properties A JavaScript object with properties that are structured isomorphically to the properties of the object on which the method is called.
+         * @param options Provides an option to suppress errors if the properties object tries to set any read-only properties.
+         */
+        set(properties: Interfaces.RangeAreasUpdateData, options?: OfficeExtension.UpdateOptions): void;
+        /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
+        set(properties: Excel.RangeAreas): void;
+        /**
+         *
+         * Calculates all cells in the RangeAreas.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        calculate(): void;
+        /**
+         *
+         * Clears values, format, fill, border, etc on each of the areas that comprise this RangeAreas object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param applyTo Optional. Determines the type of clear action. See Excel.ClearApplyTo for details. Default is "All".
+         */
+        clear(applyTo?: Excel.ClearApplyTo): void;
+        /**
+         *
+         * Clears values, format, fill, border, etc on each of the areas that comprise this RangeAreas object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param applyTo Optional. Determines the type of clear action. See Excel.ClearApplyTo for details. Default is "All".
+         */
+        clear(applyTo?: "All" | "Formats" | "Contents" | "Hyperlinks" | "RemoveHyperlinks"): void;
+        /**
+         *
+         * Converts all cells in the RangeAreas with datatypes into text.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        convertDataTypeToText(): void;
+        /**
+         *
+         * Converts all cells in the RangeAreas into linked datatype.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param serviceID The Service ID which will be used to query the data.
+         * @param languageCulture Language Culture to query the service for.
+         */
+        convertToLinkedDataType(serviceID: number, languageCulture: string): void;
+        /**
+         *
+         * Copies cell data or formatting from the source range or RangeAreas to the current RangeAreas.
+            The destination rangeAreas can be of different size than the source range or RangeAreas. The destination will be expanded automatically if it is smaller than the source.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param sourceRange The source range or RangeAreas to copy from. When the source RangeAreas has multiple ranges, it must be in the outline form which can be created by removing full rows or columns from a rectangular range.
+         * @param copyType The type of cell data or formatting to copy over. Default is "All".
+         * @param skipBlanks True if to skip blank cells in the source range or RangeAreas. Default is false.
+         * @param transpose True if to transpose the cells in the destination RangeAreas. Default is false.
+         */
+        copyFrom(sourceRange: Range | RangeAreas | string, copyType?: Excel.RangeCopyType, skipBlanks?: boolean, transpose?: boolean): void;
+        /**
+         *
+         * Copies cell data or formatting from the source range or RangeAreas to the current RangeAreas.
+            The destination rangeAreas can be of different size than the source range or RangeAreas. The destination will be expanded automatically if it is smaller than the source.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param sourceRange The source range or RangeAreas to copy from. When the source RangeAreas has multiple ranges, it must be in the outline form which can be created by removing full rows or columns from a rectangular range.
+         * @param copyType The type of cell data or formatting to copy over. Default is "All".
+         * @param skipBlanks True if to skip blank cells in the source range or RangeAreas. Default is false.
+         * @param transpose True if to transpose the cells in the destination RangeAreas. Default is false.
+         */
+        copyFrom(sourceRange: Range | RangeAreas | string, copyType?: "All" | "Formulas" | "Values" | "Formats", skipBlanks?: boolean, transpose?: boolean): void;
+        /**
+         *
+         * Returns a RangeAreas object that represents the entire columns of the RangeAreas (for example, if the current RangeAreas represents cells "B4:E11, H2", it returns a RangeAreas that represents columns "B:E, H:H").
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        getEntireColumn(): Excel.RangeAreas;
+        /**
+         *
+         * Returns a RangeAreas object that represents the entire rows of the RangeAreas (for example, if the current RangeAreas represents cells "B4:E11", it returns a RangeAreas that represents rows "4:11").
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        getEntireRow(): Excel.RangeAreas;
+        /**
+         *
+         * Returns the RangeAreas object that represents the intersection of the given ranges or RangeAreas. If no intersection is found, an ItemNotFound error will be thrown.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param anotherRange The range, RangeAreas object or range address that will be used to determine the intersection.
+         */
+        getIntersection(anotherRange: Range | RangeAreas | string): Excel.RangeAreas;
+        /**
+         *
+         * Returns the RangeAreas object that represents the intersection of the given ranges or RangeAreas. If no intersection is found, a null object is returned.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param anotherRange The range, RangeAreas, or address that will be used to determine the intersection.
+         */
+        getIntersectionOrNullObject(anotherRange: Range | RangeAreas | string): Excel.RangeAreas;
+        /**
+         *
+         * Returns an RangeAreas object that is shifted by the specific row and column offset. The dimension of the returned RangeAreas will match the original object. If the resulting RangeAreas is forced outside the bounds of the worksheet grid, an error will be thrown.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param rowOffset The number of rows (positive, negative, or 0) by which the RangeAreas is to be offset. Positive values are offset downward, and negative values are offset upward.
+         * @param columnOffset The number of columns (positive, negative, or 0) by which the RangeAreas is to be offset. Positive values are offset to the right, and negative values are offset to the left.
+         */
+        getOffsetRangeAreas(rowOffset: number, columnOffset: number): Excel.RangeAreas;
+        /**
+         *
+         * Returns a RangeAreas object that represents all the cells that match the specified type and value. Throws an error if no special cells are found that match the criteria.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param cellType The type of cells to include.
+         * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
+         */
+        getSpecialCells(cellType: Excel.SpecialCellType, cellValueType?: Excel.SpecialCellValueType): Excel.RangeAreas;
+        /**
+         *
+         * Returns a RangeAreas object that represents all the cells that match the specified type and value. Throws an error if no special cells are found that match the criteria.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param cellType The type of cells to include.
+         * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
+         */
+        getSpecialCells(cellType: "ConditionalFormats" | "DataValidations" | "Blanks" | "Comments" | "Constants" | "Formulas" | "SameConditionalFormat" | "SameDataValidation" | "Visible", cellValueType?: "All" | "Errors" | "ErrorsLogical" | "ErrorsNumbers" | "ErrorsText" | "ErrorsLogicalNumber" | "ErrorsLogicalText" | "ErrorsNumberText" | "Logical" | "LogicalNumbers" | "LogicalText" | "LogicalNumbersText" | "Numbers" | "NumbersText" | "Text"): Excel.RangeAreas;
+        /**
+         *
+         * Returns a RangeAreas object that represents all the cells that match the specified type and value. Returns a null object if no special cells are found that match the criteria.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param cellType The type of cells to include.
+         * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
+         */
+        getSpecialCellsOrNullObject(cellType: Excel.SpecialCellType, cellValueType?: Excel.SpecialCellValueType): Excel.RangeAreas;
+        /**
+         *
+         * Returns a RangeAreas object that represents all the cells that match the specified type and value. Returns a null object if no special cells are found that match the criteria.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param cellType The type of cells to include.
+         * @param cellValueType If cellType is either Constants or Formulas, this argument is used to determine which types of cells to include in the result. These values can be combined together to return more than one type. The default is to select all constants or formulas, no matter what the type.
+         */
+        getSpecialCellsOrNullObject(cellType: "ConditionalFormats" | "DataValidations" | "Blanks" | "Comments" | "Constants" | "Formulas" | "SameConditionalFormat" | "SameDataValidation" | "Visible", cellValueType?: "All" | "Errors" | "ErrorsLogical" | "ErrorsNumbers" | "ErrorsText" | "ErrorsLogicalNumber" | "ErrorsLogicalText" | "ErrorsNumberText" | "Logical" | "LogicalNumbers" | "LogicalText" | "LogicalNumbersText" | "Numbers" | "NumbersText" | "Text"): Excel.RangeAreas;
+        /**
+         *
+         * Returns a scoped collection of tables that overlap with any range in this RangeAreas object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param fullyContained If true, returns only tables that are fully contained within the range bounds. Default is false.
+         */
+        getTables(fullyContained?: boolean): Excel.TableScopedCollection;
+        /**
+         *
+         * Returns the used RangeAreas that comprises all the used areas of individual rectangular ranges in the RangeAreas object.
+            If there are no used cells within the RangeAreas, the ItemNotFound error will be thrown.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param valuesOnly Whether to only consider cells with values as used cells. Default is false.
+         */
+        getUsedRangeAreas(valuesOnly?: boolean): Excel.RangeAreas;
+        /**
+         *
+         * Returns the used RangeAreas that comprises all the used areas of individual rectangular ranges in the RangeAreas object.
+            If there are no used cells within the RangeAreas, a null object will be returned.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param valuesOnly Whether to only consider cells with values as used cells.
+         */
+        getUsedRangeAreasOrNullObject(valuesOnly?: boolean): Excel.RangeAreas;
+        /**
+         *
+         * Sets the RangeAreas to be recalculated when the next recalculation occurs.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        setDirty(): void;
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         *
+         * @remarks
+         *
+         * In addition to this signature, this method has the following signatures:
+         *
+         * `load(option?: string | string[]): Excel.RangeAreas` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         *
+         * `load(option?: { select?: string; expand?: string; }): Excel.RangeAreas` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         *
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): Excel.RangeAreas` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         *
+         * @param options Provides options for which properties of the object to load.
+         */
+        load(option?: Excel.Interfaces.RangeAreasLoadOptions): Excel.RangeAreas;
+        load(option?: string | string[]): Excel.RangeAreas;
+        load(option?: {
+            select?: string;
+            expand?: string;
+        }): Excel.RangeAreas;
+        /**
+         * Track the object for automatic adjustment based on surrounding changes in the document. This call is a shorthand for context.trackedObjects.add(thisObject). If you are using this object across ".sync" calls and outside the sequential execution of a ".run" batch, and get an "InvalidObjectPath" error when setting a property or invoking a method on the object, you needed to have added the object to the tracked object collection when the object was first created.
+         */
+        track(): Excel.RangeAreas;
+        /**
+         * Release the memory associated with this object, if it has previously been tracked. This call is shorthand for context.trackedObjects.remove(thisObject). Having many tracked objects slows down the host application, so please remember to free any objects you add, once you're done using them. You will need to call "context.sync()" before the memory release takes effect.
+         */
+        untrack(): Excel.RangeAreas;
+        toJSON(): Excel.Interfaces.RangeAreasData;
     }
     /**
      *
@@ -18620,6 +19276,13 @@ declare namespace Excel {
     class Table extends OfficeExtension.ClientObject {
         /**
          *
+         * Represents the AutoFilter object of the table. Read-Only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly autoFilter: Excel.AutoFilter;
+        /**
+         *
          * Represents a collection of all the columns in the table. Read-only.
          *
          * [Api set: ExcelApi 1.1]
@@ -19040,10 +19703,10 @@ declare namespace Excel {
      *
      * Represents a collection of all the rows that are part of the table.
             
-            Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
-            a TableRow object represent the physical location of the table row, but not the data.
-            That is, if the data is sorted or if new rows are added, a table row will continue
-            to point at the index for which it was created.
+             Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
+             a TableRow object represent the physical location of the table row, but not the data.
+             That is, if the data is sorted or if new rows are added, a table row will continue
+             to point at the index for which it was created.
      *
      * [Api set: ExcelApi 1.1]
      */
@@ -19061,10 +19724,10 @@ declare namespace Excel {
          *
          * Adds one or more rows to the table. The return object will be the top of the newly added row(s).
             
-            Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
-            a TableRow object represent the physical location of the table row, but not the data.
-            That is, if the data is sorted or if new rows are added, a table row will continue
-            to point at the index for which it was created.
+             Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
+             a TableRow object represent the physical location of the table row, but not the data.
+             That is, if the data is sorted or if new rows are added, a table row will continue
+             to point at the index for which it was created.
          *
          * [Api set: ExcelApi 1.1 for adding a single row; 1.4 allows adding of multiple rows.]
          *
@@ -19083,10 +19746,10 @@ declare namespace Excel {
          *
          * Gets a row based on its position in the collection.
             
-            Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
-            a TableRow object represent the physical location of the table row, but not the data.
-            That is, if the data is sorted or if new rows are added, a table row will continue
-            to point at the index for which it was created.
+             Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
+             a TableRow object represent the physical location of the table row, but not the data.
+             That is, if the data is sorted or if new rows are added, a table row will continue
+             to point at the index for which it was created.
          *
          * [Api set: ExcelApi 1.1]
          *
@@ -19117,10 +19780,10 @@ declare namespace Excel {
      *
      * Represents a row in a table.
             
-            Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
-            a TableRow object represent the physical location of the table row, but not the data.
-            That is, if the data is sorted or if new rows are added, a table row will continue
-            to point at the index for which it was created.
+             Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
+             a TableRow object represent the physical location of the table row, but not the data.
+             That is, if the data is sorted or if new rows are added, a table row will continue
+             to point at the index for which it was created.
      *
      * [Api set: ExcelApi 1.1]
      */
@@ -19264,18 +19927,18 @@ declare namespace Excel {
         clear(): void;
         /**
          *
-         * Returns a range with invalid cell values. If all cell values are valid, this function will throw an ItemNotFound error.
+         * Returns a RangeAreas, comprising one or more rectangular ranges, with invalid cell values. If all cell values are valid, this function will throw an ItemNotFound error.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
-        getInvalidCells(): Excel.Range;
+        getInvalidCells(): Excel.RangeAreas;
         /**
          *
-         * Returns a range with invalid cell values. If all cell values are valid, this function will return null.
+         * Returns a RangeAreas, comprising one or more rectangular ranges, with invalid cell values. If all cell values are valid, this function will return null.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
-        getInvalidCellsOrNullObject(): Excel.Range;
+        getInvalidCellsOrNullObject(): Excel.RangeAreas;
         /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          *
@@ -19634,13 +20297,6 @@ declare namespace Excel {
         indentLevel: number;
         /**
          *
-         * Returns the distance, in points, from left edge of the worksheet to left edge of the range. Read-only.
-         *
-         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-         */
-        readonly left: number;
-        /**
-         *
          * The reading order for the range.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
@@ -19669,13 +20325,6 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         textOrientation: number;
-        /**
-         *
-         * Returns the distance, in points, from top edge of the worksheet to top edge of the range. Read-only.
-         *
-         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-         */
-        readonly top: number;
         /**
          *
          * Determines if the row height of the Range object equals the standard height of the sheet.
@@ -19833,6 +20482,38 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.1]
          */
         color: string;
+        /**
+         *
+         * Gets or sets the pattern of a Range. See Excel.FillPattern for details. LinearGradient and RectangularGradient are not supported.
+            A null value indicates that the entire range doesn't have uniform pattern setting.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        pattern: Excel.FillPattern | "None" | "Solid" | "Gray50" | "Gray75" | "Gray25" | "Horizontal" | "Vertical" | "Down" | "Up" | "Checker" | "SemiGray75" | "LightHorizontal" | "LightVertical" | "LightDown" | "LightUp" | "Grid" | "CrissCross" | "Gray16" | "Gray8" | "LinearGradient" | "RectangularGradient";
+        /**
+         *
+         * Sets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500") or as a named HTML color (e.g. "orange").
+            Gets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500").
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        patternColor: string;
+        /**
+         *
+         * Returns or sets a double that lightens or darkens a pattern color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            If the pattern tintAndShades are not uniform, null will be returned.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        patternTintAndShade: number;
+        /**
+         *
+         * Returns or sets a double that lightens or darkens a color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            If the tintAndShades are not uniform, null will be returned.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        tintAndShade: number;
         /** Sets multiple properties of an object at the same time. You can pass either a plain object with the appropriate properties, or another API object of the same type.
          *
          * @remarks
@@ -19907,6 +20588,14 @@ declare namespace Excel {
         style: Excel.BorderLineStyle | "None" | "Continuous" | "Dash" | "DashDot" | "DashDotDot" | "Dot" | "Double" | "SlantDashDot";
         /**
          *
+         * Returns or sets a double that lightens or darkens a color for Range Border, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the border doesn't have uniform tintAndShade setting.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        tintAndShade: number;
+        /**
+         *
          * Specifies the weight of the border around a range. See Excel.BorderWeight for details.
          *
          * [Api set: ExcelApi 1.1]
@@ -19965,6 +20654,14 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.1]
          */
         readonly count: number;
+        /**
+         *
+         * Returns or sets a double that lightens or darkens a color for Range Borders, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the entire border collections don't have uniform tintAndShade setting.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        tintAndShade: number;
         /**
          *
          * Gets a border object using its name.
@@ -20056,6 +20753,41 @@ declare namespace Excel {
         size: number;
         /**
          *
+         * Represents the strikethrough status of font. A null value indicates that the entire range doesn't have uniform Strikethrough setting.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        strikethrough: boolean;
+        /**
+         *
+         * Represents the Subscript status of font.
+            Returns True if all the fonts of the range are Subscript.
+            Returns False if all the fonts of the range are Superscript or normal (neither Superscript, nor Subscript).
+            Returns Null otherwise.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        subscript: boolean;
+        /**
+         *
+         * Represents the Superscript status of font.
+            Returns True if all the fonts of the range are Superscript.
+            Returns False if all the fonts of the range are Subscript or normal (neither Superscript, nor Subscript).
+            Returns Null otherwise.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        superscript: boolean;
+        /**
+         *
+         * Returns or sets a double that lightens or darkens a color for Range Font, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the entire range doesn't have uniform font tintAndShade setting.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        tintAndShade: number;
+        /**
+         *
          * Type of underline applied to the font. See Excel.RangeUnderlineStyle for details.
          *
          * [Api set: ExcelApi 1.1]
@@ -20124,7 +20856,7 @@ declare namespace Excel {
          * @param sourceData The Range object corresponding to the source data.
          * @param seriesBy Optional. Specifies the way columns or rows are used as data series on the chart. See Excel.ChartSeriesBy for details.
          */
-        add(type: Excel.ChartType, sourceData: Range | string, seriesBy?: Excel.ChartSeriesBy): Excel.Chart;
+        add(type: Excel.ChartType, sourceData: Range, seriesBy?: Excel.ChartSeriesBy): Excel.Chart;
         /**
          *
          * Creates a new chart.
@@ -20135,7 +20867,7 @@ declare namespace Excel {
          * @param sourceData The Range object corresponding to the source data.
          * @param seriesBy Optional. Specifies the way columns or rows are used as data series on the chart. See Excel.ChartSeriesBy for details.
          */
-        add(type: "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar" | "Histogram" | "Pareto" | "RegionMap", sourceData: Range | string, seriesBy?: "Auto" | "Columns" | "Rows"): Excel.Chart;
+        add(type: "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar" | "Histogram" | "Pareto" | "RegionMap", sourceData: Range, seriesBy?: "Auto" | "Columns" | "Rows"): Excel.Chart;
         /**
          *
          * Returns the number of charts in the worksheet.
@@ -20450,20 +21182,20 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.1]
          *
-         * @param sourceData The range corresponding to the source data.
+         * @param sourceData The range object corresponding to the source data.
          * @param seriesBy Specifies the way columns or rows are used as data series on the chart. Can be one of the following: Auto (default), Rows, and Columns. See Excel.ChartSeriesBy for details.
          */
-        setData(sourceData: Range | string, seriesBy?: Excel.ChartSeriesBy): void;
+        setData(sourceData: Range, seriesBy?: Excel.ChartSeriesBy): void;
         /**
          *
          * Resets the source data for the chart.
          *
          * [Api set: ExcelApi 1.1]
          *
-         * @param sourceData The range corresponding to the source data.
+         * @param sourceData The range object corresponding to the source data.
          * @param seriesBy Specifies the way columns or rows are used as data series on the chart. Can be one of the following: Auto (default), Rows, and Columns. See Excel.ChartSeriesBy for details.
          */
-        setData(sourceData: Range | string, seriesBy?: "Auto" | "Columns" | "Rows"): void;
+        setData(sourceData: Range, seriesBy?: "Auto" | "Columns" | "Rows"): void;
         /**
          *
          * Positions the chart relative to cells on the worksheet.
@@ -24347,6 +25079,104 @@ declare namespace Excel {
     }
     /**
      *
+     * Represents the AutoFilter object.
+     *
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
+    class AutoFilter extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Array that holds all filter criterias in an autofiltered range. Read-Only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly criteria: Excel.FilterCriteria[];
+        /**
+         *
+         * Indicates if the AutoFilter is enabled or not. Read-Only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly enabled: boolean;
+        /**
+         *
+         * Indicates if the AutoFilter has filter criteria. Read-Only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly isDataFiltered: boolean;
+        /**
+         *
+         * Applies AutoFilter on a range and filters the column if column index and filter criteria are specified.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param range The range where the AutoFilter will apply on.
+         * @param columnIndex The column index which the AutoFilter will apply on, start from 0.
+         * @param criteria The filter criteria.
+         */
+        apply(range: Range | string, columnIndex?: number, criteria?: Excel.FilterCriteria): void;
+        /**
+         *
+         * Clears the criteria if AutoFilter has filters
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        clearCriteria(): void;
+        /**
+         *
+         * Returns the Range object that represents the range to which the AutoFilter applies.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        getRange(): Excel.Range;
+        /**
+         *
+         * If there is Range object associated with the AutoFilter, this method returns it.
+            Otherwise, this method returns a null object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        getRangeOrNullObject(): Excel.Range;
+        /**
+         *
+         * Applies the specified Autofilter object currently on the range.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        reapply(): void;
+        /**
+         *
+         * Removes the AutoFilter for the range.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        remove(): void;
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         *
+         * @remarks
+         *
+         * In addition to this signature, this method has the following signatures:
+         *
+         * `load(option?: string | string[]): Excel.AutoFilter` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         *
+         * `load(option?: { select?: string; expand?: string; }): Excel.AutoFilter` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         *
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): Excel.AutoFilter` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         *
+         * @param options Provides options for which properties of the object to load.
+         */
+        load(option?: Excel.Interfaces.AutoFilterLoadOptions): Excel.AutoFilter;
+        load(option?: string | string[]): Excel.AutoFilter;
+        load(option?: {
+            select?: string;
+            expand?: string;
+        }): Excel.AutoFilter;
+        toJSON(): Excel.Interfaces.AutoFilterData;
+    }
+    /**
+     *
      * Represents a cell icon.
      *
      * [Api set: ExcelApi 1.2]
@@ -26541,18 +27371,25 @@ declare namespace Excel {
         delete(): void;
         /**
          *
-         * Returns the range the conditonal format is applied to. Read-only.
+         * Returns the range the conditonal format is applied to. Throws an error if the conditional format is applied to multiple ranges. Read-only.
          *
          * [Api set: ExcelApi 1.6]
          */
         getRange(): Excel.Range;
         /**
          *
-         * Returns the range the conditonal format is applied to or a null object if the range is discontiguous. Read-only.
+         * Returns the range the conditonal format is applied to, or a null object if the conditional format is applied to multiple ranges. Read-only.
          *
          * [Api set: ExcelApi 1.6]
          */
         getRangeOrNullObject(): Excel.Range;
+        /**
+         *
+         * Returns the RangeAreas, comprising one or more rectangular ranges, the conditonal format is applied to. Read-only.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        getRanges(): Excel.RangeAreas;
         /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          *
@@ -27884,6 +28721,34 @@ declare namespace Excel {
         higherTicks: number;
         lowerTicks: number;
     }
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         *
+         * @remarks
+         *
+         * In addition to this signature, this method has the following signatures:
+         *
+         * `load(option?: string | string[]): Excel.CustomFunctionManager` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         *
+         * `load(option?: { select?: string; expand?: string; }): Excel.CustomFunctionManager` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         *
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): Excel.CustomFunctionManager` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         *
+         * @param options Provides options for which properties of the object to load.
+         */
+        load(option?: Excel.Interfaces.CustomFunctionManagerLoadOptions): Excel.CustomFunctionManager;
+        load(option?: string | string[]): Excel.CustomFunctionManager;
+        load(option?: {
+            select?: string;
+            expand?: string;
+        }): Excel.CustomFunctionManager;
+        /**
+         * Create a new instance of Excel.CustomFunctionManager object
+         */
+        static newObject(context: OfficeExtension.ClientRequestContext): Excel.CustomFunctionManager;
+        toJSON(): Excel.Interfaces.CustomFunctionManagerData;
+    }
+    var EndFirstPartyOnlyIntelliSenseCustomFunctionManagerClass: any;
     /**
      *
      * An object encapsulating a style's format and other properties.
@@ -28303,18 +29168,18 @@ declare namespace Excel {
         set(properties: Excel.PageLayout): void;
         /**
          *
-         * Gets the range object representing the print area for the worksheet. If not set, this will return a null object.
+         * Gets the RangeAreas object, comprising one or more rectangular ranges, that represents the print area for the worksheet. If there is no print area, an ItemNotFound error will be thrown.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
-        getPrintArea(): Excel.Range;
+        getPrintArea(): Excel.RangeAreas;
         /**
          *
-         * Gets the range object representing the print area for the worksheet.
+         * Gets the RangeAreas object, comprising one or more rectangular ranges, that represents the print area for the worksheet. If there is no print area, a null object will be returned.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
-        getPrintAreaOrNullObject(): Excel.Range;
+        getPrintAreaOrNullObject(): Excel.RangeAreas;
         /**
          *
          * Gets the range object representing the title columns.
@@ -28349,9 +29214,9 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
-         * @param printArea The range of the content to print.
+         * @param printArea The range, or RangeAreas of the content to print.
          */
-        setPrintArea(printArea: Range | string): void;
+        setPrintArea(printArea: Range | RangeAreas | string): void;
         /**
          *
          * Sets the worksheet's page margins with units.
@@ -28805,23 +29670,23 @@ declare namespace Excel {
     /**
      * [Api set: ExcelApi BETA (PREVIEW ONLY)]
      */
-    class AreaCollection extends OfficeExtension.ClientObject {
+    class RangeCollection extends OfficeExtension.ClientObject {
         /** Gets the loaded child items in this collection. */
         readonly items: Excel.Range[];
         /**
          *
-         * Gets the number of contiguous areas in a range.
+         * Returns the number of ranges in the RangeCollection.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
         getCount(): OfficeExtension.ClientResult<number>;
         /**
          *
-         * Gets a contiguous area object based on its position in the collection.
+         * Returns the range object based on its position in the RangeCollection.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          *
-         * @param index Index value of the object to be retrieved. Zero-indexed.
+         * @param index Index value of the range object to be retrieved. Zero-indexed.
          */
         getItemAt(index: number): Excel.Range;
         /**
@@ -28831,18 +29696,18 @@ declare namespace Excel {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): Excel.AreaCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): Excel.RangeCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): Excel.AreaCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): Excel.RangeCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
          *
-         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): Excel.AreaCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): Excel.RangeCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
          * @param options Provides options for which properties of the object to load.
          */
-        load(option?: Excel.Interfaces.AreaCollectionLoadOptions & Excel.Interfaces.CollectionLoadOptions): Excel.AreaCollection;
-        load(option?: string | string[]): Excel.AreaCollection;
-        load(option?: OfficeExtension.LoadOption): Excel.AreaCollection;
-        toJSON(): Excel.Interfaces.AreaCollectionData;
+        load(option?: Excel.Interfaces.RangeCollectionLoadOptions & Excel.Interfaces.CollectionLoadOptions): Excel.RangeCollection;
+        load(option?: string | string[]): Excel.RangeCollection;
+        load(option?: OfficeExtension.LoadOption): Excel.RangeCollection;
+        toJSON(): Excel.Interfaces.RangeCollectionData;
     }
     /**
      * [Api set: ExcelApi 1.7]
@@ -30796,6 +31661,32 @@ declare namespace Excel {
         twoCell = "TwoCell",
         oneCell = "OneCell",
         absolute = "Absolute",
+    }
+    /**
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
+    enum FillPattern {
+        none = "None",
+        solid = "Solid",
+        gray50 = "Gray50",
+        gray75 = "Gray75",
+        gray25 = "Gray25",
+        horizontal = "Horizontal",
+        vertical = "Vertical",
+        down = "Down",
+        up = "Up",
+        checker = "Checker",
+        semiGray75 = "SemiGray75",
+        lightHorizontal = "LightHorizontal",
+        lightVertical = "LightVertical",
+        lightDown = "LightDown",
+        lightUp = "LightUp",
+        grid = "Grid",
+        crissCross = "CrissCross",
+        gray16 = "Gray16",
+        gray8 = "Gray8",
+        linearGradient = "LinearGradient",
+        rectangularGradient = "RectangularGradient",
     }
     /**
      *
@@ -34884,6 +35775,32 @@ declare namespace Excel {
              */
             values?: any[][];
         }
+        /** An interface for updating data on the RangeAreas object, for use in "rangeAreas.set({ ... })". */
+        interface RangeAreasUpdateData {
+            /**
+            *
+            * Returns a dataValidation object for all ranges in the RangeAreas.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            dataValidation?: Excel.Interfaces.DataValidationUpdateData;
+            /**
+            *
+            * Returns a rangeFormat object, encapsulating the the font, fill, borders, alignment, and other properties for all ranges in the RangeAreas object.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            format?: Excel.Interfaces.RangeFormatUpdateData;
+            /**
+             *
+             * Represents the style for all ranges in this RangeAreas object.
+            If the styles of the cells are inconsistent, null will be returned.
+            For custom styles, the style name will be returned. For built-in styles, a string representing a value in the BuiltInStyle enum will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            style?: string;
+        }
         /** An interface for updating data on the RangeView object, for use in "rangeView.set({ ... })". */
         interface RangeViewUpdateData {
             /**
@@ -35116,6 +36033,13 @@ declare namespace Excel {
         interface RangeFormatUpdateData {
             /**
             *
+            * Collection of border objects that apply to the overall range.
+            *
+            * [Api set: ExcelApi 1.1]
+            */
+            borders?: Excel.Interfaces.RangeBorderCollectionUpdateData;
+            /**
+            *
             * Returns the fill object defined on the overall range.
             *
             * [Api set: ExcelApi 1.1]
@@ -35254,6 +36178,38 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             color?: string;
+            /**
+             *
+             * Gets or sets the pattern of a Range. See Excel.FillPattern for details. LinearGradient and RectangularGradient are not supported.
+            A null value indicates that the entire range doesn't have uniform pattern setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            pattern?: Excel.FillPattern | "None" | "Solid" | "Gray50" | "Gray75" | "Gray25" | "Horizontal" | "Vertical" | "Down" | "Up" | "Checker" | "SemiGray75" | "LightHorizontal" | "LightVertical" | "LightDown" | "LightUp" | "Grid" | "CrissCross" | "Gray16" | "Gray8" | "LinearGradient" | "RectangularGradient";
+            /**
+             *
+             * Sets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500") or as a named HTML color (e.g. "orange").
+            Gets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500").
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            patternColor?: string;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a pattern color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            If the pattern tintAndShades are not uniform, null will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            patternTintAndShade?: number;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            If the tintAndShades are not uniform, null will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
         }
         /** An interface for updating data on the RangeBorder object, for use in "rangeBorder.set({ ... })". */
         interface RangeBorderUpdateData {
@@ -35273,6 +36229,14 @@ declare namespace Excel {
             style?: Excel.BorderLineStyle | "None" | "Continuous" | "Dash" | "DashDot" | "DashDotDot" | "Dot" | "Double" | "SlantDashDot";
             /**
              *
+             * Returns or sets a double that lightens or darkens a color for Range Border, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the border doesn't have uniform tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
+            /**
+             *
              * Specifies the weight of the border around a range. See Excel.BorderWeight for details.
              *
              * [Api set: ExcelApi 1.1]
@@ -35281,6 +36245,14 @@ declare namespace Excel {
         }
         /** An interface for updating data on the RangeBorderCollection object, for use in "rangeBorderCollection.set({ ... })". */
         interface RangeBorderCollectionUpdateData {
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Borders, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the entire border collections don't have uniform tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
             items?: Excel.Interfaces.RangeBorderData[];
         }
         /** An interface for updating data on the RangeFont object, for use in "rangeFont.set({ ... })". */
@@ -35320,6 +36292,41 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             size?: number;
+            /**
+             *
+             * Represents the strikethrough status of font. A null value indicates that the entire range doesn't have uniform Strikethrough setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            strikethrough?: boolean;
+            /**
+             *
+             * Represents the Subscript status of font.
+            Returns True if all the fonts of the range are Subscript.
+            Returns False if all the fonts of the range are Superscript or normal (neither Superscript, nor Subscript).
+            Returns Null otherwise.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            subscript?: boolean;
+            /**
+             *
+             * Represents the Superscript status of font.
+            Returns True if all the fonts of the range are Superscript.
+            Returns False if all the fonts of the range are Subscript or normal (neither Superscript, nor Subscript).
+            Returns Null otherwise.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            superscript?: boolean;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Font, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the entire range doesn't have uniform font tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
             /**
              *
              * Type of underline applied to the font. See Excel.RangeUnderlineStyle for details.
@@ -37822,6 +38829,13 @@ declare namespace Excel {
         interface StyleUpdateData {
             /**
             *
+            * A Border collection of four Border objects that represent the style of the four borders.
+            *
+            * [Api set: ExcelApi 1.7]
+            */
+            borders?: Excel.Interfaces.RangeBorderCollectionUpdateData;
+            /**
+            *
             * The Fill of the style.
             *
             * [Api set: ExcelApi 1.7]
@@ -38215,8 +39229,8 @@ declare namespace Excel {
         interface PageBreakCollectionUpdateData {
             items?: Excel.Interfaces.PageBreakData[];
         }
-        /** An interface for updating data on the AreaCollection object, for use in "areaCollection.set({ ... })". */
-        interface AreaCollectionUpdateData {
+        /** An interface for updating data on the RangeCollection object, for use in "rangeCollection.set({ ... })". */
+        interface RangeCollectionUpdateData {
             items?: Excel.Interfaces.RangeData[];
         }
         /** An interface describing the data returned by calling "runtime.toJSON()". */
@@ -38442,6 +39456,13 @@ declare namespace Excel {
         interface WorksheetData {
             /**
             *
+            * Represents the AutoFilter object of the worksheet. Read-Only.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterData;
+            /**
+            *
             * Returns collection of charts that are part of the worksheet. Read-only.
             *
             * [Api set: ExcelApi 1.1]
@@ -38598,13 +39619,6 @@ declare namespace Excel {
         interface RangeData {
             /**
             *
-            * Represents a collection of contiguous areas for the range.
-            *
-            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-            */
-            areas?: Excel.Interfaces.RangeData[];
-            /**
-            *
             * Collection of ConditionalFormats that intersect the range. Read-only.
             *
             * [Api set: ExcelApi 1.6]
@@ -38633,7 +39647,7 @@ declare namespace Excel {
             worksheet?: Excel.Interfaces.WorksheetData;
             /**
              *
-             * Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. Sheet1!A1:B4). Read-only.
+             * Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. "Sheet1!A1:B4"). Read-only.
              *
              * [Api set: ExcelApi 1.1]
              */
@@ -38800,6 +39814,95 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             values?: any[][];
+        }
+        /** An interface describing the data returned by calling "rangeAreas.toJSON()". */
+        interface RangeAreasData {
+            /**
+            *
+            * Returns a collection of rectangular ranges that comprise this RangeAreas object.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            areas?: Excel.Interfaces.RangeData[];
+            /**
+            *
+            * Returns a collection of ConditionalFormats that intersect with any cells in this RangeAreas object. Read-only.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            conditionalFormats?: Excel.Interfaces.ConditionalFormatData[];
+            /**
+            *
+            * Returns a dataValidation object for all ranges in the RangeAreas.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            dataValidation?: Excel.Interfaces.DataValidationData;
+            /**
+            *
+            * Returns a rangeFormat object, encapsulating the the font, fill, borders, alignment, and other properties for all ranges in the RangeAreas object. Read-only.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            format?: Excel.Interfaces.RangeFormatData;
+            /**
+            *
+            * Returns the worksheet for the current RangeAreas. Read-only.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            worksheet?: Excel.Interfaces.WorksheetData;
+            /**
+             *
+             * Returns the RageAreas reference in A1-style. Address value will contain the worksheet name for each rectangular block of cells (e.g. "Sheet1!A1:B4, Sheet1!D1:D4"). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            address?: string;
+            /**
+             *
+             * Returns the RageAreas reference in the user locale. Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            addressLocal?: string;
+            /**
+             *
+             * Returns the number of rectangular ranges that comprise this RangeAreas object.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            areaCount?: number;
+            /**
+             *
+             * Returns the number of cells in the RangeAreas object, summing up the cell counts of all of the individual rectangular ranges. Returns -1 if the cell count exceeds 2^31-1 (2,147,483,647). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            cellCount?: number;
+            /**
+             *
+             * Indicates whether all the ranges on this RangeAreas object represent entire columns (e.g., "A:C, Q:Z"). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            isEntireColumn?: boolean;
+            /**
+             *
+             * Indicates whether all the ranges on this RangeAreas object represent entire rows (e.g., "1:3, 5:7"). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            isEntireRow?: boolean;
+            /**
+             *
+             * Represents the style for all ranges in this RangeAreas object.
+            If the styles of the cells are inconsistent, null will be returned.
+            For custom styles, the style name will be returned. For built-in styles, a string representing a value in the BuiltInStyle enum will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            style?: string;
         }
         /** An interface describing the data returned by calling "rangeView.toJSON()". */
         interface RangeViewData {
@@ -39038,6 +40141,13 @@ declare namespace Excel {
         }
         /** An interface describing the data returned by calling "table.toJSON()". */
         interface TableData {
+            /**
+            *
+            * Represents the AutoFilter object of the table. Read-Only.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterData;
             /**
             *
             * Represents a collection of all the columns in the table. Read-only.
@@ -39331,13 +40441,6 @@ declare namespace Excel {
             indentLevel?: number;
             /**
              *
-             * Returns the distance, in points, from left edge of the worksheet to left edge of the range. Read-only.
-             *
-             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-             */
-            left?: number;
-            /**
-             *
              * The reading order for the range.
              *
              * [Api set: ExcelApi BETA (PREVIEW ONLY)]
@@ -39366,13 +40469,6 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             textOrientation?: number;
-            /**
-             *
-             * Returns the distance, in points, from top edge of the worksheet to top edge of the range. Read-only.
-             *
-             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-             */
-            top?: number;
             /**
              *
              * Determines if the row height of the Range object equals the standard height of the sheet.
@@ -39434,6 +40530,38 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             color?: string;
+            /**
+             *
+             * Gets or sets the pattern of a Range. See Excel.FillPattern for details. LinearGradient and RectangularGradient are not supported.
+            A null value indicates that the entire range doesn't have uniform pattern setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            pattern?: Excel.FillPattern | "None" | "Solid" | "Gray50" | "Gray75" | "Gray25" | "Horizontal" | "Vertical" | "Down" | "Up" | "Checker" | "SemiGray75" | "LightHorizontal" | "LightVertical" | "LightDown" | "LightUp" | "Grid" | "CrissCross" | "Gray16" | "Gray8" | "LinearGradient" | "RectangularGradient";
+            /**
+             *
+             * Sets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500") or as a named HTML color (e.g. "orange").
+            Gets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500").
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            patternColor?: string;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a pattern color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            If the pattern tintAndShades are not uniform, null will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            patternTintAndShade?: number;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            If the tintAndShades are not uniform, null will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
         }
         /** An interface describing the data returned by calling "rangeBorder.toJSON()". */
         interface RangeBorderData {
@@ -39458,6 +40586,14 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             style?: Excel.BorderLineStyle | "None" | "Continuous" | "Dash" | "DashDot" | "DashDotDot" | "Dot" | "Double" | "SlantDashDot";
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Border, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the border doesn't have uniform tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
             /**
              *
              * Specifies the weight of the border around a range. See Excel.BorderWeight for details.
@@ -39507,6 +40643,41 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             size?: number;
+            /**
+             *
+             * Represents the strikethrough status of font. A null value indicates that the entire range doesn't have uniform Strikethrough setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            strikethrough?: boolean;
+            /**
+             *
+             * Represents the Subscript status of font.
+            Returns True if all the fonts of the range are Subscript.
+            Returns False if all the fonts of the range are Superscript or normal (neither Superscript, nor Subscript).
+            Returns Null otherwise.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            subscript?: boolean;
+            /**
+             *
+             * Represents the Superscript status of font.
+            Returns True if all the fonts of the range are Superscript.
+            Returns False if all the fonts of the range are Subscript or normal (neither Superscript, nor Subscript).
+            Returns Null otherwise.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            superscript?: boolean;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Font, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+            A null value indicates that the entire range doesn't have uniform font tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: number;
             /**
              *
              * Type of underline applied to the font. See Excel.RangeUnderlineStyle for details.
@@ -41374,6 +42545,30 @@ declare namespace Excel {
              */
             criteria?: Excel.FilterCriteria;
         }
+        /** An interface describing the data returned by calling "autoFilter.toJSON()". */
+        interface AutoFilterData {
+            /**
+             *
+             * Array that holds all filter criterias in an autofiltered range. Read-Only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            criteria?: Excel.FilterCriteria[];
+            /**
+             *
+             * Indicates if the AutoFilter is enabled or not. Read-Only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            enabled?: boolean;
+            /**
+             *
+             * Indicates if the AutoFilter has filter criteria. Read-Only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            isDataFiltered?: boolean;
+        }
         /** An interface describing the data returned by calling "customXmlPartScopedCollection.toJSON()". */
         interface CustomXmlPartScopedCollectionData {
             items?: Excel.Interfaces.CustomXmlPartData[];
@@ -42406,6 +43601,16 @@ declare namespace Excel {
         interface ConditionalRangeBorderCollectionData {
             items?: Excel.Interfaces.ConditionalRangeBorderData[];
         }
+        /** An interface describing the data returned by calling "customFunctionManager.toJSON()". */
+        interface CustomFunctionManagerData {
+            /**
+             *
+             * True if streaming Custom Functions are enabled
+             *
+             * [Api set: CustomFunctions 1.3]
+             */
+            status?: Excel.CustomFunctionEngineStatus;
+        }
         /** An interface describing the data returned by calling "style.toJSON()". */
         interface StyleData {
             /**
@@ -42841,8 +44046,8 @@ declare namespace Excel {
         interface PageBreakCollectionData {
             items?: Excel.Interfaces.PageBreakData[];
         }
-        /** An interface describing the data returned by calling "areaCollection.toJSON()". */
-        interface AreaCollectionData {
+        /** An interface describing the data returned by calling "rangeCollection.toJSON()". */
+        interface RangeCollectionData {
             items?: Excel.Interfaces.RangeData[];
         }
         /** An interface describing the data returned by calling "functionResult.toJSON()". */
@@ -43085,6 +44290,13 @@ declare namespace Excel {
             $all?: boolean;
             /**
             *
+            * Represents the AutoFilter object of the worksheet.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterLoadOptions;
+            /**
+            *
             * Returns collection of charts that are part of the worksheet.
             *
             * [Api set: ExcelApi 1.1]
@@ -43196,6 +44408,13 @@ declare namespace Excel {
          */
         interface WorksheetCollectionLoadOptions {
             $all?: boolean;
+            /**
+            *
+            * For EACH ITEM in the collection: Represents the AutoFilter object of the worksheet.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterLoadOptions;
             /**
             *
             * For EACH ITEM in the collection: Returns collection of charts that are part of the worksheet.
@@ -43355,7 +44574,7 @@ declare namespace Excel {
             worksheet?: Excel.Interfaces.WorksheetLoadOptions;
             /**
              *
-             * Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. Sheet1!A1:B4). Read-only.
+             * Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. "Sheet1!A1:B4"). Read-only.
              *
              * [Api set: ExcelApi 1.1]
              */
@@ -43522,6 +44741,87 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             values?: boolean;
+        }
+        /**
+         *
+         * RangeAreas represents a collection of one or more rectangular ranges in the same worksheet.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        interface RangeAreasLoadOptions {
+            $all?: boolean;
+            /**
+            *
+            * Returns a dataValidation object for all ranges in the RangeAreas.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            dataValidation?: Excel.Interfaces.DataValidationLoadOptions;
+            /**
+            *
+            * Returns a rangeFormat object, encapsulating the the font, fill, borders, alignment, and other properties for all ranges in the RangeAreas object.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            format?: Excel.Interfaces.RangeFormatLoadOptions;
+            /**
+            *
+            * Returns the worksheet for the current RangeAreas.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            worksheet?: Excel.Interfaces.WorksheetLoadOptions;
+            /**
+             *
+             * Returns the RageAreas reference in A1-style. Address value will contain the worksheet name for each rectangular block of cells (e.g. "Sheet1!A1:B4, Sheet1!D1:D4"). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            address?: boolean;
+            /**
+             *
+             * Returns the RageAreas reference in the user locale. Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            addressLocal?: boolean;
+            /**
+             *
+             * Returns the number of rectangular ranges that comprise this RangeAreas object.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            areaCount?: boolean;
+            /**
+             *
+             * Returns the number of cells in the RangeAreas object, summing up the cell counts of all of the individual rectangular ranges. Returns -1 if the cell count exceeds 2^31-1 (2,147,483,647). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            cellCount?: boolean;
+            /**
+             *
+             * Indicates whether all the ranges on this RangeAreas object represent entire columns (e.g., "A:C, Q:Z"). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            isEntireColumn?: boolean;
+            /**
+             *
+             * Indicates whether all the ranges on this RangeAreas object represent entire rows (e.g., "1:3, 5:7"). Read-only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            isEntireRow?: boolean;
+            /**
+             *
+             * Represents the style for all ranges in this RangeAreas object.
+                If the styles of the cells are inconsistent, null will be returned.
+                For custom styles, the style name will be returned. For built-in styles, a string representing a value in the BuiltInStyle enum will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            style?: boolean;
         }
         /**
          *
@@ -43978,6 +45278,13 @@ declare namespace Excel {
             $all?: boolean;
             /**
             *
+            * For EACH ITEM in the collection: Represents the AutoFilter object of the table.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterLoadOptions;
+            /**
+            *
             * For EACH ITEM in the collection: Represents a collection of all the columns in the table.
             *
             * [Api set: ExcelApi 1.1]
@@ -44092,6 +45399,13 @@ declare namespace Excel {
             $all?: boolean;
             /**
             *
+            * For EACH ITEM in the collection: Represents the AutoFilter object of the table.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterLoadOptions;
+            /**
+            *
             * For EACH ITEM in the collection: Represents a collection of all the columns in the table.
             *
             * [Api set: ExcelApi 1.1]
@@ -44204,6 +45518,13 @@ declare namespace Excel {
          */
         interface TableLoadOptions {
             $all?: boolean;
+            /**
+            *
+            * Represents the AutoFilter object of the table.
+            *
+            * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+            */
+            autoFilter?: Excel.Interfaces.AutoFilterLoadOptions;
             /**
             *
             * Represents a collection of all the columns in the table.
@@ -44402,10 +45723,10 @@ declare namespace Excel {
          *
          * Represents a collection of all the rows that are part of the table.
                 
-                Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
-                a TableRow object represent the physical location of the table row, but not the data.
-                That is, if the data is sorted or if new rows are added, a table row will continue
-                to point at the index for which it was created.
+                 Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
+                 a TableRow object represent the physical location of the table row, but not the data.
+                 That is, if the data is sorted or if new rows are added, a table row will continue
+                 to point at the index for which it was created.
          *
          * [Api set: ExcelApi 1.1]
          */
@@ -44430,10 +45751,10 @@ declare namespace Excel {
          *
          * Represents a row in a table.
                 
-                Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
-                a TableRow object represent the physical location of the table row, but not the data.
-                That is, if the data is sorted or if new rows are added, a table row will continue
-                to point at the index for which it was created.
+                 Note that unlike Ranges or Columns, which will adjust if new rows/columns are added before them,
+                 a TableRow object represent the physical location of the table row, but not the data.
+                 That is, if the data is sorted or if new rows are added, a table row will continue
+                 to point at the index for which it was created.
          *
          * [Api set: ExcelApi 1.1]
          */
@@ -44596,13 +45917,6 @@ declare namespace Excel {
             indentLevel?: boolean;
             /**
              *
-             * Returns the distance, in points, from left edge of the worksheet to left edge of the range. Read-only.
-             *
-             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-             */
-            left?: boolean;
-            /**
-             *
              * The reading order for the range.
              *
              * [Api set: ExcelApi BETA (PREVIEW ONLY)]
@@ -44631,13 +45945,6 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             textOrientation?: boolean;
-            /**
-             *
-             * Returns the distance, in points, from top edge of the worksheet to top edge of the range. Read-only.
-             *
-             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
-             */
-            top?: boolean;
             /**
              *
              * Determines if the row height of the Range object equals the standard height of the sheet.
@@ -44711,6 +46018,38 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             color?: boolean;
+            /**
+             *
+             * Gets or sets the pattern of a Range. See Excel.FillPattern for details. LinearGradient and RectangularGradient are not supported.
+                A null value indicates that the entire range doesn't have uniform pattern setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            pattern?: boolean;
+            /**
+             *
+             * Sets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500") or as a named HTML color (e.g. "orange").
+                Gets HTML color code representing the color of the Range pattern, of the form #RRGGBB (e.g. "FFA500").
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            patternColor?: boolean;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a pattern color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+                If the pattern tintAndShades are not uniform, null will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            patternTintAndShade?: boolean;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Fill, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+                If the tintAndShades are not uniform, null will be returned.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: boolean;
         }
         /**
          *
@@ -44741,6 +46080,14 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             style?: boolean;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Border, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+                A null value indicates that the border doesn't have uniform tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: boolean;
             /**
              *
              * Specifies the weight of the border around a range. See Excel.BorderWeight for details.
@@ -44778,6 +46125,14 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             style?: boolean;
+            /**
+             *
+             * For EACH ITEM in the collection: Returns or sets a double that lightens or darkens a color for Range Border, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+                A null value indicates that the border doesn't have uniform tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: boolean;
             /**
              *
              * For EACH ITEM in the collection: Specifies the weight of the border around a range. See Excel.BorderWeight for details.
@@ -44829,6 +46184,41 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             size?: boolean;
+            /**
+             *
+             * Represents the strikethrough status of font. A null value indicates that the entire range doesn't have uniform Strikethrough setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            strikethrough?: boolean;
+            /**
+             *
+             * Represents the Subscript status of font.
+                Returns True if all the fonts of the range are Subscript.
+                Returns False if all the fonts of the range are Superscript or normal (neither Superscript, nor Subscript).
+                Returns Null otherwise.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            subscript?: boolean;
+            /**
+             *
+             * Represents the Superscript status of font.
+                Returns True if all the fonts of the range are Superscript.
+                Returns False if all the fonts of the range are Subscript or normal (neither Superscript, nor Subscript).
+                Returns Null otherwise.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            superscript?: boolean;
+            /**
+             *
+             * Returns or sets a double that lightens or darkens a color for Range Font, the value is between -1 (darkest) and 1 (brightest), with 0 for the original color.
+                A null value indicates that the entire range doesn't have uniform font tintAndShade setting.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            tintAndShade?: boolean;
             /**
              *
              * Type of underline applied to the font. See Excel.RangeUnderlineStyle for details.
@@ -47457,6 +48847,36 @@ declare namespace Excel {
         }
         /**
          *
+         * Represents the AutoFilter object.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        interface AutoFilterLoadOptions {
+            $all?: boolean;
+            /**
+             *
+             * Array that holds all filter criterias in an autofiltered range. Read-Only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            criteria?: boolean;
+            /**
+             *
+             * Indicates if the AutoFilter is enabled or not. Read-Only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            enabled?: boolean;
+            /**
+             *
+             * Indicates if the AutoFilter has filter criteria. Read-Only.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            isDataFiltered?: boolean;
+        }
+        /**
+         *
          * A scoped collection of custom XML parts.
                 A scoped collection is the result of some operation, e.g. filtering by namespace.
                 A scoped collection cannot be scoped any further.
@@ -49067,6 +50487,22 @@ declare namespace Excel {
         }
         /**
          *
+         * A Custom Functions mamanger, to allow registering new functions and checking the engine status
+         *
+         * [Api set: CustomFunctions 1.3]
+         */
+        interface CustomFunctionManagerLoadOptions {
+            $all?: boolean;
+            /**
+             *
+             * True if streaming Custom Functions are enabled
+             *
+             * [Api set: CustomFunctions 1.3]
+             */
+            status?: boolean;
+        }
+        /**
+         *
          * An object encapsulating a style's format and other properties.
          *
          * [Api set: ExcelApi 1.7]
@@ -49703,7 +51139,7 @@ declare namespace Excel {
         /**
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
-        interface AreaCollectionLoadOptions {
+        interface RangeCollectionLoadOptions {
             $all?: boolean;
             /**
             *
@@ -49728,7 +51164,7 @@ declare namespace Excel {
             worksheet?: Excel.Interfaces.WorksheetLoadOptions;
             /**
              *
-             * For EACH ITEM in the collection: Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. Sheet1!A1:B4). Read-only.
+             * For EACH ITEM in the collection: Represents the range reference in A1-style. Address value will contain the Sheet reference (e.g. "Sheet1!A1:B4"). Read-only.
              *
              * [Api set: ExcelApi 1.1]
              */

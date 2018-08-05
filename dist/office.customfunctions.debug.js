@@ -1,5 +1,5 @@
 /* Office JavaScript API library - Custom Functions */
-/* Version: 16.0.10723.30000 */
+/* Version: 16.0.10726.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1120,7 +1120,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.10723.30000",
+        FileVersion: "16.0.10726.30000",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
@@ -1617,8 +1617,6 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
 })();
 var CustomFunctionMappings = {};
 
-
-/////////////////////////////////////////////////
 
 
 /******/ (function(modules) { // webpackBootstrap
@@ -3826,7 +3824,7 @@ var CustomFunctionsLogger = /** @class */ (function () {
             return (!_isNullOrUndefined(console) &&
                 !_isNullOrUndefined(window) &&
                 window.name &&
-                typeof window.name === 'object' &&
+                typeof window.name === 'string' &&
                 JSON.parse(window.name)[CustomFunctionsLogger.CustomFunctionLoggingFlag]);
         }
         catch (ex) {
@@ -4129,9 +4127,16 @@ var CustomFunctionProxy = /** @class */ (function () {
     CustomFunctionProxy.prototype._getCustomFunctionMappings = function (functionName) {
         // Check if CustomFunctionMappings object exists
         if (typeof CustomFunctionMappings === 'object') {
-            if (!_isNullOrUndefined(CustomFunctionMappings[functionName])) {
-                if (typeof CustomFunctionMappings[functionName] === 'function') {
-                    return CustomFunctionMappings[functionName];
+            if (_isNullOrUndefined(this._customFunctionMappingsUpperCase)) {
+                this._customFunctionMappingsUpperCase = {};
+                for (var key in CustomFunctionMappings) {
+                    this._customFunctionMappingsUpperCase[key.toUpperCase()] = CustomFunctionMappings[key];
+                }
+            }
+            var functionNameUpperCase = functionName.toUpperCase();
+            if (!_isNullOrUndefined(this._customFunctionMappingsUpperCase[functionNameUpperCase])) {
+                if (typeof this._customFunctionMappingsUpperCase[functionNameUpperCase] === 'function') {
+                    return this._customFunctionMappingsUpperCase[functionNameUpperCase];
                 }
                 else {
                     throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionInvalidFunctionMapping, functionName), 'CustomFunctionProxy._getCustomFunctionMappings');
@@ -4342,11 +4347,6 @@ var CustomFunctions = /** @class */ (function (_super) {
                 throw error;
             }
         }
-    };
-    CustomFunctions.prototype.register = function (metadataContent, scriptContent) {
-        /* Begin_PlaceHolder_CustomFunctions_Register */
-        /* End_PlaceHolder_CustomFunctions_Register */
-        _invokeMethod(this, 'Register', 0 /* Default */, [metadataContent, scriptContent], 0 /* none */, 0 /* none */);
     };
     CustomFunctions.prototype.setInvocationResults = function (results) {
         /* Begin_PlaceHolder_CustomFunctions_SetInvocationResults */

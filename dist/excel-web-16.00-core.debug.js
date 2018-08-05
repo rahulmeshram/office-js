@@ -1,5 +1,5 @@
 /* Excel web application specific API library (Core APIs only) */
-/* Version: 16.0.10723.30000 */
+/* Version: 16.0.10726.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -6074,7 +6074,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.10723.30000";
+        appInfo.hostJSVersion = "16.0.10726.30000";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }
