@@ -17,8 +17,8 @@
 */
 var OSF = OSF || {};
 OSF.ConstantNames = {
-    OfficeJS: "office.customfunctions.js",
-    OfficeDebugJS: "office.customfunctions.debug.js",
+    OfficeJS: "custom-functions-runtime.js",
+    OfficeDebugJS: "custom-functions-runtime.debug.js",
     HostFileScriptSuffix: "core"
 };
 var OSF = OSF || {};
