@@ -7872,7 +7872,8 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
     ]
 });
 OSF.OUtil.augmentList(Microsoft.Office.WebExtension.CoercionType, { Image: "image" });
-OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+OSF.OUtil.augmentList(Microsoft.Office.WebExtension.CoercionType, { XmlSvg: "xmlsvg" });
+'OSF.DDA.SafeArray.Delegate.ParameterMap.define({
     type: Microsoft.Office.WebExtension.Parameters.CoercionType,
     toHost: [
         { name: Microsoft.Office.WebExtension.CoercionType.Image, value: 8 },
