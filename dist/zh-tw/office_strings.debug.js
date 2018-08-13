@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "不支援指定的強制型轉類
 Strings.OfficeOM.L_ColIndexOutOfRange = "欄索引值不在允許的範圍內。請用小於欄數的值 (0 或更大)。";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "要求失敗，狀態碼為 {0}、錯誤碼為 {1}，且錯誤訊息如下: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "要求失敗，狀態碼為 {0}。";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "具有此名稱且代表函數定義的屬性必須存在於 Excel.CustomFunctions。";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Excel.CustomFunctions 上具有此名稱且代表函數定義的屬性必須包含實作函數的 'call' 屬性。";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "具有此名稱且代表函數定義的屬性必須存在於 Excel.Script.CustomFunctions。";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Excel.Script.CustomFunctions 上具有此名稱且代表函數定義的屬性必須包含實作該函數的 'call' 屬性。";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "函數名稱必須包含非空白命名空間與非空白簡短名稱。";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "函數名稱只能包含字母、數字、底線與句號。";
 Strings.OfficeOM.L_CustomXmlError = "自訂 XML 錯誤。";

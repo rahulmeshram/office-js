@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Le type de forçage spécifié n�
 Strings.OfficeOM.L_ColIndexOutOfRange = "La valeur d’index de colonne se trouve en dehors de la plage autorisée. Utilisez une valeur (supérieure ou égale à 0) inférieure au nombre de colonnes.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "La demande a échoué avec le code d’état {0}, le code d’erreur {1} et le message d’erreur suivant : {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "La demande a échoué avec le code d’état {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Une propriété portant ce nom qui représente la définition de la fonction doit exister sur Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "La propriété portant ce nom sur Excel.CustomFunctions qui représente la définition de la fonction doit contenir une propriété « call » qui implémente la fonction.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Une propriété portant ce nom et représentant la définition de la fonction doit exister sur Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "La propriété portant ce nom sur Excel.Script.CustomFunctions et représentant la définition de la fonction doit contenir une propriété « call » qui implémente la fonction.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Le nom de la fonction doit contenir un espace de noms non vide et un nom court non vide.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Le nom de la fonction ne peut contenir que des lettres, des chiffres, des traits de soulignement et des points.";
 Strings.OfficeOM.L_CustomXmlError = "Une erreur relative à du code XML personnalisé s’est produite.";

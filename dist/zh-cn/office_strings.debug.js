@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "不支持指定的强制类型。
 Strings.OfficeOM.L_ColIndexOutOfRange = "列索引值不在允许的范围内。请使用少于列数的值(0 或更大)。";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "请求失败，状态代码为 {0}，错误代码为 {1}，并显示以下错误消息: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "请求失败，状态代码为 {0}。";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.CustomFunctions 中必须存在具有此名称、表示函数定义的属性。";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Excel.CustomFunctions 中具有此名称的表示函数定义的属性必须包含实现了该函数的 "call" 属性。';
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.Script.CustomFunctions 中必须存在具有此名称、表示函数定义的属性。";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Excel.Script.CustomFunctions 中具有此名称的表示函数定义的属性必须包含实现了该函数的 "call" 属性。';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "函数名必须包含一个非空的命名空间和一个非空的短名称。";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "函数名仅可包含字母、数字、下划线和句点。";
 Strings.OfficeOM.L_CustomXmlError = "自定义 XML 错误。";

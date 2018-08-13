@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "指定した強制型変換タイ
 Strings.OfficeOM.L_ColIndexOutOfRange = "列インデックス値は許容範囲外です。列数より小さい値 (0 以上) を使ってください。";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "要求はステータス コード {0}、エラー コード {1}、エラー メッセージ {2} で失敗しました";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "要求はステータス コード {0} で失敗しました。";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "関数の定義を表すこの名前を持つプロパティは、Excel.CustomFunctions 上に存在する必要があります。";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "関数の定義を表す Excel.CustomFunctions のこの名前を持つプロパティは、関数を実装する 'call' プロパティを含める必要があります。";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "この名前を持ち、関数の定義を表すプロパティは、Excel.Script.CustomFunctions 上に存在する必要があります。";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "関数の定義を表す Excel.Script.CustomFunctions のこの名前を持つプロパティは、関数を実装する 'call' プロパティを含める必要があります。";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "関数名には、空でない名前空間と空でない短い形式の名前を含める必要があります。";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "関数名には、文字、数字、アンダースコア、ピリオドのみを含めることができます。";
 Strings.OfficeOM.L_CustomXmlError = "カスタム XML エラーが発生しました。";

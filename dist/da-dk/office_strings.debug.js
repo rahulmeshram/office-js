@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Den angivne type tvangsforanstalt
 Strings.OfficeOM.L_ColIndexOutOfRange = "Kolonneindeksværdien ligger uden for det tilladte interval. Brug en værdi (0 eller højere), som er lavere end antallet af kolonner.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Anmodningen mislykkedes med statuskoden {0}, fejlkoden {1} og følgende fejlmeddelelse: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Anmodningen mislykkedes. Statuskode: {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "En egenskab med dette navn, der repræsenterer funktionens definition skal findes på Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Egenskaben med dette navn på Excel.CustomFunctions, der repræsenterer funktionens definition, skal indeholde en 'kaldet'-egenskab, der implementerer funktionen.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "En egenskab med dette navn, der repræsenterer funktionens definition, skal findes på Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Egenskaben med dette navn på Excel.Script.CustomFunctions, der repræsenterer funktionens definition, skal indeholde en "kald"-egenskab, der implementerer funktionen.';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Funktionens navn skal indeholde et navneområde, der ikke er tomt, og et kort navn, der ikke er tomt.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Funktionens navn må kun indeholde bogstaver, tal, understregningstegn og punktummer.";
 Strings.OfficeOM.L_CustomXmlError = "Brugerdefineret XML-fejl.";

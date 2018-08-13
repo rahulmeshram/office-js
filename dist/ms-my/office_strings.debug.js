@@ -1,4 +1,4 @@
-/* Version: 16.0.9309.1000 */
+/* Version: 16.0.10323.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Jenis paksaan yang ditentukan tid
 Strings.OfficeOM.L_ColIndexOutOfRange = "Nilai indeks lajur berada di luar julat yang dibenarkan. Gunakan nilai (0 atau lebih tinggi) yang kurang daripada jumlah lajur.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Permintaan tersebut gagal dengan kod status {0}, kod ralat {1} dan mesej ralat yang berikut: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Permintaan tersebut gagal dengan kod status {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Sifat dengan nama ini yang mewakili takrif fungsi mesti ada pada Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Sifat dengan nama ini pada Excel.CustomFunctions yang mewakili takrif fungsi mesti mengandungi sifat 'panggil' yang melaksanakan fungsi tersebut.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Sifat dengan nama ini yang mewakili takrif fungsi mesti wujud pada Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Sifat dengan nama ini pada Excel.Script.CustomFunctions yang mewakili takrif fungsi mesti mengandungi sifat 'panggil' yang melaksanakan fungsi tersebut.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Nama fungsi mesti mengandungi ruang nama bukan kosong dan nama pendek bukan kosong.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Nama fungsi hanya boleh mengandungi huruf, digit, tanda garis bawah dan noktah.";
 Strings.OfficeOM.L_CustomXmlError = "Ralat XML Tersuai.";
