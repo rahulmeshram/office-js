@@ -6282,6 +6282,12 @@ var OSFAppTelemetry;
     OSFAppTelemetry.logAppException = logAppException;
     OSF.AppTelemetry = OSFAppTelemetry;
 })(OSFAppTelemetry || (OSFAppTelemetry = {}));
+OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function OSF_InitializationHelper$loadAppSpecificScriptAndCreateOM(appContext, appReady, basePath) {
+    OSF.DDA.ErrorCodeManager.initializeErrorMessages(Strings.OfficeOM);
+    OSF.DDA.DispIdHost.addAsyncMethods(OSF.DDA.RichApi, [OSF.DDA.AsyncMethodNames.ExecuteRichApiRequestAsync]);
+    OSF.DDA.RichApi.richApiMessageManager = new OfficeExt.RichApiMessageManager();
+    appReady();
+};
 OSF.DDA.AsyncMethodNames.addNames({
     ExecuteRichApiRequestAsync: "executeRichApiRequestAsync"
 });
@@ -6296,13 +6302,13 @@ OSF.DDA.AsyncMethodCalls.define({
     supportedOptions: []
 });
 OSF.OUtil.setNamespace("RichApi", OSF.DDA);
-OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+OSF.DDA.WAC.Delegate.ParameterMap.define({
     type: OSF.DDA.MethodDispId.dispidExecuteRichApiRequestMethod,
     toHost: [
-        { name: Microsoft.Office.WebExtension.Parameters.Data, value: 0 }
+        { name: Microsoft.Office.WebExtension.Parameters.Data, value: OSF.DDA.WAC.UniqueArguments.ArrayData }
     ],
     fromHost: [
-        { name: Microsoft.Office.WebExtension.Parameters.Data, value: OSF.DDA.SafeArray.Delegate.ParameterMap.self }
+        { name: Microsoft.Office.WebExtension.Parameters.Data, value: OSF.DDA.WAC.UniqueArguments.Data }
     ]
 });
 Microsoft.Office.WebExtension.EventType = {};
@@ -6696,18 +6702,18 @@ var OfficeExt;
     })();
     OfficeExt.RichApiMessageManager = RichApiMessageManager;
 })(OfficeExt || (OfficeExt = {}));
-OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+OSF.DDA.WAC.Delegate.ParameterMap.define({
     type: OSF.DDA.EventDispId.dispidRichApiMessageEvent,
     toHost: [
-        { name: Microsoft.Office.WebExtension.Parameters.Data, value: 0 }
+        { name: Microsoft.Office.WebExtension.Parameters.Data, value: OSF.DDA.WAC.UniqueArguments.ArrayData }
     ],
     fromHost: [
-        { name: Microsoft.Office.WebExtension.Parameters.Data, value: OSF.DDA.SafeArray.Delegate.ParameterMap.sourceData }
+        { name: Microsoft.Office.WebExtension.Parameters.Data, value: OSF.DDA.WAC.UniqueArguments.ArrayData }
     ]
 });
-OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function OSF_InitializationHelper$loadAppSpecificScriptAndCreateOM(appContext, appReady, basePath) {
-    OSF.DDA.ErrorCodeManager.initializeErrorMessages(Strings.OfficeOM);
-    OSF.DDA.DispIdHost.addAsyncMethods(OSF.DDA.RichApi, [OSF.DDA.AsyncMethodNames.ExecuteRichApiRequestAsync]);
-    OSF.DDA.RichApi.richApiMessageManager = new OfficeExt.RichApiMessageManager();
-    appReady();
+OSF.InitializationHelper.prototype.prepareApiSurface = function OSF_InitializationHelper$prepareApiSurfaceAndInitialize(appContext) {
+    OSF.WebApp._UpdateLinksForHostAndXdmInfo();
+    var getDelegateMethods = OSF.DDA.WAC.getDelegateMethods;
+    var parameterMap = OSF.DDA.WAC.Delegate.ParameterMap;
+    OSF._OfficeAppFactory.setHostFacade(new OSF.DDA.DispIdHost.Facade(getDelegateMethods, parameterMap));
 };
