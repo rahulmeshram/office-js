@@ -1,49 +1,27 @@
-version: 1.1.8
-tag: release
-githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.8
-githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.8
-deployedAt: 2018-05-02 9:44 pm UTC  (2018-05-02 2:44 pm Pacific Time)
-
+tag: adhoc
 history:
-    adhocBranchName: __for_merging--release--16.0.9318.5450--2018-05-02--1.50pm
-    commitMessage: __for_merging--release--16.0.9318.5450--2018-05-02--1.50pm
+    adhocBranchName: __adhoc--current--local--2018-08-23--12.31pm--chart
+    commitMessage: chart 1.9 api validation
     fullCommitHistory:
         - 
             sha: >-
-                https://github.com/OfficeDev/office-js/commits/96f2bd91eb5f19e75b3dc71b1ad063d14d169cee
-            message: >-
-                JS dist files --
-                __for_merging--release--16.0.9318.5450--2018-05-02--1.50pm
+                https://github.com/OfficeDev/office-js/commits/5db2e1a7ef5e93618966ac68228341887dc096bc
+            message: JS dist files -- chart 1.9 api validation
         - 
             sha: >-
-                https://github.com/OfficeDev/office-js/commits/1488f90a8e067a5e035b4ad28bc63de29febe724
-            message: >-
-                Localized strings --
-                __for_merging--release--16.0.9318.5450--2018-05-02--1.50pm
+                https://github.com/OfficeDev/office-js/commits/2c55f00296717582da081f22ba94d41e7bc6e756
+            message: Localized strings -- chart 1.9 api validation
         - 
             sha: >-
-                https://github.com/OfficeDev/office-js/commits/bf086552c06225498d171fd836f150da37f920ce
+                https://github.com/OfficeDev/office-js/commits/b7d7a9aea7b6c924b83dd474f6ca85c0852d9b1f
             message: Copying other assets from the release branch of the repo
         - 
             sha: >-
-                https://github.com/OfficeDev/office-js/commits/3e2dda0085a862ddd261cd6247567e00b9070a90
+                https://github.com/OfficeDev/office-js/commits/fa49c97ab97613717d5929db7dca56a3611ddbb7
             message: >-
                 [PUBLISH TOOL] Add deployment infrastructure for adhoc NPM
                 publish
         - 
             sha: >-
-                https://github.com/OfficeDev/office-js/commits/45091d4ee0c7d91b76da7bb2cc9ece83758bfc1c
-            message: >-
-                [BEGIN PUBLISH UPDATES] --
-                __for_merging--release--16.0.9318.5450--2018-05-02--1.50pm
-
-
-unpkgUrls: |-
-    this specific build number:
-        https://unpkg.com/@microsoft/office-js@1.1.8/dist/office.js
-        https://unpkg.com/@microsoft/office-js@1.1.8/dist/office.d.ts
-    builds using this same tag ("release"):
-        https://unpkg.com/@microsoft/office-js@release/dist/office.js
-        https://unpkg.com/@microsoft/office-js@release/dist/office.d.ts
-
-buildLog: https://travis-ci.org/OfficeDev/office-js/builds/374156710
+                https://github.com/OfficeDev/office-js/commits/97bfde021b8ab0c466eb661cc1ddb2bdc50d917e
+            message: '[BEGIN PUBLISH UPDATES] -- chart 1.9 api validation'
