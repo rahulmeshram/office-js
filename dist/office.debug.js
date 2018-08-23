@@ -1,5 +1,5 @@
 /* Office JavaScript API library */
-/* Version: 16.0.9303.3000 */
+/* Version: 16.0.10813.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -89,6 +89,7 @@ OSF.SupportedLocales = {
     "ja-jp": true,
     "kk-kz": true,
     "ko-kr": true,
+    "lo-la": true,
     "lt-lt": true,
     "lv-lv": true,
     "ms-my": true,
@@ -141,6 +142,7 @@ OSF.AssociatedLocales = {
     ja: "ja-jp",
     kk: "kk-kz",
     ko: "ko-kr",
+    lo: "lo-la",
     lt: "lt-lt",
     lv: "lv-lv",
     ms: "ms-my",
@@ -1109,7 +1111,7 @@ var Office;
     Office.Promise = OfficePromise;
 })(Office || (Office = {}));
 OSF.ConstantNames = {
-    FileVersion: "16.0.9303.3000",
+    FileVersion: "16.0.10813.30000",
     OfficeJS: "office.js",
     OfficeDebugJS: "office.debug.js",
     DefaultLocale: "en-us",
@@ -1184,6 +1186,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
     var _appInstanceId = null;
     var _isOfficeJsLoaded = false;
     var _officeOnReadyPendingResolves = [];
+    var _isOfficeOnReadyCalled = false;
     var _loadScriptHelper = new ScriptLoading.LoadScriptHelper();
     if (window.performance && window.performance.now) {
         _loadScriptHelper.logScriptLoading(OSF.ConstantNames.OfficeJsId, -1, window.performance.now());
@@ -1205,6 +1208,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }
     };
     Microsoft.Office.WebExtension.onReady = function Microsoft_Office_WebExtension_onReady(callback) {
+        _isOfficeOnReadyCalled = true;
         if (_isOfficeJsLoaded) {
             var _a = getHostAndPlatform(1), host = _a.host, platform = _a.platform;
             if (callback) {
@@ -1229,6 +1233,11 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         return new Office.Promise(function (resolve) {
             _officeOnReadyPendingResolves.push(resolve);
         });
+    };
+    Microsoft.Office.WebExtension.Preview = {
+        startCustomFunctions: function () {
+            return Microsoft.Office.WebExtension.onReady().then(function () { return window.Excel.CustomFunctions.initialize(); });
+        }
     };
     var getQueryStringValue = function OSF__OfficeAppFactory$getQueryStringValue(paramName) {
         var hostInfoValue;
@@ -1471,10 +1480,12 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                     updateVersionInfo();
                     var appReady = function appReady() {
                         _initializationHelper.prepareApiSurface && _initializationHelper.prepareApiSurface(appContext);
-                        _loadScriptHelper.waitForFunction(function () { return Microsoft.Office.WebExtension.initialize != undefined; }, function (initializedDeclared) {
-                            if (initializedDeclared) {
+                        _loadScriptHelper.waitForFunction(function () { return (Microsoft.Office.WebExtension.initialize != undefined || _isOfficeOnReadyCalled); }, function (initializedDeclaredOrOfficeOnReadyCalled) {
+                            if (initializedDeclaredOrOfficeOnReadyCalled) {
                                 if (_initializationHelper.prepareApiSurface) {
-                                    Microsoft.Office.WebExtension.initialize(_initializationHelper.getInitializationReason(appContext));
+                                    if (Microsoft.Office.WebExtension.initialize) {
+                                        Microsoft.Office.WebExtension.initialize(_initializationHelper.getInitializationReason(appContext));
+                                    }
                                 }
                                 else {
                                     _initializationHelper.prepareRightBeforeWebExtensionInitialize(appContext);
@@ -1482,7 +1493,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                                 _initializationHelper.prepareRightAfterWebExtensionInitialize && _initializationHelper.prepareRightAfterWebExtensionInitialize();
                             }
                             else {
-                                throw "Office.js has not been fully loaded yet. Please try again later or make sure to add your initialization code on the Office.initialize function.";
+                                throw new Error("Office.js has not fully loaded. Your app must call \"Office.onReady()\" as part of it's loading sequence (or set the \"Office.initialize\" function). If your app has this functionality, try reloading this page.");
                             }
                         }, 400, 50);
                         setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks(getHostAndPlatform(appContext.get_appName()));
@@ -1550,20 +1561,21 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             _loadScriptHelper.loadScriptParallel(msAjaxCDNPath, OSF.ConstantNames.MicrosoftAjaxId);
         }
         window.confirm = function OSF__OfficeAppFactory_initialize$confirm(message) {
-            throw 'Function window.confirm is not supported.';
-            return false;
+            throw new Error('Function window.confirm is not supported.');
         };
         window.alert = function OSF__OfficeAppFactory_initialize$alert(message) {
-            throw 'Function window.alert is not supported.';
+            throw new Error('Function window.alert is not supported.');
         };
         window.prompt = function OSF__OfficeAppFactory_initialize$prompt(message, defaultvalue) {
-            throw 'Function window.prompt is not supported.';
-            return null;
+            throw new Error('Function window.prompt is not supported.');
         };
         var isOutlookAndroid = _hostInfo.hostType == "outlook" && _hostInfo.hostPlatform == "android";
         if (!isOutlookAndroid) {
             window.history.replaceState = null;
             window.history.pushState = null;
+        }
+        if (_hostInfo.hostType == "excel") {
+            window.CustomFunctionMappings = {};
         }
     };
     initialize();
