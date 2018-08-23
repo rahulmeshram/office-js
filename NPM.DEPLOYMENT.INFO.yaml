@@ -1,4 +1,9 @@
+version: 1.1.9-adhoc.17
 tag: adhoc
+githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.9-adhoc.17
+githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.9-adhoc.17
+deployedAt: 2018-08-23 4:33 am UTC  (2018-08-22 9:33 pm Pacific Time)
+
 history:
     adhocBranchName: __adhoc--current--local--2018-08-23--12.31pm--chart
     commitMessage: chart 1.9 api validation
@@ -25,3 +30,11 @@ history:
             sha: >-
                 https://github.com/OfficeDev/office-js/commits/97bfde021b8ab0c466eb661cc1ddb2bdc50d917e
             message: '[BEGIN PUBLISH UPDATES] -- chart 1.9 api validation'
+
+
+unpkgUrls: |-
+    this specific build number:
+        https://unpkg.com/@microsoft/office-js@1.1.9-adhoc.17/dist/office.js
+        https://unpkg.com/@microsoft/office-js@1.1.9-adhoc.17/dist/office.d.ts
+
+buildLog: https://travis-ci.org/OfficeDev/office-js/builds/419484548
