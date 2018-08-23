@@ -6717,3 +6717,237 @@ OSF.InitializationHelper.prototype.prepareApiSurface = function OSF_Initializati
     var parameterMap = OSF.DDA.WAC.Delegate.ParameterMap;
     OSF._OfficeAppFactory.setHostFacade(new OSF.DDA.DispIdHost.Facade(getDelegateMethods, parameterMap));
 };
+
+
+
+
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var AsyncStorage = __webpack_require__(1);
+window._OfficeRuntimeNative = {
+    displayWebDialog: function () {
+        throw new Error('Not yet implemented');
+    },
+    AsyncStorage: AsyncStorage
+};
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function getItem(key, callback) {
+    return performActionAndReturnResult(function () { return window.localStorage.getItem(key); }, callback);
+}
+exports.getItem = getItem;
+function setItem(key, value, callback) {
+    return performAction(function () { return window.localStorage.setItem(key, value); }, callback);
+}
+exports.setItem = setItem;
+function removeItem(key, callback) {
+    return performAction(function () { return window.localStorage.removeItem(key); }, callback);
+}
+exports.removeItem = removeItem;
+function clear(callback) {
+    return performAction(function () { return window.localStorage.clear(); }, callback);
+}
+exports.clear = clear;
+function getAllKeys(callback) {
+    return performActionAndReturnResult(function () { return Object.keys(window.localStorage); }, callback);
+}
+exports.getAllKeys = getAllKeys;
+function multiSet(keyValuePairs, callback) {
+    return performMultiAction(keyValuePairs, function (_a) {
+        var key = _a[0], value = _a[1];
+        return window.localStorage.setItem(key, value);
+    }, callback);
+}
+exports.multiSet = multiSet;
+function multiRemove(keys, callback) {
+    return performMultiAction(keys, function (key) { return window.localStorage.removeItem(key); }, callback);
+}
+exports.multiRemove = multiRemove;
+function multiGet(keys, callback) {
+    return new Promise(function (resolve, reject) {
+        if (!callback) {
+            callback = function () {
+                /* intentionally empty in default implementation */
+            };
+        }
+        var errors = [];
+        var results = keys
+            .map(function (key) {
+            try {
+                return [key, window.localStorage.getItem(key)];
+            }
+            catch (e) {
+                errors.push(e);
+            }
+        })
+            .filter(function (pair) { return pair; });
+        if (errors.length > 0) {
+            callback(errors, results);
+            reject(errors);
+        }
+        else {
+            callback(null, results);
+            resolve(results);
+        }
+    });
+}
+exports.multiGet = multiGet;
+// helpers
+function performAction(action, callback) {
+    if (callback === void 0) { callback = function () {
+        /* intentionally empty in default implementation */
+    }; }
+    return new Promise(function (resolve, reject) {
+        try {
+            action();
+            callback(null);
+            resolve();
+        }
+        catch (e) {
+            callback(e);
+            reject(e);
+        }
+    });
+}
+function performActionAndReturnResult(action, callback) {
+    if (callback === void 0) { callback = function () {
+        /* intentionally empty in default implementation */
+    }; }
+    return new Promise(function (resolve, reject) {
+        try {
+            var result = action();
+            callback(null, result);
+            resolve(result);
+        }
+        catch (e) {
+            callback(e, null);
+            reject(e);
+        }
+    });
+}
+function performMultiAction(collection, action, callback) {
+    if (callback === void 0) { callback = function () {
+        /* default implementation intentionally no-op-s */
+    }; }
+    return new Promise(function (resolve, reject) {
+        var errors = [];
+        collection.forEach(function (item) {
+            try {
+                action(item);
+            }
+            catch (e) {
+                errors.push(e);
+            }
+        });
+        callback(errors);
+        if (errors.length > 0) {
+            reject(errors);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+
+
+/***/ })
+/******/ ]);
+//# sourceMappingURL=officeruntimenative.g.js.map
