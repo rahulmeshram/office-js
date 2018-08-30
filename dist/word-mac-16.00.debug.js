@@ -1,5 +1,5 @@
 /* Word Mac-specific API library */
-/* Version: 16.0.9311.3000 */
+/* Version: 16.0.9319.3000 */
 
 /* Office.js Version: 16.0.9124.1000 */ 
 /*
@@ -9303,6 +9303,10 @@ var OfficeExtension;
 			if (!OfficeExtension._internalConfig.enableUndoableFlag) {
 				requestFlags=requestFlags & ~16;
 			}
+			if (!OfficeExtension.Utility.isSetSupported("RichApiRuntimeFlag", "1.1")) {
+				requestFlags=requestFlags & ~4;
+				requestFlags=requestFlags & ~16;
+			}
 			if (typeof (this.m_flagsForTesting)==="number") {
 				requestFlags=this.m_flagsForTesting;
 			}
@@ -9473,8 +9477,8 @@ var OfficeExtension;
 		enableEarlyDispose: true,
 		alwaysPolyfillClientObjectUpdateMethod: false,
 		alwaysPolyfillClientObjectRetrieveMethod: false,
-		enableConcurrentFlag: false,
-		enableUndoableFlag: false,
+		enableConcurrentFlag: true,
+		enableUndoableFlag: true,
 	};
 	OfficeExtension.config={
 		extendedErrorLogging: false
@@ -14146,20 +14150,10 @@ var OfficeFirstPartyAuth;
 		var context=new OfficeCore.RequestContext();
 		var auth=OfficeCore.AuthenticationService.newObject(context);
 		context._customData="WacPartition";
-		var promise=new OfficeExtension.Promise(function (resolve, reject) {
-			var result=auth.getAccessToken(options);
-			context.sync()
-				.then(function () {
-				resolve(result);
-			})
-				.catch(function (e) {
-				throw e;
-			});
-		});
-		return promise.then(function (accessTokenResult) {
-			return new OfficeExtension.Promise(function (resolve, reject) {
-				resolve(accessTokenResult);
-			});
+		var result=auth.getAccessToken(options);
+		return context.sync()
+			.then(function () {
+			return result.value;
 		});
 	}
 	OfficeFirstPartyAuth.getAccessToken=getAccessToken;
@@ -14167,20 +14161,10 @@ var OfficeFirstPartyAuth;
 		var context=new OfficeCore.RequestContext();
 		var auth=OfficeCore.AuthenticationService.newObject(context);
 		context._customData="WacPartition";
-		var promise=new OfficeExtension.Promise(function (resolve, reject) {
-			var result=auth.getPrimaryIdentityInfo();
-			context.sync()
-				.then(function () {
-				resolve(result);
-			})
-				.catch(function (e) {
-				throw e;
-			});
-		});
-		return promise.then(function (idInfoResult) {
-			return new OfficeExtension.Promise(function (resolve, reject) {
-				resolve(idInfoResult);
-			});
+		var result=auth.getPrimaryIdentityInfo();
+		return context.sync()
+			.then(function () {
+			return result.value;
 		});
 	}
 	OfficeFirstPartyAuth.getPrimaryIdentityInfo=getPrimaryIdentityInfo;

@@ -3778,7 +3778,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        changeType: Excel.DataChangeType | "Others" | "RangeEdited" | "RowInserted" | "RowDeleted" | "ColumnInserted" | "ColumnDeleted" | "CellInserted" | "CellDeleted";
+        changeType: Excel.DataChangeType | "Unknown" | "RangeEdited" | "RowInserted" | "RowDeleted" | "ColumnInserted" | "ColumnDeleted" | "CellInserted" | "CellDeleted";
         /**
          *
          * Gets the source of the event. See Excel.EventSource for details.
@@ -3792,7 +3792,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "WorksheetChanged";
         /**
          *
          * Gets the id of the worksheet in which the data changed.
@@ -3835,7 +3835,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        changeType: Excel.DataChangeType | "Others" | "RangeEdited" | "RowInserted" | "RowDeleted" | "ColumnInserted" | "ColumnDeleted" | "CellInserted" | "CellDeleted";
+        changeType: Excel.DataChangeType | "Unknown" | "RangeEdited" | "RowInserted" | "RowDeleted" | "ColumnInserted" | "ColumnDeleted" | "CellInserted" | "CellDeleted";
         /**
          *
          * Gets the source of the event. See Excel.EventSource for details.
@@ -3856,7 +3856,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "TableChanged";
         /**
          *
          * Gets the id of the worksheet in which the data changed.
@@ -3892,7 +3892,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "WorksheetActivated";
         /**
          *
          * Gets the id of the worksheet that is activated.
@@ -3914,7 +3914,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "WorksheetDeactivated";
         /**
          *
          * Gets the id of the worksheet that is deactivated.
@@ -3943,7 +3943,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "WorksheetSelectionChanged";
         /**
          *
          * Gets the id of the worksheet in which the selection changed.
@@ -3986,7 +3986,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "TableSelectionChanged";
         /**
          *
          * Gets the id of the worksheet in which the selection changed.
@@ -4015,7 +4015,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "WorksheetAdded";
         /**
          *
          * Gets the id of the worksheet that is added to the workbook.
@@ -4044,7 +4044,7 @@ declare namespace Excel {
          *
          * [Api set: ExcelApi 1.7]
          */
-        type: Excel.EventType | "WorksheetChanged" | "WorksheetSelectionChanged" | "WorksheetAdded" | "WorksheetActivated" | "WorksheetDeactivated" | "TableChanged" | "TableSelectionChanged" | "WorksheetDeleted" | "ChartAdded" | "ChartActivated" | "ChartDeactivated" | "ChartDeleted" | "WorksheetCalculated";
+        type: "WorksheetDeleted";
         /**
          *
          * Gets the id of the worksheet that is deleted from the workbook.
@@ -7135,6 +7135,13 @@ declare namespace Excel {
         readonly worksheet: Excel.Worksheet;
         /**
          *
+         * Represents the type of the chart. See Excel.ChartType for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        chartType: Excel.ChartType | "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar";
+        /**
+         *
          * Represents the height, in points, of the chart object.
          *
          * [Api set: ExcelApi 1.1]
@@ -7161,6 +7168,13 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.1]
          */
         name: string;
+        /**
+         *
+         * Represents whether to display all field buttons on a PivotChart.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        showAllFieldButtons: boolean;
         /**
          *
          * Represents the distance, in points, from the top edge of the object to the top of row 1 (on a worksheet) or the top of the chart area (on a chart).
@@ -7312,6 +7326,16 @@ declare namespace Excel {
         readonly count: number;
         /**
          *
+         * Add a new series to the collection. The new added series is not visible until set values/x axis values/bubble sizes for it (depending on chart type).
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param name Name of the series.
+         * @param index Index value of the series to be added. Zero-indexed.
+         */
+        add(name?: string, index?: number): Excel.ChartSeries;
+        /**
+         *
          * Returns the number of series in the collection.
          *
          * [Api set: ExcelApi 1.4]
@@ -7362,6 +7386,13 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         readonly trendlines: Excel.ChartTrendlineCollection;
+        /**
+         *
+         * Represents the chart type of a series. See Excel.ChartType for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        chartType: Excel.ChartType | "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar";
         /**
          *
          * Represents the doughnut hole size of a chart series.  Only valid on doughnut and doughnutExploded charts.
@@ -7720,6 +7751,26 @@ declare namespace Excel {
         /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
         set(properties: ChartAxes): void;
         /**
+         *
+         * Returns the specific axis identified by type and group.
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param type Specifies the axis type. See Excel.ChartAxis for details.
+         * @param group Specifies the axis group. See Excel.ChartAxis for details.
+         */
+        getItem(type: Excel.ChartAxisType, group?: Excel.ChartAxisGroup): Excel.ChartAxis;
+        /**
+         *
+         * Returns the specific axis identified by type and group.
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param type Specifies the axis type. See Excel.ChartAxis for details.
+         * @param group Specifies the axis group. See Excel.ChartAxis for details.
+         */
+        getItem(type: "Invalid" | "Category" | "Value" | "Series", group?: "Primary" | "Secondary"): Excel.ChartAxis;
+        /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          */
         load(option?: Excel.Interfaces.ChartAxesLoadOptions): Excel.ChartAxes;
@@ -7767,6 +7818,13 @@ declare namespace Excel {
         readonly title: Excel.ChartAxisTitle;
         /**
          *
+         * Represents the group for the specified axis. See Excel.ChartAxisGroup for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        readonly axisGroup: Excel.ChartAxisGroup | "Primary" | "Secondary";
+        /**
+         *
          * Returns or sets the base unit for the specified category axis.
          *
          * [Api set: ExcelApi 1.7]
@@ -7779,13 +7837,6 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         categoryType: Excel.ChartAxisCategoryType | "Automatic" | "TextAxis" | "DateAxis";
-        /**
-         *
-         * Represents the specified axis where the other axis crosses at. Read Only. Set to this property should use SetCrossesAt(double) method.
-         *
-         * [Api set: ExcelApi 1.7]
-         */
-        readonly crossesAt: number;
         /**
          *
          * Represents the custom axis display unit value. Read Only. To set this property, please use the SetCustomDisplayUnit(double) method.
@@ -7823,6 +7874,13 @@ declare namespace Excel {
         logBase: number;
         /**
          *
+         * Represents the type of major tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        majorTickMark: Excel.ChartAxisTickMark | "None" | "Cross" | "Inside" | "Outside";
+        /**
+         *
          * Returns or sets the major unit scale value for the category axis when the CategoryType property is set to TimeScale.
          *
          * [Api set: ExcelApi 1.7]
@@ -7851,6 +7909,13 @@ declare namespace Excel {
         minimum: any;
         /**
          *
+         * Represents the type of minor tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        minorTickMark: Excel.ChartAxisTickMark | "None" | "Cross" | "Inside" | "Outside";
+        /**
+         *
          * Returns or sets the minor unit scale value for the category axis when the CategoryType property is set to TimeScale.
          *
          * [Api set: ExcelApi 1.7]
@@ -7872,11 +7937,25 @@ declare namespace Excel {
         reversePlotOrder: boolean;
         /**
          *
+         * Represents the value axis scale type. See Excel.ChartAxisScaleType for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        scaleType: Excel.ChartAxisScaleType | "Linear" | "Logarithmic";
+        /**
+         *
          * Represents whether the axis display unit label is visible.
          *
          * [Api set: ExcelApi 1.7]
          */
         showDisplayUnitLabel: boolean;
+        /**
+         *
+         * Represents the position of tick-mark labels on the specified axis. See Excel.ChartAxisTickLabelPosition for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        tickLabelPosition: Excel.ChartAxisTickLabelPosition | "NextToAxis" | "High" | "Low" | "None";
         /**
          *
          * Represents the number of categories or series between tick-mark labels. Can be a value from 1 through 31999 or an empty string for automatic setting. The returned value is always a number.
@@ -7898,6 +7977,13 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         readonly top: number;
+        /**
+         *
+         * Represents the axis type. See Excel.ChartAxisType for details.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        readonly type: Excel.ChartAxisType | "Invalid" | "Category" | "Value" | "Series";
         /**
          *
          * A boolean value represents the visibility of the axis.
@@ -7927,13 +8013,13 @@ declare namespace Excel {
         setCategoryNames(sourceData: Excel.Range): void;
         /**
          *
-         * Set the specified axis where the other axis crosses at.
+         * Sets the axis display unit to a custom value.
          *
          * [Api set: ExcelApi 1.7]
          *
-         * @param value Custom value of the crosses at
+         * @param value Custom value of the display unit
          */
-        setCrossesAt(value: number): void;
+        setCustomDisplayUnit(value: number): void;
         /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          */
@@ -8340,7 +8426,14 @@ declare namespace Excel {
         readonly legendEntries: Excel.ChartLegendEntryCollection;
         /**
          *
-         * Represents the left of a chart legend.
+         * Represents the height, in points, of the legend on the chart. Null if legend is not visible.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        height: number;
+        /**
+         *
+         * Represents the left, in points, of a chart legend. Null if legend is not visible.
          *
          * [Api set: ExcelApi 1.7]
          */
@@ -8380,6 +8473,13 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.1]
          */
         visible: boolean;
+        /**
+         *
+         * Represents the width, in points, of the legend on the chart. Null if legend is not visible.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        width: number;
         /** Sets multiple properties on the object at the same time, based on JSON input. */
         set(properties: Interfaces.ChartLegendUpdateData, options?: OfficeExtension.UpdateOptions): void;
         /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
@@ -8596,6 +8696,25 @@ declare namespace Excel {
         /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
         set(properties: ChartTitle): void;
         /**
+         *
+         * Get the substring of a chart title. Line break '\n' also counts one charater.
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param start Start position of substring to be retrieved. Position start with 0.
+         * @param length Length of substring to be retrieved.
+         */
+        getSubstring(start: number, length: number): Excel.ChartFormatString;
+        /**
+         *
+         * Sets a string value that represents the formula of chart title using A1-style notation.
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param formula a string that present the formula to set
+         */
+        setFormula(formula: string): void;
+        /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          */
         load(option?: Excel.Interfaces.ChartTitleLoadOptions): Excel.ChartTitle;
@@ -8605,6 +8724,35 @@ declare namespace Excel {
             expand?: string;
         }): Excel.ChartTitle;
         toJSON(): Excel.Interfaces.ChartTitleData;
+    }
+    /**
+     *
+     * Represents the substring in chart related objects that contains text, like ChartTitle object, ChartAxisTitle object, etc.
+     *
+     * [Api set: ExcelApi 1.7]
+     */
+    class ChartFormatString extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Represents the font attributes, such as font name, font size, color, etc. of chart characters object.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        readonly font: Excel.ChartFont;
+        /** Sets multiple properties on the object at the same time, based on JSON input. */
+        set(properties: Interfaces.ChartFormatStringUpdateData, options?: OfficeExtension.UpdateOptions): void;
+        /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
+        set(properties: ChartFormatString): void;
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         */
+        load(option?: Excel.Interfaces.ChartFormatStringLoadOptions): Excel.ChartFormatString;
+        load(option?: string | string[]): Excel.ChartFormatString;
+        load(option?: {
+            select?: string;
+            expand?: string;
+        }): Excel.ChartFormatString;
+        toJSON(): Excel.Interfaces.ChartFormatStringData;
     }
     /**
      *
@@ -8853,13 +9001,6 @@ declare namespace Excel {
         readonly format: Excel.ChartTrendlineFormat;
         /**
          *
-         * True if the R-squared for the trendline is displayed on the chart.
-         *
-         * [Api set: ExcelApi 1.7]
-         */
-        displayRSquared: boolean;
-        /**
-         *
          * Represents the intercept value of the trendline. Can be set to a numeric value or an empty string (for automatic values). The returned value is always a number.
          *
          * [Api set: ExcelApi 1.7]
@@ -8886,6 +9027,13 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         polynomialOrder: number;
+        /**
+         *
+         * Represents the type of a chart trendline.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        type: Excel.ChartTrendlineType | "Linear" | "Exponential" | "Logarithmic" | "MovingAverage" | "Polynomial" | "Power";
         /** Sets multiple properties on the object at the same time, based on JSON input. */
         set(properties: Interfaces.ChartTrendlineUpdateData, options?: OfficeExtension.UpdateOptions): void;
         /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
@@ -8917,6 +9065,24 @@ declare namespace Excel {
     class ChartTrendlineCollection extends OfficeExtension.ClientObject {
         /** Gets the loaded child items in this collection. */
         readonly items: Excel.ChartTrendline[];
+        /**
+         *
+         * Adds a new trendline to trendline collection.
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param type Specifies the trendline type. The default value is "Linear". See Excel.ChartTrendline for details.
+         */
+        add(type?: Excel.ChartTrendlineType): Excel.ChartTrendline;
+        /**
+         *
+         * Adds a new trendline to trendline collection.
+         *
+         * [Api set: ExcelApi 1.7]
+         *
+         * @param type Specifies the trendline type. The default value is "Linear". See Excel.ChartTrendline for details.
+         */
+        add(type?: "Linear" | "Exponential" | "Logarithmic" | "MovingAverage" | "Polynomial" | "Power"): Excel.ChartTrendline;
         /**
          *
          * Returns the number of trendlines in the collection.
@@ -11338,108 +11504,69 @@ declare namespace Excel {
         };
     }
     /**
-     * [Api set: ExcelApi 1.1]
+     * [Api set: ExcelApi 1.7]
      */
-    enum BindingType {
-        range = "Range",
-        table = "Table",
-        text = "Text",
+    enum ChartAxisType {
+        invalid = "Invalid",
+        /**
+         *
+         * Axis displays categories.
+         *
+         */
+        category = "Category",
+        /**
+         *
+         * Axis displays values.
+         *
+         */
+        value = "Value",
+        /**
+         *
+         * Axis displays data series.
+         *
+         */
+        series = "Series",
     }
     /**
-     * [Api set: ExcelApi 1.1]
+     * [Api set: ExcelApi 1.7]
      */
-    enum BorderIndex {
-        edgeTop = "EdgeTop",
-        edgeBottom = "EdgeBottom",
-        edgeLeft = "EdgeLeft",
-        edgeRight = "EdgeRight",
-        insideVertical = "InsideVertical",
-        insideHorizontal = "InsideHorizontal",
-        diagonalDown = "DiagonalDown",
-        diagonalUp = "DiagonalUp",
+    enum ChartAxisGroup {
+        primary = "Primary",
+        secondary = "Secondary",
     }
     /**
-     * [Api set: ExcelApi 1.1]
+     * [Api set: ExcelApi 1.7]
      */
-    enum BorderLineStyle {
-        none = "None",
-        continuous = "Continuous",
-        dash = "Dash",
-        dashDot = "DashDot",
-        dashDotDot = "DashDotDot",
-        dot = "Dot",
-        double = "Double",
-        slantDashDot = "SlantDashDot",
+    enum ChartAxisScaleType {
+        linear = "Linear",
+        logarithmic = "Logarithmic",
     }
     /**
-     * [Api set: ExcelApi 1.1]
+     * [Api set: ExcelApi 1.7]
      */
-    enum BorderWeight {
-        hairline = "Hairline",
-        thin = "Thin",
-        medium = "Medium",
-        thick = "Thick",
-    }
-    /**
-     * [Api set: ExcelApi 1.1]
-     */
-    enum CalculationMode {
+    enum ChartAxisPosition {
         automatic = "Automatic",
-        automaticExceptTables = "AutomaticExceptTables",
-        manual = "Manual",
+        maximum = "Maximum",
+        minimum = "Minimum",
+        custom = "Custom",
     }
     /**
-     * [Api set: ExcelApi 1.1]
+     * [Api set: ExcelApi 1.7]
      */
-    enum CalculationType {
-        /**
-         *
-         * Recalculates all cells that Excel has marked as dirty, that is, dependents of volatile or changed data, and cells programmatically marked as dirty.
-         *
-         */
-        recalculate = "Recalculate",
-        /**
-         *
-         * This will mark all cells as dirty and then recalculate them.
-         *
-         */
-        full = "Full",
-        /**
-         *
-         * This will rebuild the full dependency chain, mark all cells as dirty and then recalculate them.
-         *
-         */
-        fullRebuild = "FullRebuild",
+    enum ChartAxisTickMark {
+        none = "None",
+        cross = "Cross",
+        inside = "Inside",
+        outside = "Outside",
     }
     /**
-     * [Api set: ExcelApi 1.1 for All/Formats/Contents, 1.7 for Hyperlinks & HyperlinksAndFormats.]
+     * [Api set: ExcelApi 1.7]
      */
-    enum ClearApplyTo {
-        all = "All",
-        /**
-         *
-         * Clears all formatting for the range.
-         *
-         */
-        formats = "Formats",
-        /**
-         *
-         * Clears the contents of the range.
-         *
-         */
-        contents = "Contents",
-        /**
-         *
-         * Clears all hyperlinks, but leaves all content and formatting intact.
-         *
-         */
-        hyperlinks = "Hyperlinks",
-        /**
-         *
-         * Removes hyperlinks and formatting for the cell but leaves content, conditional formats and data validation intact.
-         *
-         */
-        removeHyperlinks = "RemoveHyperlinks",
+    enum ChartAxisTickLabelPosition {
+        nextToAxis = "NextToAxis",
+        high = "High",
+        low = "Low",
+        none = "None",
     }
     /**
      * [Api set: ExcelApi 1.7]
@@ -11739,6 +11866,121 @@ declare namespace Excel {
     enum ChartUnderlineStyle {
         none = "None",
         single = "Single",
+    }
+    /**
+     * [Api set: ExcelApi 1.7]
+     */
+    enum ChartTrendlineType {
+        linear = "Linear",
+        exponential = "Exponential",
+        logarithmic = "Logarithmic",
+        movingAverage = "MovingAverage",
+        polynomial = "Polynomial",
+        power = "Power",
+    }
+    /**
+     * [Api set: ExcelApi 1.1]
+     */
+    enum BindingType {
+        range = "Range",
+        table = "Table",
+        text = "Text",
+    }
+    /**
+     * [Api set: ExcelApi 1.1]
+     */
+    enum BorderIndex {
+        edgeTop = "EdgeTop",
+        edgeBottom = "EdgeBottom",
+        edgeLeft = "EdgeLeft",
+        edgeRight = "EdgeRight",
+        insideVertical = "InsideVertical",
+        insideHorizontal = "InsideHorizontal",
+        diagonalDown = "DiagonalDown",
+        diagonalUp = "DiagonalUp",
+    }
+    /**
+     * [Api set: ExcelApi 1.1]
+     */
+    enum BorderLineStyle {
+        none = "None",
+        continuous = "Continuous",
+        dash = "Dash",
+        dashDot = "DashDot",
+        dashDotDot = "DashDotDot",
+        dot = "Dot",
+        double = "Double",
+        slantDashDot = "SlantDashDot",
+    }
+    /**
+     * [Api set: ExcelApi 1.1]
+     */
+    enum BorderWeight {
+        hairline = "Hairline",
+        thin = "Thin",
+        medium = "Medium",
+        thick = "Thick",
+    }
+    /**
+     * [Api set: ExcelApi 1.1]
+     */
+    enum CalculationMode {
+        automatic = "Automatic",
+        automaticExceptTables = "AutomaticExceptTables",
+        manual = "Manual",
+    }
+    /**
+     * [Api set: ExcelApi 1.1]
+     */
+    enum CalculationType {
+        /**
+         *
+         * Recalculates all cells that Excel has marked as dirty, that is, dependents of volatile or changed data, and cells programmatically marked as dirty.
+         *
+         */
+        recalculate = "Recalculate",
+        /**
+         *
+         * This will mark all cells as dirty and then recalculate them.
+         *
+         */
+        full = "Full",
+        /**
+         *
+         * This will rebuild the full dependency chain, mark all cells as dirty and then recalculate them.
+         *
+         */
+        fullRebuild = "FullRebuild",
+    }
+    /**
+     * [Api set: ExcelApi 1.1 for All/Formats/Contents, 1.7 for Hyperlinks & HyperlinksAndFormats.]
+     */
+    enum ClearApplyTo {
+        all = "All",
+        /**
+         *
+         * Clears all formatting for the range.
+         *
+         */
+        formats = "Formats",
+        /**
+         *
+         * Clears the contents of the range.
+         *
+         */
+        contents = "Contents",
+        /**
+         *
+         * Clears all hyperlinks, but leaves all content and formatting intact.
+         *
+         */
+        hyperlinks = "Hyperlinks",
+        /**
+         *
+         * Removes hyperlinks and formatting for the cell but leaves content, conditional formats and data validation intact.
+         *
+         */
+        removeHyperlinks = "RemoveHyperlinks",
     }
     /**
      *
@@ -12202,6 +12444,8 @@ declare namespace Excel {
         customFunctionExecutionEndEvent = 201,
         invocationMessage = 1000,
         cancellationMessage = 1001,
+        metadataMessage = 1002,
+        visualSelectionChangedEvent = 2000,
     }
     /**
      * [Api set: ExcelApi 1.7]
@@ -12236,10 +12480,10 @@ declare namespace Excel {
     enum DataChangeType {
         /**
          *
-         * Others represents the type of data change is not the listed types.
+         * Unknown represents the type of data change is not the listed types.
          *
          */
-        others = "Others",
+        unknown = "Unknown",
         /**
          *
          * RangeEdited represents the data change event is triggered by range being edited.
@@ -12365,6 +12609,12 @@ declare namespace Excel {
          *
          */
         worksheetCalculated = "WorksheetCalculated",
+        /**
+         *
+         * ChartActivated represents the type of event that is registered on Chart or ChartCollection, and occurs when chart activates.
+         *
+         */
+        visualSelectionChanged = "VisualSelectionChanged",
     }
     /**
      * [Api set: ExcelApi 1.7]
@@ -16942,6 +17192,13 @@ declare namespace Excel {
             title?: Excel.Interfaces.ChartTitleUpdateData;
             /**
              *
+             * Represents the type of the chart. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: Excel.ChartType | "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar";
+            /**
+             *
              * Represents the height, in points, of the chart object.
              *
              * [Api set: ExcelApi 1.1]
@@ -16961,6 +17218,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             name?: string;
+            /**
+             *
+             * Represents whether to display all field buttons on a PivotChart.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            showAllFieldButtons?: boolean;
             /**
              *
              * Represents the distance, in points, from the top edge of the object to the top of row 1 (on a worksheet) or the top of the chart area (on a chart).
@@ -17006,6 +17270,13 @@ declare namespace Excel {
             * [Api set: ExcelApi 1.1]
             */
             format?: Excel.Interfaces.ChartSeriesFormatUpdateData;
+            /**
+             *
+             * Represents the chart type of a series. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: Excel.ChartType | "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar";
             /**
              *
              * Represents the doughnut hole size of a chart series.  Only valid on doughnut and doughnutExploded charts.
@@ -17238,6 +17509,13 @@ declare namespace Excel {
              */
             categoryType?: Excel.ChartAxisCategoryType | "Automatic" | "TextAxis" | "DateAxis";
             /**
+             * [DEPRECATED; kept for back-compat with existing first-party solutions]. Please use `Position` instead.
+             * Represents the specified axis where the other axis crosses. See Excel.ChartAxisPosition for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            crosses?: Excel.ChartAxisPosition | "Automatic" | "Maximum" | "Minimum" | "Custom";
+            /**
              *
              * Represents the axis display unit. See Excel.ChartAxisDisplayUnit for details.
              *
@@ -17251,6 +17529,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             logBase?: number;
+            /**
+             *
+             * Represents the type of major tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            majorTickMark?: Excel.ChartAxisTickMark | "None" | "Cross" | "Inside" | "Outside";
             /**
              *
              * Returns or sets the major unit scale value for the category axis when the CategoryType property is set to TimeScale.
@@ -17281,6 +17566,13 @@ declare namespace Excel {
             minimum?: any;
             /**
              *
+             * Represents the type of minor tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            minorTickMark?: Excel.ChartAxisTickMark | "None" | "Cross" | "Inside" | "Outside";
+            /**
+             *
              * Returns or sets the minor unit scale value for the category axis when the CategoryType property is set to TimeScale.
              *
              * [Api set: ExcelApi 1.7]
@@ -17302,11 +17594,25 @@ declare namespace Excel {
             reversePlotOrder?: boolean;
             /**
              *
+             * Represents the value axis scale type. See Excel.ChartAxisScaleType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            scaleType?: Excel.ChartAxisScaleType | "Linear" | "Logarithmic";
+            /**
+             *
              * Represents whether the axis display unit label is visible.
              *
              * [Api set: ExcelApi 1.7]
              */
             showDisplayUnitLabel?: boolean;
+            /**
+             *
+             * Represents the position of tick-mark labels on the specified axis. See Excel.ChartAxisTickLabelPosition for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            tickLabelPosition?: Excel.ChartAxisTickLabelPosition | "NextToAxis" | "High" | "Low" | "None";
             /**
              *
              * Represents the number of categories or series between tick-mark labels. Can be a value from 1 through 31999 or an empty string for automatic setting. The returned value is always a number.
@@ -17553,7 +17859,14 @@ declare namespace Excel {
             format?: Excel.Interfaces.ChartLegendFormatUpdateData;
             /**
              *
-             * Represents the left of a chart legend.
+             * Represents the height, in points, of the legend on the chart. Null if legend is not visible.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            height?: number;
+            /**
+             *
+             * Represents the left, in points, of a chart legend. Null if legend is not visible.
              *
              * [Api set: ExcelApi 1.7]
              */
@@ -17593,6 +17906,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             visible?: boolean;
+            /**
+             *
+             * Represents the width, in points, of the legend on the chart. Null if legend is not visible.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            width?: number;
         }
         /** An interface for updating data on the ChartLegendEntry object, for use in "chartLegendEntry.set({ ... })". */
         interface ChartLegendEntryUpdateData {
@@ -17697,6 +18017,16 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             visible?: boolean;
+        }
+        /** An interface for updating data on the ChartFormatString object, for use in "chartFormatString.set({ ... })". */
+        interface ChartFormatStringUpdateData {
+            /**
+            *
+            * Represents the font attributes, such as font name, font size, color, etc. of chart characters object.
+            *
+            * [Api set: ExcelApi 1.7]
+            */
+            font?: Excel.Interfaces.ChartFontUpdateData;
         }
         /** An interface for updating data on the ChartTitleFormat object, for use in "chartTitleFormat.set({ ... })". */
         interface ChartTitleFormatUpdateData {
@@ -17819,13 +18149,6 @@ declare namespace Excel {
             format?: Excel.Interfaces.ChartTrendlineFormatUpdateData;
             /**
              *
-             * True if the R-squared for the trendline is displayed on the chart.
-             *
-             * [Api set: ExcelApi 1.7]
-             */
-            displayRSquared?: boolean;
-            /**
-             *
              * Represents the intercept value of the trendline. Can be set to a numeric value or an empty string (for automatic values). The returned value is always a number.
              *
              * [Api set: ExcelApi 1.7]
@@ -17852,6 +18175,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             polynomialOrder?: number;
+            /**
+             *
+             * Represents the type of a chart trendline.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            type?: Excel.ChartTrendlineType | "Linear" | "Exponential" | "Logarithmic" | "MovingAverage" | "Polynomial" | "Power";
         }
         /** An interface for updating data on the ChartTrendlineCollection object, for use in "chartTrendlineCollection.set({ ... })". */
         interface ChartTrendlineCollectionUpdateData {
@@ -19682,6 +20012,13 @@ declare namespace Excel {
             worksheet?: Excel.Interfaces.WorksheetData;
             /**
              *
+             * Represents the type of the chart. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: Excel.ChartType | "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar";
+            /**
+             *
              * Represents the height, in points, of the chart object.
              *
              * [Api set: ExcelApi 1.1]
@@ -19708,6 +20045,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             name?: string;
+            /**
+             *
+             * Represents whether to display all field buttons on a PivotChart.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            showAllFieldButtons?: boolean;
             /**
              *
              * Represents the distance, in points, from the top edge of the object to the top of row 1 (on a worksheet) or the top of the chart area (on a chart).
@@ -19767,6 +20111,13 @@ declare namespace Excel {
             * [Api set: ExcelApi 1.7]
             */
             trendlines?: Excel.Interfaces.ChartTrendlineData[];
+            /**
+             *
+             * Represents the chart type of a series. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: Excel.ChartType | "Invalid" | "ColumnClustered" | "ColumnStacked" | "ColumnStacked100" | "3DColumnClustered" | "3DColumnStacked" | "3DColumnStacked100" | "BarClustered" | "BarStacked" | "BarStacked100" | "3DBarClustered" | "3DBarStacked" | "3DBarStacked100" | "LineStacked" | "LineStacked100" | "LineMarkers" | "LineMarkersStacked" | "LineMarkersStacked100" | "PieOfPie" | "PieExploded" | "3DPieExploded" | "BarOfPie" | "XYScatterSmooth" | "XYScatterSmoothNoMarkers" | "XYScatterLines" | "XYScatterLinesNoMarkers" | "AreaStacked" | "AreaStacked100" | "3DAreaStacked" | "3DAreaStacked100" | "DoughnutExploded" | "RadarMarkers" | "RadarFilled" | "Surface" | "SurfaceWireframe" | "SurfaceTopView" | "SurfaceTopViewWireframe" | "Bubble" | "Bubble3DEffect" | "StockHLC" | "StockOHLC" | "StockVHLC" | "StockVOHLC" | "CylinderColClustered" | "CylinderColStacked" | "CylinderColStacked100" | "CylinderBarClustered" | "CylinderBarStacked" | "CylinderBarStacked100" | "CylinderCol" | "ConeColClustered" | "ConeColStacked" | "ConeColStacked100" | "ConeBarClustered" | "ConeBarStacked" | "ConeBarStacked100" | "ConeCol" | "PyramidColClustered" | "PyramidColStacked" | "PyramidColStacked100" | "PyramidBarClustered" | "PyramidBarStacked" | "PyramidBarStacked100" | "PyramidCol" | "3DColumn" | "Line" | "3DLine" | "3DPie" | "Pie" | "XYScatter" | "3DArea" | "Area" | "Doughnut" | "Radar";
             /**
              *
              * Represents the doughnut hole size of a chart series.  Only valid on doughnut and doughnutExploded charts.
@@ -19993,6 +20344,13 @@ declare namespace Excel {
             title?: Excel.Interfaces.ChartAxisTitleData;
             /**
              *
+             * Represents the group for the specified axis. See Excel.ChartAxisGroup for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            axisGroup?: Excel.ChartAxisGroup | "Primary" | "Secondary";
+            /**
+             *
              * Returns or sets the base unit for the specified category axis.
              *
              * [Api set: ExcelApi 1.7]
@@ -20006,7 +20364,14 @@ declare namespace Excel {
              */
             categoryType?: Excel.ChartAxisCategoryType | "Automatic" | "TextAxis" | "DateAxis";
             /**
+             * [DEPRECATED; kept for back-compat with existing first-party solutions]. Please use `Position` instead.
+             * Represents the specified axis where the other axis crosses. See Excel.ChartAxisPosition for details.
              *
+             * [Api set: ExcelApi 1.7]
+             */
+            crosses?: Excel.ChartAxisPosition | "Automatic" | "Maximum" | "Minimum" | "Custom";
+            /**
+             * [DEPRECATED; kept for back-compat with existing first-party solutions]. Please use `PositionAt` instead.
              * Represents the specified axis where the other axis crosses at. Read Only. Set to this property should use SetCrossesAt(double) method.
              *
              * [Api set: ExcelApi 1.7]
@@ -20049,6 +20414,13 @@ declare namespace Excel {
             logBase?: number;
             /**
              *
+             * Represents the type of major tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            majorTickMark?: Excel.ChartAxisTickMark | "None" | "Cross" | "Inside" | "Outside";
+            /**
+             *
              * Returns or sets the major unit scale value for the category axis when the CategoryType property is set to TimeScale.
              *
              * [Api set: ExcelApi 1.7]
@@ -20077,6 +20449,13 @@ declare namespace Excel {
             minimum?: any;
             /**
              *
+             * Represents the type of minor tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            minorTickMark?: Excel.ChartAxisTickMark | "None" | "Cross" | "Inside" | "Outside";
+            /**
+             *
              * Returns or sets the minor unit scale value for the category axis when the CategoryType property is set to TimeScale.
              *
              * [Api set: ExcelApi 1.7]
@@ -20098,11 +20477,25 @@ declare namespace Excel {
             reversePlotOrder?: boolean;
             /**
              *
+             * Represents the value axis scale type. See Excel.ChartAxisScaleType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            scaleType?: Excel.ChartAxisScaleType | "Linear" | "Logarithmic";
+            /**
+             *
              * Represents whether the axis display unit label is visible.
              *
              * [Api set: ExcelApi 1.7]
              */
             showDisplayUnitLabel?: boolean;
+            /**
+             *
+             * Represents the position of tick-mark labels on the specified axis. See Excel.ChartAxisTickLabelPosition for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            tickLabelPosition?: Excel.ChartAxisTickLabelPosition | "NextToAxis" | "High" | "Low" | "None";
             /**
              *
              * Represents the number of categories or series between tick-mark labels. Can be a value from 1 through 31999 or an empty string for automatic setting. The returned value is always a number.
@@ -20124,6 +20517,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             top?: number;
+            /**
+             *
+             * Represents the axis type. See Excel.ChartAxisType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            type?: Excel.ChartAxisType | "Invalid" | "Category" | "Value" | "Series";
             /**
              *
              * A boolean value represents the visibility of the axis.
@@ -20370,7 +20770,14 @@ declare namespace Excel {
             legendEntries?: Excel.Interfaces.ChartLegendEntryData[];
             /**
              *
-             * Represents the left of a chart legend.
+             * Represents the height, in points, of the legend on the chart. Null if legend is not visible.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            height?: number;
+            /**
+             *
+             * Represents the left, in points, of a chart legend. Null if legend is not visible.
              *
              * [Api set: ExcelApi 1.7]
              */
@@ -20410,6 +20817,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             visible?: boolean;
+            /**
+             *
+             * Represents the width, in points, of the legend on the chart. Null if legend is not visible.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            width?: number;
         }
         /** An interface describing the data returned by calling "chartLegendEntry.toJSON()". */
         interface ChartLegendEntryData {
@@ -20528,6 +20942,16 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             width?: number;
+        }
+        /** An interface describing the data returned by calling "chartFormatString.toJSON()". */
+        interface ChartFormatStringData {
+            /**
+            *
+            * Represents the font attributes, such as font name, font size, color, etc. of chart characters object.
+            *
+            * [Api set: ExcelApi 1.7]
+            */
+            font?: Excel.Interfaces.ChartFontData;
         }
         /** An interface describing the data returned by calling "chartTitleFormat.toJSON()". */
         interface ChartTitleFormatData {
@@ -20650,13 +21074,6 @@ declare namespace Excel {
             format?: Excel.Interfaces.ChartTrendlineFormatData;
             /**
              *
-             * True if the R-squared for the trendline is displayed on the chart.
-             *
-             * [Api set: ExcelApi 1.7]
-             */
-            displayRSquared?: boolean;
-            /**
-             *
              * Represents the intercept value of the trendline. Can be set to a numeric value or an empty string (for automatic values). The returned value is always a number.
              *
              * [Api set: ExcelApi 1.7]
@@ -20683,6 +21100,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             polynomialOrder?: number;
+            /**
+             *
+             * Represents the type of a chart trendline.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            type?: Excel.ChartTrendlineType | "Linear" | "Exponential" | "Logarithmic" | "MovingAverage" | "Polynomial" | "Power";
         }
         /** An interface describing the data returned by calling "chartTrendlineCollection.toJSON()". */
         interface ChartTrendlineCollectionData {
@@ -23169,6 +23593,13 @@ declare namespace Excel {
             worksheet?: Excel.Interfaces.WorksheetLoadOptions;
             /**
              *
+             * For EACH ITEM in the collection: Represents the type of the chart. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: boolean;
+            /**
+             *
              * For EACH ITEM in the collection: Represents the height, in points, of the chart object.
              *
              * [Api set: ExcelApi 1.1]
@@ -23195,6 +23626,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             name?: boolean;
+            /**
+             *
+             * For EACH ITEM in the collection: Represents whether to display all field buttons on a PivotChart.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            showAllFieldButtons?: boolean;
             /**
              *
              * For EACH ITEM in the collection: Represents the distance, in points, from the top edge of the object to the top of row 1 (on a worksheet) or the top of the chart area (on a chart).
@@ -23269,6 +23707,13 @@ declare namespace Excel {
             worksheet?: Excel.Interfaces.WorksheetLoadOptions;
             /**
              *
+             * Represents the type of the chart. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: boolean;
+            /**
+             *
              * Represents the height, in points, of the chart object.
              *
              * [Api set: ExcelApi 1.1]
@@ -23295,6 +23740,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             name?: boolean;
+            /**
+             *
+             * Represents whether to display all field buttons on a PivotChart.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            showAllFieldButtons?: boolean;
             /**
              *
              * Represents the distance, in points, from the top edge of the object to the top of row 1 (on a worksheet) or the top of the chart area (on a chart).
@@ -23355,6 +23807,13 @@ declare namespace Excel {
             * [Api set: ExcelApi 1.1]
             */
             points?: Excel.Interfaces.ChartPointsCollectionLoadOptions;
+            /**
+             *
+             * For EACH ITEM in the collection: Represents the chart type of a series. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: boolean;
             /**
              *
              * For EACH ITEM in the collection: Represents the doughnut hole size of a chart series.  Only valid on doughnut and doughnutExploded charts.
@@ -23464,6 +23923,13 @@ declare namespace Excel {
             * [Api set: ExcelApi 1.1]
             */
             points?: Excel.Interfaces.ChartPointsCollectionLoadOptions;
+            /**
+             *
+             * Represents the chart type of a series. See Excel.ChartType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            chartType?: boolean;
             /**
              *
              * Represents the doughnut hole size of a chart series.  Only valid on doughnut and doughnutExploded charts.
@@ -23781,6 +24247,13 @@ declare namespace Excel {
             title?: Excel.Interfaces.ChartAxisTitleLoadOptions;
             /**
              *
+             * Represents the group for the specified axis. See Excel.ChartAxisGroup for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            axisGroup?: boolean;
+            /**
+             *
              * Returns or sets the base unit for the specified category axis.
              *
              * [Api set: ExcelApi 1.7]
@@ -23794,7 +24267,14 @@ declare namespace Excel {
              */
             categoryType?: boolean;
             /**
+             * [DEPRECATED; kept for back-compat with existing first-party solutions]. Please use `Position` instead.
+             * Represents the specified axis where the other axis crosses. See Excel.ChartAxisPosition for details.
              *
+             * [Api set: ExcelApi 1.7]
+             */
+            crosses?: boolean;
+            /**
+             * [DEPRECATED; kept for back-compat with existing first-party solutions]. Please use `PositionAt` instead.
              * Represents the specified axis where the other axis crosses at. Read Only. Set to this property should use SetCrossesAt(double) method.
              *
              * [Api set: ExcelApi 1.7]
@@ -23837,6 +24317,13 @@ declare namespace Excel {
             logBase?: boolean;
             /**
              *
+             * Represents the type of major tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            majorTickMark?: boolean;
+            /**
+             *
              * Returns or sets the major unit scale value for the category axis when the CategoryType property is set to TimeScale.
              *
              * [Api set: ExcelApi 1.7]
@@ -23865,6 +24352,13 @@ declare namespace Excel {
             minimum?: boolean;
             /**
              *
+             * Represents the type of minor tick mark for the specified axis. See Excel.ChartAxisTickMark for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            minorTickMark?: boolean;
+            /**
+             *
              * Returns or sets the minor unit scale value for the category axis when the CategoryType property is set to TimeScale.
              *
              * [Api set: ExcelApi 1.7]
@@ -23886,11 +24380,25 @@ declare namespace Excel {
             reversePlotOrder?: boolean;
             /**
              *
+             * Represents the value axis scale type. See Excel.ChartAxisScaleType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            scaleType?: boolean;
+            /**
+             *
              * Represents whether the axis display unit label is visible.
              *
              * [Api set: ExcelApi 1.7]
              */
             showDisplayUnitLabel?: boolean;
+            /**
+             *
+             * Represents the position of tick-mark labels on the specified axis. See Excel.ChartAxisTickLabelPosition for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            tickLabelPosition?: boolean;
             /**
              *
              * Represents the number of categories or series between tick-mark labels. Can be a value from 1 through 31999 or an empty string for automatic setting. The returned value is always a number.
@@ -23912,6 +24420,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             top?: boolean;
+            /**
+             *
+             * Represents the axis type. See Excel.ChartAxisType for details.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            type?: boolean;
             /**
              *
              * A boolean value represents the visibility of the axis.
@@ -24205,7 +24720,14 @@ declare namespace Excel {
             format?: Excel.Interfaces.ChartLegendFormatLoadOptions;
             /**
              *
-             * Represents the left of a chart legend.
+             * Represents the height, in points, of the legend on the chart. Null if legend is not visible.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            height?: boolean;
+            /**
+             *
+             * Represents the left, in points, of a chart legend. Null if legend is not visible.
              *
              * [Api set: ExcelApi 1.7]
              */
@@ -24245,6 +24767,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.1]
              */
             visible?: boolean;
+            /**
+             *
+             * Represents the width, in points, of the legend on the chart. Null if legend is not visible.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            width?: boolean;
         }
         /**
          *
@@ -24393,6 +24922,22 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             width?: boolean;
+        }
+        /**
+         *
+         * Represents the substring in chart related objects that contains text, like ChartTitle object, ChartAxisTitle object, etc.
+         *
+         * [Api set: ExcelApi 1.7]
+         */
+        interface ChartFormatStringLoadOptions {
+            $all?: boolean;
+            /**
+            *
+            * Represents the font attributes, such as font name, font size, color, etc. of chart characters object.
+            *
+            * [Api set: ExcelApi 1.7]
+            */
+            font?: Excel.Interfaces.ChartFontLoadOptions;
         }
         /**
          *
@@ -24545,13 +25090,6 @@ declare namespace Excel {
             format?: Excel.Interfaces.ChartTrendlineFormatLoadOptions;
             /**
              *
-             * True if the R-squared for the trendline is displayed on the chart.
-             *
-             * [Api set: ExcelApi 1.7]
-             */
-            displayRSquared?: boolean;
-            /**
-             *
              * Represents the intercept value of the trendline. Can be set to a numeric value or an empty string (for automatic values). The returned value is always a number.
              *
              * [Api set: ExcelApi 1.7]
@@ -24578,6 +25116,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             polynomialOrder?: boolean;
+            /**
+             *
+             * Represents the type of a chart trendline.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            type?: boolean;
         }
         /**
          *
@@ -24594,13 +25139,6 @@ declare namespace Excel {
             * [Api set: ExcelApi 1.7]
             */
             format?: Excel.Interfaces.ChartTrendlineFormatLoadOptions;
-            /**
-             *
-             * For EACH ITEM in the collection: True if the R-squared for the trendline is displayed on the chart.
-             *
-             * [Api set: ExcelApi 1.7]
-             */
-            displayRSquared?: boolean;
             /**
              *
              * For EACH ITEM in the collection: Represents the intercept value of the trendline. Can be set to a numeric value or an empty string (for automatic values). The returned value is always a number.
@@ -24629,6 +25167,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             polynomialOrder?: boolean;
+            /**
+             *
+             * For EACH ITEM in the collection: Represents the type of a chart trendline.
+             *
+             * [Api set: ExcelApi 1.7]
+             */
+            type?: boolean;
         }
         /**
          *
