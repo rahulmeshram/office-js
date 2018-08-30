@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Navedena vrsta prisile ni podprta
 Strings.OfficeOM.L_ColIndexOutOfRange = "Vrednost indeksa stolpca je zunaj dovoljenega obsega. Uporabite vrednost (0 ali večjo), ki je manjša od števila stolpcev.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Zahteva ni uspela s kodo stanja {0}, kodo napake {1} in s tem sporočilom o napaki: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Zahteva ni uspela s kodo stanja {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Lastnost s tem imenom, ki predstavlja definicijo funkcije, mora obstajati v lastnosti Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Lastnost s tem imenom v lastnosti Excel.CustomFunctions, ki predstavlja definicijo funkcije, mora vsebovati lastnost »call«, ki implementira funkcijo.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Lastnost s tem imenom, ki predstavlja definicijo funkcije, mora obstajati v lastnosti Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Lastnost s tem imenom v lastnosti Excel.Script.CustomFunctions, ki predstavlja definicijo funkcije, mora vsebovati lastnost »call«, ki implementira funkcijo.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "V imenu funkcije mora biti neprazen imenski prostor in neprazno kratko ime.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "V imenu funkcije so lahko le črke, števke, podčrtaji in pike.";
 Strings.OfficeOM.L_CustomXmlError = "Napaka XML po meri.";

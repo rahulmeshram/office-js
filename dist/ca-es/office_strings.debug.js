@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "El tipus de coerció especificat 
 Strings.OfficeOM.L_ColIndexOutOfRange = "El valor de l'índex de columnes està fora de l'interval permès. Feu servir un valor (0 o superior) inferior al nombre de columnes.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Hi ha hagut un error en processar la sol·licitud. Codi d'estat: {0}; codi d'error: {1}; missatge d'error: {2}.";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "La sol·licitud no s'ha pogut completar. Codi d'estat: {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Una propietat amb aquest nom que representa la definició de la funció ha d'existir a Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'La propietat amb aquest nom en Excel.CustomFunctions que representa la definició de la funció ha de contenir una propietat "crida" que implementa la funció.';
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Cal que una propietat amb aquest nom que representi la definició de la funció existeixi a Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Cal que la propietat d\'Excel.Script.CustomFunctions amb aquest nom que representi la definició de la funció contingui una propietat "crida" que implementi la funció.';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "El nom de la funció ha de contenir un espai de nom i un nom curt no buits.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "El nom de la funció només pot contenir lletres, dígits, guions baixos i punts.";
 Strings.OfficeOM.L_CustomXmlError = "Error d'XML personalitzat.";

@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Belirtilen zorlama türü destekl
 Strings.OfficeOM.L_ColIndexOutOfRange = "Sütun dizini değeri izin verilen aralığın dışında. Sütun sayısından az bir değer (0 veya daha yüksek) kullanın.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "İstek, {0} durum kodu, {1} hata kodu ve {2} hata iletisiyle başarısız oldu.";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "İstek, {0} durum koduyla başarısız oldu.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "İşlevin tanımını gösteren ve bu adı taşıyan bir özelliğin Excel.CustomFunctions üzerinde bulunması gerekir.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "İşlevin tanımını gösteren ve bu adı taşıyan Excel.CustomFunctions üzerindeki özelliğin işlevi uygulayabilmesi için 'çağrı' özelliği içermesi gerekir.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "İşlevin tanımını gösteren ve bu adı taşıyan bir özelliğin Excel.Script.CustomFunctions üzerinde bulunması gerekir.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "İşlevin tanımını gösteren ve bu adı taşıyan Excel.Script.CustomFunctions üzerindeki özelliğin işlevi uygulayabilmesi için 'çağrı' özelliği içermesi gerekir.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "İşlev adı, boş olmayan bir ad alanı ve boş olmayan bir kısa ad içermelidir.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "İşlev adı yalnızca harf, rakam, alt çizgi ve nokta içerebilir.";
 Strings.OfficeOM.L_CustomXmlError = "Özel XML Hatası.";

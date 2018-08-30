@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Navedeni tip promene nije podrža
 Strings.OfficeOM.L_ColIndexOutOfRange = "Vrednost indeksa kolone je izvan dozvoljenog opsega. Koristite vrednost (0 ili veću) koja je manja od broja kolona.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Zahtev nije uspeo uz statusni kôd {0}, kôd greške {1} i sledeću poruku o grešci: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Zahtev nije uspeo uz statusni kôd {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Svojstvo sa ovim imenom koje predstavlja definiciju funkcije mora da postoji u okviru Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Svojstvo sa ovim imenom koje predstavlja definiciju funkcije u okviru Excel.CustomFunctions mora da sadrži svojstvo „call“ koje primenjuje funkciju.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Svojstvo sa ovim imenom koje predstavlja definiciju funkcije mora da postoji u okviru Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Svojstvo sa ovim imenom koje predstavlja definiciju funkcije u okviru Excel.Script.CustomFunctions mora da sadrži svojstvo „call“ koje primenjuje funkciju.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Ime funkcije mora da sadrži prostor za ime koji nije prazan i kratko ime koje nije prazno.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Ime funkcije može da sadrži samo slova, cifre, podvlake i tačke.";
 Strings.OfficeOM.L_CustomXmlError = "Greška u prilagođenim XML.";

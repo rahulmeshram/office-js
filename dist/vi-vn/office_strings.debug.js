@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Kiểu ép buộc đã xác đị
 Strings.OfficeOM.L_ColIndexOutOfRange = "Giá trị chỉ mục cột nằm ngoài phạm vi cho phép. Hãy sử dụng một giá trị (0 hoặc cao hơn) và bé hơn số lượng cột.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Yêu cầu không thành công với mã trạng thái {0}, mã lỗi {1} và thông báo lỗi sau: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Yêu cầu không thành công với mã trạng thái {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Thuộc tính có tên này đại diện cho định nghĩa của hàm phải tồn tại trong Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Thuộc tính có tên này trong Excel.CustomFunctions đại diện cho định nghĩa của chức năng phải chứa thuộc tính 'gọi' có tác dụng thực thi hàm.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Thuộc tính có tên này đại diện cho định nghĩa của hàm phải tồn tại trong Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "Thuộc tính có tên này trong Excel.Script.CustomFunctions đại diện cho định nghĩa của hàm phải bao gồm thuộc tính 'call' có tác dụng triển khai hàm.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Tên hàm phải chứa không gian tên không trống và tên ngắn không trống.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Tên hàm chỉ có thể chứa chữ cái, chữ số, gạch dưới và dấu chấm.";
 Strings.OfficeOM.L_CustomXmlError = "Lỗi XML Tùy chỉnh.";

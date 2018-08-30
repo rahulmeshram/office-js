@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "No se admite el tipo de conversi�
 Strings.OfficeOM.L_ColIndexOutOfRange = "El valor de índice de la columna está fuera del intervalo permitido. Utilice un valor (0 o superior) que sea menor que el número de columnas.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Error en la solicitud; código de estado {0}; código de error {1}; mensaje de error: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Error en la solicitud; código de estado: {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Debe existir una propiedad con este nombre que represente la definición de la función en Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'La propiedad con este nombre en Excel.CustomFunctions que representa la definición de la función debe contener una propiedad "llamar" que implemente la función.';
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Debe existir una propiedad con este nombre que represente la definición de la función en Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'La propiedad con este nombre en Excel.Script.CustomFunctions que representa la definición de la función debe contener una propiedad "call" que implemente la función.';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "El nombre de la función debe contener un espacio de nombres no vacío y un nombre corto no vacío.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "El nombre de función solo puede contener letras, números, guiones bajos y puntos.";
 Strings.OfficeOM.L_CustomXmlError = "Error de XML personalizado.";

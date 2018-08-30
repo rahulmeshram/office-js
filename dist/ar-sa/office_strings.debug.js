@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "نوع الاندماج المح�
 Strings.OfficeOM.L_ColIndexOutOfRange = "إن قيمة فهرس العمود خارج النطاق المسموح به. استخدم قيمة (0 أو أعلى) تكون أصغر من عدد الأعمدة.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "فشل الطلب برمز الحالة {0} ورمز الخطأ {1} وظهرت رسالة الخطأ التالية: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "فشل الطلب برمز الحالة {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "يجب وجود خاصية تحمل هذا الاسم تمثل تعريف الوظيفة في Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "يجب أن تحتوي الخاصية التي تحمل هذا الاسم في Excel.CustomFunctions والتي تمثل تعريف الوظيفة على الخاصية 'call' التي تقوم بتنفيذ الوظيفة.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "يلزم وجود خاصية تحمل هذا الاسم تمثل تعريف الدالة في Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "يجب أن تحتوي الخاصية التي تحمل هذا الاسم في Excel.Script.CustomFunctions الذي يمثل تعريف الدالة على الخاصية 'استدعاء' المسؤولة عن تنفيذ الدالة.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "يجب أن يحتوي اسم الدالة على مساحة اسم غير فارغة واسم قصير غير فارغ.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "يمكن أن يحتوي اسم الدالة على أحرف وأرقام وتسطير سفلي ونقاط.";
 Strings.OfficeOM.L_CustomXmlError = "خطأ في XML المخصص.";

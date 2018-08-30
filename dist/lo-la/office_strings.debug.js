@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "ບໍ່ຮອງຮັບປະ
 Strings.OfficeOM.L_ColIndexOutOfRange = "ຄ່າດັດຊະນີຖັນຢູ່ນອກໄລຍະທີ່ອະນຸຍາດ. ໃຫ້ໃຊ້ຄ່າໃດໜຶ່ງ (0 ຫຼື ສູງກວ່າ) ທີ່ໜ້ອຍກວ່າຈຳນວນຂອງຖັນ.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "ຄຳຮ້ອງບໍ່ສຳເລັດໂດຍມີລະຫັດສະຖານະ {0}, ລະຫັດຂໍ້ຜິດພາດ {1} ແລະ ຂໍ້ຄວາມຂໍ້ຜິດພາດຕໍ່ໄປນີ້: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "ຄຳຮ້ອງບໍ່ສຳເລັດດ້ວຍລະຫັດສະຖານະ {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "ຄຸນສົມບັດກັບຊື່ນີ້ທີ່ແທນທີ່ໃຫ້ນິຍາມຂອງຟັງຊັນຈະຕ້ອງມີຢູ່ໃນ Excel.CustomFunctions.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = "ຄຸນສົມບັດກັບຊື່ນີ້ຢູ່ Excel.CustomFunctions ທີ່ເປັນຕົວແທນນິຍາມຂອງຟັງຊັນຈະຕ້ອງມີຄຸນສົມບັດ 'call' ທີ່ສ້າງຟັງຊັນ.";
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "ຄຸນສົມບັດກັບຊື່ນີ້ທີ່ແທນທີ່ໃຫ້ນິຍາມຂອງຟັງຊັນຈະຕ້ອງມີຢູ່ໃນ Excel.Script.CustomFunctions.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = "ຄຸນສົມບັດກັບຊື່ນີ້ຢູ່ Excel.Script.CustomFunctions ທີ່ເປັນຕົວແທນນິຍາມຂອງຟັງຊັນຈະຕ້ອງມີຄຸນສົມບັດ 'call' ທີ່ສ້າງຟັງຊັນ.";
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "ຊື່ຟັງຊັນຈະຕ້ອງບໍ່ມີ namespace ທີ່ຫວ່າງເປົ່າ ແລະ ຊື່ສັ້ນທີ່ບໍ່ຫວ່າງເປົ່າ.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "ຊື່ຟັງຊັນສາມາດໃຊ້ໄດ້ສະເພາະຕົວອັກສອນ, ຕົວເລກ, ຂີດກ້ອງ ແລະ ຈ້ຳເມັດເທົ່ານັ້ນ.";
 Strings.OfficeOM.L_CustomXmlError = "XML ກຳນົດເອງຜິດພາດ.";

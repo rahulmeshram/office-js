@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Määratud kooshoidmistüüpi ei 
 Strings.OfficeOM.L_ColIndexOutOfRange = "Veeruindeksi väärtus on väljaspool lubatud vahemikku. Kasutage veergude arvust väiksemat väärtust (0 või suurem).";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "Taotlus nurjus olekukoodiga {0}, tõrkekoodiga {1} ja järgmise tõrketeatega: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "Taotlus nurjus olekukoodiga {0}.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.CustomFunctions peab sisaldama selle nimega atribuuti, mis tähistab funktsiooni definitsiooni.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Excel.CustomFunctionsis asuv selle nimega atribuut, mis tähistab funktsiooni definitsiooni, peab sisaldama funktsiooni juurutavat atribuuti "call".';
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Excel.Script.CustomFunctions peab sisaldama selle nimega atribuuti, mis tähistab funktsiooni definitsiooni.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Excel.Script.CustomFunctionsis asuv selle nimega atribuut, mis tähistab funktsiooni definitsiooni, peab sisaldama funktsiooni juurutavat atribuuti "call".';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Funktsiooni nimi peab sisaldama mittetühja nimeruumi ja mittetühja lühinime.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Funktsiooni nimi võib sisaldada ainult tähti, numbreid, allkriipse ja punkte.";
 Strings.OfficeOM.L_CustomXmlError = "Kohandatud XML-i tõrge.";

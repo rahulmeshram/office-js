@@ -1,4 +1,4 @@
-/* Version: 16.0.9314.1000 */
+/* Version: 16.0.10321.10000 */
 
 Type.registerNamespace("Strings");
 Strings.OfficeOM = function()
@@ -33,8 +33,8 @@ Strings.OfficeOM.L_CoercionTypeNotSupported = "Көрсетілген келті
 Strings.OfficeOM.L_ColIndexOutOfRange = "Бағанның индекс мәні рұқсат етілген ауқымнан артық. Бағандардың санынан аз мәнді (0 немесе одан артық) пайдаланыңыз.";
 Strings.OfficeOM.L_ConnectionFailureWithDetails = "{0} күй кодына ие сұрауды орындау сәтсіз аяқталды. Қате коды: {1}. Қате туралы хабар: {2}";
 Strings.OfficeOM.L_ConnectionFailureWithStatus = "{0} күй кодына ие сұрауды орындау сәтсіз аяқталды.";
-Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Функция анықтамасын білдіретін осындай атауы бар сипат Excel.CustomFunctions класында болуы қажет.";
-Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Функция анықтамасын білдіретін Excel.CustomFunctions класындағы осындай атауы бар сипатта функцияны жүзеге асыратын "call" сипаты болуы қажет.';
+Strings.OfficeOM.L_CustomFunctionDefinitionMissing = "Функция анықтамасын білдіретін осындай атауы бар сипат Excel.Script.CustomFunctions класында болуы қажет.";
+Strings.OfficeOM.L_CustomFunctionImplementationMissing = 'Функция анықтамасын білдіретін Excel.Script.CustomFunctions класындағы осындай атауы бар сипатта функцияны жүзеге асыратын "call" сипаты болуы қажет.';
 Strings.OfficeOM.L_CustomFunctionNameCannotSplit = "Функция атауында бос емес атау кеңістігі мен бос емес қысқа атау болуы тиіс.";
 Strings.OfficeOM.L_CustomFunctionNameContainsBadChars = "Функция атауында тек әріптер, сандар, астыңғы сызықтар және нүктелер болуы тиіс.";
 Strings.OfficeOM.L_CustomXmlError = "Қолданбалы XML қатесі.";
