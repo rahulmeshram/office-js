@@ -1,10 +1,17 @@
 /* Outlook rich client specific API library */
-/* Version: 16.0.9203.1000 */
+/* Version: 16.0.10821.10000 */
 /*
     Copyright (c) Microsoft Corporation.  All rights reserved.
 */
 /*
     Your use of this file is governed by the Microsoft Services Agreement http://go.microsoft.com/fwlink/?LinkId=266419.
+
+This file also contains the following Promise implementation (with a few small modifications):
+* @overview es6-promise - a tiny implementation of Promises/A+.
+* @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
+* @license   Licensed under MIT license
+*            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
+* @version   2.3.0
 */
 var __extends = this && this.__extends || function(d, b)
     {
@@ -1181,7 +1188,10 @@ OSF.AgaveHostAction = {
     ExitNoFocusable: 17,
     ExitNoFocusableShift: 18,
     MouseEnter: 19,
-    MouseLeave: 20
+    MouseLeave: 20,
+    UpdateTargetUrl: 21,
+    InstallCustomFunctions: 22,
+    SendTelemetryEvent: 23
 };
 OSF.SharedConstants = {NotificationConversationIdSuffix: "_ntf"};
 OSF.DialogMessageType = {
@@ -1342,23 +1352,6 @@ Microsoft.Office.WebExtension.ValueFormat = {
     Formatted: "formatted"
 };
 Microsoft.Office.WebExtension.FilterType = {All: "all"};
-Microsoft.Office.WebExtension.PlatformType = {
-    PC: "PC",
-    OfficeOnline: "OfficeOnline",
-    Mac: "Mac",
-    iOS: "iOS",
-    Android: "Android",
-    Universal: "Universal"
-};
-Microsoft.Office.WebExtension.HostType = {
-    Word: "Word",
-    Excel: "Excel",
-    PowerPoint: "PowerPoint",
-    Outlook: "Outlook",
-    OneNote: "OneNote",
-    Project: "Project",
-    Access: "Access"
-};
 Microsoft.Office.WebExtension.Parameters = {
     BindingType: "bindingType",
     CoercionType: "coercionType",
@@ -1394,6 +1387,7 @@ Microsoft.Office.WebExtension.Parameters = {
     ForceAddAccount: "forceAddAccount",
     AuthChallenge: "authChallenge",
     Reserved: "reserved",
+    Tcid: "tcid",
     Xml: "xml",
     Namespace: "namespace",
     Prefix: "prefix",
@@ -1427,6 +1421,7 @@ Microsoft.Office.WebExtension.Parameters = {
     MessageContent: "messageContent",
     HideTitle: "hideTitle",
     UseDeviceIndependentPixels: "useDeviceIndependentPixels",
+    PromptBeforeOpen: "promptBeforeOpen",
     AppCommandInvocationCompletedData: "appCommandInvocationCompletedData",
     Base64: "base64",
     FormId: "formId"
@@ -1516,7 +1511,9 @@ OSF.DDA.MethodDispId = {
     dispidSetDataNodeTextMethod: 143,
     dispidMessageParentMethod: 144,
     dispidSendMessageMethod: 145,
-    dispidMethodMax: 145
+    dispidExecuteFeature: 146,
+    dispidQueryFeature: 147,
+    dispidMethodMax: 147
 };
 OSF.DDA.EventDispId = {
     dispidEventMin: 0,
@@ -1544,6 +1541,7 @@ OSF.DDA.EventDispId = {
     dispidOlkRecipientsChangedEvent: 47,
     dispidOlkAppointmentTimeChangedEvent: 48,
     dispidOlkRecurrenceChangedEvent: 49,
+    dispidOlkAttachmentsChangedEvent: 50,
     dispidTaskSelectionChangedEvent: 56,
     dispidResourceSelectionChangedEvent: 57,
     dispidViewSelectionChangedEvent: 58,
@@ -1679,7 +1677,11 @@ OSF.DDA.ErrorCodeManager = function()
                 ooeSSOServerError: 13007,
                 ooeAddinIsAlreadyRequestingToken: 13008,
                 ooeSSOUserConsentNotSupportedByCurrentAddinCategory: 13009,
-                ooeSSOConnectionLost: 13010
+                ooeSSOConnectionLost: 13010,
+                ooeResourceNotAllowed: 13011,
+                ooeSSOUnsupportedPlatform: 13012,
+                ooeAccessDenied: 13990,
+                ooeGeneralException: 13991
             },
             initializeErrorMessages: function OSF_DDA_ErrorCodeManager$initializeErrorMessages(stringNS)
             {
@@ -2070,6 +2072,10 @@ OSF.DDA.ErrorCodeManager = function()
                 _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeSSOConnectionLost] = {
                     name: stringNS.L_SSOConnectionLostError,
                     message: stringNS.L_SSOConnectionLostErrorMessage
+                };
+                _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeSSOUnsupportedPlatform] = {
+                    name: stringNS.L_SSOConnectionLostError,
+                    message: stringNS.L_SSOUnsupportedPlatform
                 };
                 _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeOperationCancelled] = {
                     name: stringNS.L_OperationCancelledError,
@@ -2609,88 +2615,6 @@ var OfficeExt;
     })(Requirement = OfficeExt.Requirement || (OfficeExt.Requirement = {}))
 })(OfficeExt || (OfficeExt = {}));
 OfficeExt.Requirement.RequirementsMatrixFactory.initializeOsfDda();
-var OfficeExt;
-(function(OfficeExt)
-{
-    var HostName;
-    (function(HostName)
-    {
-        var Host = function()
-            {
-                function Host()
-                {
-                    this.getDiagnostics = function _getDiagnostics(version)
-                    {
-                        var diagnostics = {
-                                host: this.getHost(),
-                                version: version || this.getDefaultVersion(),
-                                platform: this.getPlatform()
-                            };
-                        return diagnostics
-                    };
-                    this.platformRemappings = {
-                        web: Microsoft.Office.WebExtension.PlatformType.OfficeOnline,
-                        winrt: Microsoft.Office.WebExtension.PlatformType.Universal,
-                        win32: Microsoft.Office.WebExtension.PlatformType.PC,
-                        mac: Microsoft.Office.WebExtension.PlatformType.Mac,
-                        ios: Microsoft.Office.WebExtension.PlatformType.iOS,
-                        android: Microsoft.Office.WebExtension.PlatformType.Android
-                    };
-                    this.camelCaseMappings = {
-                        powerpoint: Microsoft.Office.WebExtension.HostType.PowerPoint,
-                        onenote: Microsoft.Office.WebExtension.HostType.OneNote
-                    };
-                    this.hostInfo = OSF._OfficeAppFactory.getHostInfo();
-                    this.getHost = this.getHost.bind(this);
-                    this.getPlatform = this.getPlatform.bind(this);
-                    this.getDiagnostics = this.getDiagnostics.bind(this)
-                }
-                Host.prototype.capitalizeFirstLetter = function(input)
-                {
-                    if(input)
-                        return input[0].toUpperCase() + input.slice(1).toLowerCase();
-                    return input
-                };
-                Host.getInstance = function()
-                {
-                    if(Host.hostObj === undefined)
-                        Host.hostObj = new Host;
-                    return Host.hostObj
-                };
-                Host.prototype.getPlatform = function()
-                {
-                    if(this.hostInfo.hostPlatform)
-                    {
-                        var hostPlatform = this.hostInfo.hostPlatform.toLowerCase();
-                        if(this.platformRemappings[hostPlatform])
-                            return this.platformRemappings[hostPlatform]
-                    }
-                    return null
-                };
-                Host.prototype.getHost = function()
-                {
-                    if(this.hostInfo.hostType)
-                    {
-                        var hostType = this.hostInfo.hostType.toLowerCase();
-                        if(this.camelCaseMappings[hostType])
-                            return this.camelCaseMappings[hostType];
-                        hostType = this.capitalizeFirstLetter(this.hostInfo.hostType);
-                        if(Microsoft.Office.WebExtension.HostType[hostType])
-                            return Microsoft.Office.WebExtension.HostType[hostType]
-                    }
-                    return null
-                };
-                Host.prototype.getDefaultVersion = function()
-                {
-                    if(this.getHost())
-                        return"16.0.0000.0000";
-                    return null
-                };
-                return Host
-            }();
-        HostName.Host = Host
-    })(HostName = OfficeExt.HostName || (OfficeExt.HostName = {}))
-})(OfficeExt || (OfficeExt = {}));
 Microsoft.Office.WebExtension.ApplicationMode = {
     WebEditor: "webEditor",
     WebViewer: "webViewer",
@@ -3569,6 +3493,8 @@ OSF.DDA.DispIdHost.Facade = function OSF_DDA_DispIdHost_Facade(getDelegateMethod
             OpenBrowserWindow: did.dispidOpenBrowserWindow,
             CreateDocumentAsync: did.dispidCreateDocumentMethod,
             InsertFormAsync: did.dispidInsertFormMethod,
+            ExecuteFeature: did.dispidExecuteFeature,
+            QueryFeature: did.dispidQueryFeature,
             AddDataPartAsync: did.dispidAddDataPartMethod,
             GetDataPartByIdAsync: did.dispidGetDataPartByIdMethod,
             GetDataPartsByNameSpaceAsync: did.dispidGetDataPartsByNamespaceMethod,
@@ -3635,6 +3561,7 @@ OSF.DDA.DispIdHost.Facade = function OSF_DDA_DispIdHost_Facade(getDelegateMethod
             RecipientsChanged: did.dispidOlkRecipientsChangedEvent,
             AppointmentTimeChanged: did.dispidOlkAppointmentTimeChangedEvent,
             RecurrenceChanged: did.dispidOlkRecurrenceChangedEvent,
+            AttachmentsChanged: did.dispidOlkAttachmentsChangedEvent,
             TaskSelectionChanged: did.dispidTaskSelectionChangedEvent,
             ResourceSelectionChanged: did.dispidResourceSelectionChangedEvent,
             ViewSelectionChanged: did.dispidViewSelectionChangedEvent,
@@ -4100,6 +4027,9 @@ OSF.DDA.SafeArray.Delegate._onException = function OSF_DDA_SafeArray_Delegate$On
             case-2147209089:
                 status = OSF.DDA.ErrorCodeManager.errorCodes.ooeInvalidParam;
                 break;
+            case-2147208704:
+                status = OSF.DDA.ErrorCodeManager.errorCodes.ooeTooManyIncompleteRequests;
+                break;
             case-2146827850:
             default:
                 status = OSF.DDA.ErrorCodeManager.errorCodes.ooeInternalError;
@@ -4450,6 +4380,10 @@ OSF.InitializationHelper.prototype.prepareApiSurface = function OSF_Initializati
     }
     if(OSF.DDA.OpenBrowser)
         OSF.DDA.DispIdHost.addAsyncMethods(appContext.ui,[OSF.DDA.AsyncMethodNames.OpenBrowserWindow]);
+    if(OSF.DDA.ExecuteFeature)
+        OSF.DDA.DispIdHost.addAsyncMethods(appContext.ui,[OSF.DDA.AsyncMethodNames.ExecuteFeature]);
+    if(OSF.DDA.QueryFeature)
+        OSF.DDA.DispIdHost.addAsyncMethods(appContext.ui,[OSF.DDA.AsyncMethodNames.QueryFeature]);
     if(OSF.DDA.Auth)
     {
         appContext.auth = new OSF.DDA.Auth;
@@ -5116,6 +5050,12 @@ OSF.DDA.OMFactory.manufactureEventArgs = function OSF_DDA_OMFactory$manufactureE
             else
                 throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType,OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType,eventType));
             break;
+        case Microsoft.Office.WebExtension.EventType.AttachmentsChanged:
+            if(OSF._OfficeAppFactory.getHostInfo()["hostType"] == "outlook")
+                args = new OSF.DDA.OlkAttachmentsChangedEventArgs(eventProperties);
+            else
+                throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType,OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType,eventType));
+            break;
         default:
             throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType,OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType,eventType));
     }
@@ -5189,7 +5129,11 @@ OSF.DDA.SyncMethodNames.addNames({
 });
 OSF.DDA.UI.ParentUI = function OSF_DDA_ParentUI()
 {
-    var eventDispatch = new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType.DialogMessageReceived,Microsoft.Office.WebExtension.EventType.DialogEventReceived,Microsoft.Office.WebExtension.EventType.DialogParentMessageReceived]);
+    var eventDispatch;
+    if(Microsoft.Office.WebExtension.EventType.DialogParentMessageReceived != null)
+        eventDispatch = new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType.DialogMessageReceived,Microsoft.Office.WebExtension.EventType.DialogEventReceived,Microsoft.Office.WebExtension.EventType.DialogParentMessageReceived]);
+    else
+        eventDispatch = new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType.DialogMessageReceived,Microsoft.Office.WebExtension.EventType.DialogEventReceived]);
     var openDialogName = OSF.DDA.AsyncMethodNames.DisplayDialogAsync.displayName;
     var target = this;
     if(!target[openDialogName])
@@ -5277,6 +5221,12 @@ OSF.DDA.AsyncMethodCalls.define({
             value: {
                 types: ["boolean"],
                 defaultValue: false
+            }
+        },{
+            name: Microsoft.Office.WebExtension.Parameters.PromptBeforeOpen,
+            value: {
+                types: ["boolean"],
+                defaultValue: true
             }
         }],
     privateStateCallbacks: [],
@@ -5511,6 +5461,43 @@ OSF.DDA.OlkRecurrenceChangedEventArgs = function OSF_DDA_OlkRecurrenceChangedEve
         recurrence: {value: recurrenceObject}
     })
 };
+OSF.OUtil.augmentList(Microsoft.Office.WebExtension.EventType,{OfficeThemeChanged: "officeThemeChanged"});
+OSF.OUtil.augmentList(OSF.DDA.EventDescriptors,{OfficeThemeData: "OfficeThemeData"});
+OSF.OUtil.setNamespace("Theming",OSF.DDA);
+OSF.DDA.Theming.OfficeThemeChangedEventArgs = function OSF_DDA_Theming_OfficeThemeChangedEventArgs(officeTheme)
+{
+    var themeData = JSON.parse(officeTheme.OfficeThemeData[0]);
+    var themeDataHex = {};
+    for(var color in themeData)
+        themeDataHex[color] = OSF.OUtil.convertIntToCssHexColor(themeData[color]);
+    OSF.OUtil.defineEnumerableProperties(this,{
+        type: {value: Microsoft.Office.WebExtension.EventType.OfficeThemeChanged},
+        officeTheme: {value: themeDataHex}
+    })
+};
+OSF.OUtil.augmentList(Microsoft.Office.WebExtension.EventType,{AttachmentsChanged: "olkAttachmentsChanged"});
+OSF.OUtil.augmentList(OSF.DDA.EventDescriptors,{OlkAttachmentsChangedData: "OlkAttachmentsChangedData"});
+OSF.DDA.OlkAttachmentsChangedEventArgs = function OSF_DDA_OlkAttachmentsChangedEventArgs(eventData)
+{
+    var attachmentStatus;
+    var attachmentDetails;
+    try
+    {
+        var attachmentChangedObject = JSON.parse(eventData[OSF.DDA.EventDescriptors.OlkAttachmentsChangedData][0]);
+        attachmentStatus = attachmentChangedObject.attachmentStatus;
+        attachmentDetails = Microsoft.Office.WebExtension.OutlookBase.CreateAttachmentDetails(attachmentChangedObject.attachmentDetails)
+    }
+    catch(e)
+    {
+        attachmentStatus = null;
+        attachmentDetails = null
+    }
+    OSF.OUtil.defineEnumerableProperties(this,{
+        type: {value: Microsoft.Office.WebExtension.EventType.AttachmentsChanged},
+        attachmentStatus: {value: attachmentStatus},
+        attachmentDetails: {value: attachmentDetails}
+    })
+};
 OSF.DDA.OlkItemSelectedChangedEventArgs = function OSF_DDA_OlkItemSelectedChangedEventArgs(eventData)
 {
     var initialDataSource = eventData[OSF.DDA.EventDescriptors.OlkItemSelectedData][0];
@@ -5550,6 +5537,22 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
     type: OSF.DDA.EventDispId.dispidOlkRecurrenceChangedEvent,
     fromHost: [{
             name: OSF.DDA.EventDescriptors.OlkRecurrenceChangedData,
+            value: OSF.DDA.SafeArray.Delegate.ParameterMap.sourceData
+        }],
+    isComplexType: true
+});
+OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+    type: OSF.DDA.EventDispId.dispidOfficeThemeChangedEvent,
+    fromHost: [{
+            name: OSF.DDA.EventDescriptors.OfficeThemeData,
+            value: OSF.DDA.SafeArray.Delegate.ParameterMap.sourceData
+        }],
+    isComplexType: true
+});
+OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+    type: OSF.DDA.EventDispId.dispidOlkAttachmentsChangedEvent,
+    fromHost: [{
+            name: OSF.DDA.EventDescriptors.OlkAttachmentsChangedData,
             value: OSF.DDA.SafeArray.Delegate.ParameterMap.sourceData
         }],
     isComplexType: true
@@ -6453,7 +6456,7 @@ var OSFAppTelemetry;
             appInfo.appInstanceId = appInfo.appInstanceId.replace(/[{}]/g,"").toLowerCase();
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.9203.1000";
+        appInfo.hostJSVersion = "16.0.10821.10000";
         if(context._wacHostEnvironment)
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         if(context._isFromWacAutomation !== undefined && context._isFromWacAutomation !== null)
@@ -6554,7 +6557,7 @@ var OSFAppTelemetry;
         data.AppId = appInfo.appId;
         data.AssetId = appInfo.assetId;
         data.AppURL = appInfo.appURL;
-        data.UserId = appInfo.userId;
+        data.UserId = "";
         data.ClientId = appInfo.clientId;
         data.Browser = appInfo.browser;
         data.Host = appInfo.host;
@@ -7032,6 +7035,62 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
             value: 1
         }]
 });
+OSF.DDA.AsyncMethodNames.addNames({
+    ExecuteFeature: "executeFeatureAsync",
+    QueryFeature: "queryFeatureAsync"
+});
+OSF.OUtil.augmentList(OSF.DDA.PropertyDescriptors,{
+    FeatureProperties: "FeatureProperties",
+    TcidEnabled: "TcidEnabled",
+    TcidVisible: "TcidVisible"
+});
+OSF.DDA.ExecuteFeature = function OSF_DDA_ExecuteFeature(){};
+OSF.DDA.QueryFeature = function OSF_DDA_QueryFeature(){};
+OSF.DDA.AsyncMethodCalls.define({
+    method: OSF.DDA.AsyncMethodNames.ExecuteFeature,
+    requiredArguments: [{
+            name: Microsoft.Office.WebExtension.Parameters.Tcid,
+            types: ["number"]
+        }],
+    privateStateCallbacks: []
+});
+OSF.DDA.AsyncMethodCalls.define({
+    method: OSF.DDA.AsyncMethodNames.QueryFeature,
+    requiredArguments: [{
+            name: Microsoft.Office.WebExtension.Parameters.Tcid,
+            types: ["number"]
+        }],
+    privateStateCallbacks: []
+});
+OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+    type: OSF.DDA.PropertyDescriptors.FeatureProperties,
+    fromHost: [{
+            name: OSF.DDA.PropertyDescriptors.TcidEnabled,
+            value: 0
+        },{
+            name: OSF.DDA.PropertyDescriptors.TcidVisible,
+            value: 1
+        }],
+    isComplexType: true
+});
+OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+    type: OSF.DDA.MethodDispId.dispidExecuteFeature,
+    toHost: [{
+            name: Microsoft.Office.WebExtension.Parameters.Tcid,
+            value: 0
+        }]
+});
+OSF.DDA.SafeArray.Delegate.ParameterMap.define({
+    type: OSF.DDA.MethodDispId.dispidQueryFeature,
+    fromHost: [{
+            name: OSF.DDA.PropertyDescriptors.FeatureProperties,
+            value: OSF.DDA.SafeArray.Delegate.ParameterMap.self
+        }],
+    toHost: [{
+            name: Microsoft.Office.WebExtension.Parameters.Tcid,
+            value: 0
+        }]
+});
 var OfficeJsClient_OutlookWin32;
 (function(OfficeJsClient_OutlookWin32)
 {
@@ -7167,6 +7226,16 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         File: "file",
         Item: "item",
         Cloud: "cloud"
+    };
+    Microsoft.Office.WebExtension.MailboxEnums.AttachmentStatus = {
+        Added: "added",
+        Removed: "removed"
+    };
+    Microsoft.Office.WebExtension.MailboxEnums.AttachmentContentFormat = {
+        Base64: "base64",
+        Url: "url",
+        Eml: "eml",
+        ICalendar: "iCalendar"
     };
     Microsoft.Office.WebExtension.MailboxEnums.BodyType = {
         Text: "text",
@@ -7683,7 +7752,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         addEventSupport: function()
         {
             if(this._item$p$0)
-                OSF.DDA.DispIdHost["addEventSupport"](this._item$p$0,new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType["RecipientsChanged"],Microsoft.Office.WebExtension.EventType["AppointmentTimeChanged"],Microsoft.Office.WebExtension.EventType["RecurrenceChanged"]]))
+                OSF.DDA.DispIdHost["addEventSupport"](this._item$p$0,new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType["RecipientsChanged"],Microsoft.Office.WebExtension.EventType["AppointmentTimeChanged"],Microsoft.Office.WebExtension.EventType["RecurrenceChanged"],Microsoft.Office.WebExtension.EventType["AttachmentsChanged"]]))
         },
         windowOpenOverrideHandler: function(url, targetName, features, replace)
         {
@@ -11510,6 +11579,10 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         }
         return rawInput
     };
+    window["Microsoft"]["Office"]["WebExtension"]["OutlookBase"]["CreateAttachmentDetails"] = function(data)
+    {
+        return new $h.AttachmentDetails(data)
+    };
     $h.OutlookErrorManager = function(){};
     $h.OutlookErrorManager.getErrorArgs = function(errorCode)
     {
@@ -11560,6 +11633,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         $h.OutlookErrorManager._addErrorMessage$p(9040,"HTTPRequestFailure",window["_u"]["ExtensibilityStrings"]["l_Olk_Http_Error_Text"]);
         $h.OutlookErrorManager._addErrorMessage$p(9041,"NetworkError",window["_u"]["ExtensibilityStrings"]["l_Internet_Not_Connected_Error_Text"]);
         $h.OutlookErrorManager._addErrorMessage$p(9042,"InternalServerError",window["_u"]["ExtensibilityStrings"]["l_Internal_Server_Error_Text"]);
+        $h.OutlookErrorManager._addErrorMessage$p(9043,"AttachmentTypeNotSupported",window["_u"]["ExtensibilityStrings"]["l_AttachmentNotSupported_Text"]);
         $h.OutlookErrorManager._isInitialized$p = true
     };
     $h.OutlookErrorManager._addErrorMessage$p = function(errorCode, errorName, errorMessage)
@@ -12534,6 +12608,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
     $h.OutlookErrorManager.OutlookErrorCodes.olkHTTPError = 9040;
     $h.OutlookErrorManager.OutlookErrorCodes.olkInternetNotConnectedError = 9041;
     $h.OutlookErrorManager.OutlookErrorCodes.olkInternalServerError = 9042;
+    $h.OutlookErrorManager.OutlookErrorCodes.attachmentTypeNotSupported = 9043;
     $h.OutlookErrorManager.OutlookErrorCodes.ooeInvalidDataFormat = 2006;
     $h.OutlookErrorManager.OsfDdaErrorCodes.ooeCoercionTypeNotSupported = 1e3;
     $h.CommonParameters.asyncContextKeyName = "asyncContext";
@@ -12547,5 +12622,5 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         this._settings = this._initializeSettings(false);
     appContext.appOM = new OSF.DDA.OutlookAppOm(appContext,this._webAppState.wnd,appReady);
     if(appContext.get_appName() == OSF.AppName.Outlook || appContext.get_appName() == OSF.AppName.OutlookWebApp || appContext.get_appName() == OSF.AppName.OutlookIOS || appContext.get_appName() == OSF.AppName.OutlookAndroid)
-        OSF.DDA.DispIdHost.addEventSupport(appContext.appOM,new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType.ItemChanged]))
+        OSF.DDA.DispIdHost.addEventSupport(appContext.appOM,new OSF.EventDispatch([Microsoft.Office.WebExtension.EventType.ItemChanged,Microsoft.Office.WebExtension.EventType.OfficeThemeChanged]))
 }
