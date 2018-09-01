@@ -1,4 +1,9 @@
+version: 1.1.9-custom-functions-preview-refresh.4
 tag: custom-functions-preview-refresh
+githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.9-custom-functions-preview-refresh.4
+githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.9-custom-functions-preview-refresh.4
+deployedAt: 2018-09-01 4:28 am UTC  (2018-08-31 9:28 pm Pacific Time)
+
 history:
     adhocBranchName: >-
         __adhoc--custom-functions-preview-refresh--beta--local-enlistment--2018-08-31--9.23pm
@@ -33,3 +38,14 @@ history:
             message: >-
                 [BEGIN PUBLISH UPDATES] --
                 __adhoc--custom-functions-preview-refresh--beta--local-enlistment--2018-08-31--9.23pm
+
+
+unpkgUrls: |-
+    this specific build number:
+        https://unpkg.com/@microsoft/office-js@1.1.9-custom-functions-preview-refresh.4/dist/office.js
+        https://unpkg.com/@microsoft/office-js@1.1.9-custom-functions-preview-refresh.4/dist/office.d.ts
+    builds using this same tag ("custom-functions-preview-refresh"):
+        https://unpkg.com/@microsoft/office-js@custom-functions-preview-refresh/dist/office.js
+        https://unpkg.com/@microsoft/office-js@custom-functions-preview-refresh/dist/office.d.ts
+
+buildLog: https://travis-ci.org/OfficeDev/office-js/builds/423283716
