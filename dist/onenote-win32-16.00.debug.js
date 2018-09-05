@@ -19907,6 +19907,4 @@ var OneNote;
 	OneNote.run=run;
 })(OneNote || (OneNote={}));
 
-OfficeExtension.Utility._doApiNotSupportedCheck=true;
-
 
