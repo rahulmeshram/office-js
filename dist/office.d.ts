@@ -640,10 +640,6 @@ declare namespace Office {
      */     
     interface Context {
         /**
-        * Provides information and access to the signed-in user.
-        */
-        auth: Auth;
-        /**
         * True, if the current platform allows the add-in to display a UI for selling or upgrading; otherwise returns False.
         * 
         * @remarks
@@ -1126,60 +1122,6 @@ declare namespace Office {
          * This is best for user experience and performance.
          */
         displayInIframe?: boolean
-        /**
-         * A user-defined item of any type that is returned, unchanged, in the asyncContext property of the AsyncResult object that is passed to a callback.
-         */
-        asyncContext?: any
-    }
-    /**
-     * The Office Auth namespace, Office.context.auth, provides a method that allows the Office host to obtain an access token to the add-in's web application. 
-     * Indirectly, this also enables the add-in to access the signed-in user's Microsoft Graph data without requiring the user to sign in a second time.
-     * 
-     * @beta 
-     */
-    interface Auth {
-        /**
-        * Calls the Azure Active Directory V 2.0 endpoint to get an access token to your add-in's web application. Enables add-ins to identify users. 
-        * Server side code can use this token to access Microsoft Graph for the add-in's web application by using the 
-        * {@link https://docs.microsoft.com/azure/active-directory/develop/active-directory-v2-protocols-oauth-on-behalf-of | "on behalf of" OAuth flow}.
-        * 
-        * Important: In Outlook, this API is not supported if the add-in is loaded in an Outlook.com or Gmail mailbox.
-        *
-        * @remarks
-        * <table><tr><td>Hosts</td><td>Excel, OneNote, Outlook, PowerPoint, Word</td></tr>
-        *
-        * <tr><td>Requirement sets</td><td>{@link https://docs.microsoft.com/office/dev/add-ins/develop/specify-office-hosts-and-api-requirements | IdentityAPI}</td></tr></table>
-        *
-        * @param options - Optional. Accepts an AuthOptions object to define sign-on behaviors.
-        * @param callback - Optional. Accepts a callback method that can parse the token for the user's ID or use the token in the "on behalf of" flow to get access to Microsoft Graph. 
-        *                   If AsyncResult.status is "succeeded", then AsyncResult.value is the raw AAD v. 2.0-formatted access token.
-        * 
-        * @beta
-        */
-        getAccessTokenAsync(options?: AuthOptions, callback?: (result: AsyncResult<string>) => void): void;
-
-    }
-    /**
-     * Provides options for the user experience when Office obtains an access token to the add-in from AAD v. 2.0 with the getAccessTokenAsync method.
-     */
-    interface AuthOptions {
-        /**
-         * Causes Office to display the add-in consent experience. Useful if the add-in's Azure permissions have changed or if the user's consent has 
-         * been revoked.
-         */
-        forceConsent?: boolean,
-        /**
-         * Prompts the user to add their Office account (or to switch to it, if it is already added).
-         */
-        forceAddAccount?: boolean,
-        /**
-         * Causes Office to prompt the user to provide the additional factor when the tenancy being targeted by Microsoft Graph requires multifactor 
-         * authentication. The string value identifies the type of additional factor that is required. In most cases, you won't know at development 
-         * time whether the user's tenant requires an additional factor or what the string should be. So this option would be used in a "second try" 
-         * call of getAccessTokenAsync after Microsoft Graph has sent an error requesting the additional factor and containing the string that should 
-         * be used with the authChallenge option.
-         */
-        authChallenge?: string
         /**
          * A user-defined item of any type that is returned, unchanged, in the asyncContext property of the AsyncResult object that is passed to a callback.
          */
@@ -1875,7 +1817,7 @@ declare namespace Office {
          */
         ActiveViewChanged,
         /**
-         * Triggers when the appointment date or time of the selected series was changed in Outlook.
+         * Triggers when the appointment date or time of the selected series is changed in Outlook.
          * 
          * [Api set: Mailbox Preview]
          * 
@@ -1934,11 +1876,11 @@ declare namespace Office {
          */
         DialogMessageReceived,
         /**
-         * Triggers when Dialog has a event, such as dialog closed, dialog navigation failed.
+         * Triggers when Dialog has an event, such as dialog closed or dialog navigation failed.
          */
         DialogEventReceived,
         /**
-         * Triggers when a document level selection happens
+         * Triggers when a document-level selection happens.
          * 
          * **Support details**
          * 
@@ -1957,25 +1899,33 @@ declare namespace Office {
          */
         DocumentSelectionChanged,
         /**
-         * Triggers when the selected Outlook item was changed.
+         * Triggers when the selected Outlook item is changed.
          * 
          * [Api set: Mailbox 1.1]
          */
         ItemChanged,
         /**
-         * Triggers when a customXmlPart node was deleted.
+         * Triggers when a customXmlPart node is deleted.
          */
         NodeDeleted,
         /**
-         * Triggers when a customXmlPart node was inserted.
+         * Triggers when a customXmlPart node is inserted.
          */
         NodeInserted,
         /**
-         * Triggers when a customXmlPart node was replaced.
+         * Triggers when a customXmlPart node is replaced.
          */
         NodeReplaced,
         /**
-         * Triggers when the recipient list of the selected item was changed in Outlook.
+         * Triggers when the OfficeTheme is changed in Outlook.
+         * 
+         * [Api set: Mailbox Preview]
+         * 
+         * @beta
+         */
+        OfficeThemeChanged,
+        /**
+         * Triggers when the recipient list of the selected item is changed in Outlook.
          * 
          * [Api set: Mailbox Preview]
          * 
@@ -1983,7 +1933,7 @@ declare namespace Office {
          */
         RecipientsChanged,
         /**
-         * Triggers when the recurrence pattern of the selected series was changed in Outlook.
+         * Triggers when the recurrence pattern of the selected series is changed in Outlook.
          * 
          * [Api set: Mailbox Preview]
          * 
@@ -11346,6 +11296,36 @@ declare namespace Office {
          * @beta
          */
         addHandlerAsync(eventType: Office.EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
+		
+        /**
+         * Gets initialization data passed when the add-in is {@link https://docs.microsoft.com/outlook/actionable-messages/invoke-add-in-from-actionable-message | activated by an actionable message}.
+         * 
+         * Note: This method is only supported by Outlook 2016 for Windows (Click-to-Run versions greater than 16.0.8413.1000) and Outlook on the web 
+         * for Office 365.
+         * 
+         * [Api set: Mailbox Preview]
+         *
+         * @remarks
+         *
+         * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
+         *
+         * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Appointment Attendee</td></tr></table>
+         * 
+         * In addition to this signature, the method also has the following signature:
+         * 
+         * `getInitializationContextAsync(callback?: (result: AsyncResult<string>) => void): void;`
+         * 
+         * @param options Optional. An object literal that contains one or more of the following properties.
+         *        asyncContext: Developers can provide any object they wish to access in the callback method.
+         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
+         *                 asyncResult, which is an Office.AsyncResult object. 
+         *                 On success, the initialization data is provided in the asyncResult.value property as a string. 
+         *                 If there is no initialization context, the asyncResult object will contain an Error object with its code property 
+         *                 set to 9020 and its name property set to GenericResponseError.
+         *
+         * @beta
+         */
+        getInitializationContextAsync(options?: Office.AsyncContextOptions, callback?: (result: AsyncResult<string>) => void): void;
 
        /**
         * Asynchronously loads custom properties for this add-in on the selected item.
@@ -14752,9 +14732,7 @@ declare namespace Office {
         /**
          * Adds an event handler for a supported event.
          *
-         * Currently the only supported event type is Office.EventType.ItemChanged, which is invoked when the user selects a new item. 
-         * This event is used by add-ins that implement a pinnable taskpane, and allows the add-in to refresh the taskpane UI based on the currently 
-         * selected item.
+         * Currently, the supported event types are `Office.EventType.ItemChanged` and `Office.EventType.OfficeThemeChanged`.
          *
          * [Api set: Mailbox 1.5]
          *
@@ -18514,6 +18492,13 @@ declare namespace Excel {
         readonly worksheets: Excel.WorksheetCollection;
         /**
          *
+         * True if the workbook is in auto save mode.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly autoSave: boolean;
+        /**
+         *
          * Returns a number about the version of Excel Calculation Engine. Read-Only.
          *
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
@@ -18542,6 +18527,13 @@ declare namespace Excel {
          * [Api set: ExcelApi 1.7]
          */
         readonly name: string;
+        /**
+         *
+         * True if the workbook has ever been saved locally or online.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        readonly previouslySaved: boolean;
         /**
          *
          * True if the workbook is open in Read-only mode. Read-only.
@@ -18578,6 +18570,24 @@ declare namespace Excel {
         set(properties: Interfaces.WorkbookUpdateData, options?: OfficeExtension.UpdateOptions): void;
         /** Sets multiple properties on the object at the same time, based on an existing loaded object. */
         set(properties: Excel.Workbook): void;
+        /**
+         *
+         * Close current workbook.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param closeBehavior workbook close behavior.
+         */
+        close(closeBehavior?: Excel.CloseBehavior): void;
+        /**
+         *
+         * Close current workbook.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param closeBehavior workbook close behavior.
+         */
+        close(closeBehavior?: "Save" | "SkipSave"): void;
         /**
          *
          * Gets the currently active cell from the workbook.
@@ -35745,6 +35755,26 @@ declare namespace Excel {
     }
     /**
      *
+     * Specifies the close behavior for workbook.close API.
+     *
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
+    enum CloseBehavior {
+        /**
+         *
+         * Save the possible changes before closing the workbook.
+         *
+         */
+        save = "Save",
+        /**
+         *
+         * Discard the possible changes when closing the workbook.
+         *
+         */
+        skipSave = "SkipSave",
+    }
+    /**
+     *
      * An object containing the result of a function-evaluation operation
      *
      * [Api set: ExcelApi 1.2]
@@ -43997,6 +44027,13 @@ declare namespace Excel {
             worksheets?: Excel.Interfaces.WorksheetData[];
             /**
              *
+             * True if the workbook is in auto save mode.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            autoSave?: boolean;
+            /**
+             *
              * Returns a number about the version of Excel Calculation Engine. Read-Only.
              *
              * [Api set: ExcelApi BETA (PREVIEW ONLY)]
@@ -44025,6 +44062,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             name?: string;
+            /**
+             *
+             * True if the workbook has ever been saved locally or online.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            previouslySaved?: boolean;
             /**
              *
              * True if the workbook is open in Read-only mode. Read-only.
@@ -49469,6 +49513,13 @@ declare namespace Excel {
             tables?: Excel.Interfaces.TableCollectionLoadOptions;
             /**
              *
+             * True if the workbook is in auto save mode.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            autoSave?: boolean;
+            /**
+             *
              * Returns a number about the version of Excel Calculation Engine. Read-Only.
              *
              * [Api set: ExcelApi BETA (PREVIEW ONLY)]
@@ -49497,6 +49548,13 @@ declare namespace Excel {
              * [Api set: ExcelApi 1.7]
              */
             name?: boolean;
+            /**
+             *
+             * True if the workbook has ever been saved locally or online.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            previouslySaved?: boolean;
             /**
              *
              * True if the workbook is open in Read-only mode. Read-only.

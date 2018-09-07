@@ -1,5 +1,5 @@
 /* Excel Android-specific API library */
-/* Version: 16.0.10827.30000 */
+/* Version: 16.0.10901.30000 */
 
 /* Office.js Version: 16.0.10325.1000 */ 
 /*
@@ -15869,14 +15869,14 @@ var Excel;
 		});
 		Object.defineProperty(Workbook.prototype, "_scalarPropertyNames", {
 			get: function () {
-				return ["name", "readOnly", "isDirty", "use1904DateSystem", "chartDataPointTrack", "usePrecisionAsDisplayed", "calculationEngineVersion"];
+				return ["name", "readOnly", "isDirty", "use1904DateSystem", "chartDataPointTrack", "usePrecisionAsDisplayed", "calculationEngineVersion", "autoSave", "previouslySaved"];
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Workbook.prototype, "_scalarPropertyUpdateable", {
 			get: function () {
-				return [false, false, true, true, true, true, false];
+				return [false, false, true, true, true, true, false, false, false];
 			},
 			enumerable: true,
 			configurable: true
@@ -15976,10 +15976,10 @@ var Excel;
 		Object.defineProperty(Workbook.prototype, "properties", {
 			get: function () {
 				_throwIfApiNotSupported("Workbook.properties", _defaultApiSetName, "1.7", _hostName);
-				if (!this._Pr) {
-					this._Pr=_createPropertyObject(Excel.DocumentProperties, this, "Properties", false, 4);
+				if (!this._Pro) {
+					this._Pro=_createPropertyObject(Excel.DocumentProperties, this, "Properties", false, 4);
 				}
-				return this._Pr;
+				return this._Pro;
 			},
 			enumerable: true,
 			configurable: true
@@ -15987,10 +15987,10 @@ var Excel;
 		Object.defineProperty(Workbook.prototype, "protection", {
 			get: function () {
 				_throwIfApiNotSupported("Workbook.protection", _defaultApiSetName, "1.7", _hostName);
-				if (!this._Pro) {
-					this._Pro=_createPropertyObject(Excel.WorkbookProtection, this, "Protection", false, 4);
+				if (!this._Prot) {
+					this._Prot=_createPropertyObject(Excel.WorkbookProtection, this, "Protection", false, 4);
 				}
-				return this._Pro;
+				return this._Prot;
 			},
 			enumerable: true,
 			configurable: true
@@ -16059,6 +16059,15 @@ var Excel;
 			enumerable: true,
 			configurable: true
 		});
+		Object.defineProperty(Workbook.prototype, "autoSave", {
+			get: function () {
+				_throwIfNotLoaded("autoSave", this._Au, _typeWorkbook, this._isNull);
+				_throwIfApiNotSupported("Workbook.autoSave", _defaultApiSetName, "1.9", _hostName);
+				return this._Au;
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Object.defineProperty(Workbook.prototype, "calculationEngineVersion", {
 			get: function () {
 				_throwIfNotLoaded("calculationEngineVersion", this._C, _typeWorkbook, this._isNull);
@@ -16099,6 +16108,15 @@ var Excel;
 				_throwIfNotLoaded("name", this._N, _typeWorkbook, this._isNull);
 				_throwIfApiNotSupported("Workbook.name", _defaultApiSetName, "1.7", _hostName);
 				return this._N;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Workbook.prototype, "previouslySaved", {
+			get: function () {
+				_throwIfNotLoaded("previouslySaved", this._Pr, _typeWorkbook, this._isNull);
+				_throwIfApiNotSupported("Workbook.previouslySaved", _defaultApiSetName, "1.9", _hostName);
+				return this._Pr;
 			},
 			enumerable: true,
 			configurable: true
@@ -16160,6 +16178,10 @@ var Excel;
 		};
 		Workbook.prototype.update=function (properties) {
 			this._recursivelyUpdate(properties);
+		};
+		Workbook.prototype.close=function (closeBehavior) {
+			_throwIfApiNotSupported("Workbook.close", _defaultApiSetName, "1.9", _hostName);
+			_invokeMethod(this, "Close", 0, [closeBehavior], 0, 0);
 		};
 		Workbook.prototype.getActiveCell=function () {
 			_throwIfApiNotSupported("Workbook.getActiveCell", _defaultApiSetName, "1.7", _hostName);
@@ -16227,6 +16249,9 @@ var Excel;
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["AutoSave"])) {
+				this._Au=obj["AutoSave"];
+			}
 			if (!_isUndefined(obj["CalculationEngineVersion"])) {
 				this._C=obj["CalculationEngineVersion"];
 			}
@@ -16238,6 +16263,9 @@ var Excel;
 			}
 			if (!_isUndefined(obj["Name"])) {
 				this._N=obj["Name"];
+			}
+			if (!_isUndefined(obj["PreviouslySaved"])) {
+				this._Pr=obj["PreviouslySaved"];
 			}
 			if (!_isUndefined(obj["ReadOnly"])) {
 				this._R=obj["ReadOnly"];
@@ -16309,10 +16337,12 @@ var Excel;
 		});
 		Workbook.prototype.toJSON=function () {
 			return _toJson(this, {
+				"autoSave": this._Au,
 				"calculationEngineVersion": this._C,
 				"chartDataPointTrack": this._Ch,
 				"isDirty": this._Is,
 				"name": this._N,
+				"previouslySaved": this._Pr,
 				"readOnly": this._R,
 				"use1904DateSystem": this._U,
 				"usePrecisionAsDisplayed": this._Us,
@@ -16321,8 +16351,8 @@ var Excel;
 				"customXmlParts": this._Cus,
 				"names": this._Na,
 				"pivotTables": this._P,
-				"properties": this._Pr,
-				"protection": this._Pro,
+				"properties": this._Pro,
+				"protection": this._Prot,
 				"settings": this._S,
 				"styles": this._St,
 				"tables": this._T,
@@ -35014,6 +35044,189 @@ var Excel;
 		return ConditionalRangeBorderCollection;
 	}(OfficeExtension.ClientObject));
 	Excel.ConditionalRangeBorderCollection=ConditionalRangeBorderCollection;
+	var _typeNumberFormattingService="NumberFormattingService";
+	var NumberFormattingService=(function (_super) {
+		__extends(NumberFormattingService, _super);
+		function NumberFormattingService() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(NumberFormattingService.prototype, "_className", {
+			get: function () {
+				return "NumberFormattingService";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		NumberFormattingService.prototype.getFormatter=function (format) {
+			return _createMethodObject(Excel.NumberFormatter, this, "GetFormatter", 0, [format], false, false, null, 0);
+		};
+		NumberFormattingService.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+		};
+		NumberFormattingService.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		NumberFormattingService.newObject=function (context) {
+			return _createTopLevelServiceObject(Excel.NumberFormattingService, context, "Microsoft.ExcelServices.NumberFormattingService", false, 4);
+		};
+		NumberFormattingService.prototype.toJSON=function () {
+			return _toJson(this, {}, {});
+		};
+		return NumberFormattingService;
+	}(OfficeExtension.ClientObject));
+	Excel.NumberFormattingService=NumberFormattingService;
+	var _typeNumberFormatter="NumberFormatter";
+	var NumberFormatter=(function (_super) {
+		__extends(NumberFormatter, _super);
+		function NumberFormatter() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(NumberFormatter.prototype, "_className", {
+			get: function () {
+				return "NumberFormatter";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "_scalarPropertyNames", {
+			get: function () {
+				return ["isDateTime", "isPercent", "isCurrency", "isNumeric", "isText", "hasYear", "hasMonth", "hasDayOfWeek"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "hasDayOfWeek", {
+			get: function () {
+				_throwIfNotLoaded("hasDayOfWeek", this._H, _typeNumberFormatter, this._isNull);
+				return this._H;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "hasMonth", {
+			get: function () {
+				_throwIfNotLoaded("hasMonth", this._Ha, _typeNumberFormatter, this._isNull);
+				return this._Ha;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "hasYear", {
+			get: function () {
+				_throwIfNotLoaded("hasYear", this._Has, _typeNumberFormatter, this._isNull);
+				return this._Has;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "isCurrency", {
+			get: function () {
+				_throwIfNotLoaded("isCurrency", this._I, _typeNumberFormatter, this._isNull);
+				return this._I;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "isDateTime", {
+			get: function () {
+				_throwIfNotLoaded("isDateTime", this._Is, _typeNumberFormatter, this._isNull);
+				return this._Is;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "isNumeric", {
+			get: function () {
+				_throwIfNotLoaded("isNumeric", this._IsN, _typeNumberFormatter, this._isNull);
+				return this._IsN;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "isPercent", {
+			get: function () {
+				_throwIfNotLoaded("isPercent", this._IsP, _typeNumberFormatter, this._isNull);
+				return this._IsP;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NumberFormatter.prototype, "isText", {
+			get: function () {
+				_throwIfNotLoaded("isText", this._IsT, _typeNumberFormatter, this._isNull);
+				return this._IsT;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		NumberFormatter.prototype.format=function (value) {
+			return _invokeMethod(this, "Format", 0, [value], 0, 0);
+		};
+		NumberFormatter.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["HasDayOfWeek"])) {
+				this._H=obj["HasDayOfWeek"];
+			}
+			if (!_isUndefined(obj["HasMonth"])) {
+				this._Ha=obj["HasMonth"];
+			}
+			if (!_isUndefined(obj["HasYear"])) {
+				this._Has=obj["HasYear"];
+			}
+			if (!_isUndefined(obj["IsCurrency"])) {
+				this._I=obj["IsCurrency"];
+			}
+			if (!_isUndefined(obj["IsDateTime"])) {
+				this._Is=obj["IsDateTime"];
+			}
+			if (!_isUndefined(obj["IsNumeric"])) {
+				this._IsN=obj["IsNumeric"];
+			}
+			if (!_isUndefined(obj["IsPercent"])) {
+				this._IsP=obj["IsPercent"];
+			}
+			if (!_isUndefined(obj["IsText"])) {
+				this._IsT=obj["IsText"];
+			}
+		};
+		NumberFormatter.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		NumberFormatter.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		NumberFormatter.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		NumberFormatter.prototype.toJSON=function () {
+			return _toJson(this, {
+				"hasDayOfWeek": this._H,
+				"hasMonth": this._Ha,
+				"hasYear": this._Has,
+				"isCurrency": this._I,
+				"isDateTime": this._Is,
+				"isNumeric": this._IsN,
+				"isPercent": this._IsP,
+				"isText": this._IsT,
+			}, {});
+		};
+		NumberFormatter.prototype.ensureUnchanged=function (data) {
+			_invokeEnsureUnchanged(this, data);
+			return;
+		};
+		return NumberFormatter;
+	}(OfficeExtension.ClientObject));
+	Excel.NumberFormatter=NumberFormatter;
 	var _typeCustomFunctionManager="CustomFunctionManager";
 	var CustomFunctionManager=(function (_super) {
 		__extends(CustomFunctionManager, _super);
@@ -39507,6 +39720,11 @@ var Excel;
 		ShapeAutoSize["autoSizeShapeToFitText"]="AutoSizeShapeToFitText";
 		ShapeAutoSize["autoSizeMixed"]="AutoSizeMixed";
 	})(ShapeAutoSize=Excel.ShapeAutoSize || (Excel.ShapeAutoSize={}));
+	var CloseBehavior;
+	(function (CloseBehavior) {
+		CloseBehavior["save"]="Save";
+		CloseBehavior["skipSave"]="SkipSave";
+	})(CloseBehavior=Excel.CloseBehavior || (Excel.CloseBehavior={}));
 	var _typeFunctionResult="FunctionResult";
 	var FunctionResult=(function (_super) {
 		__extends(FunctionResult, _super);

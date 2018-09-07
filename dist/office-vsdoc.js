@@ -1,4 +1,4 @@
-/* Version: 16.0.10831.10000 */
+/* Version: 16.0.10906.10000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -6692,6 +6692,17 @@ var Excel;
 		"removeHyperlinks": "removeHyperlinks",
 	}
 	Excel.ClearApplyTo = ClearApplyTo;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> Specifies the close behavior for workbook.close API. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+	var CloseBehavior = {
+		__proto__: null,
+		"save": "save",
+		"skipSave": "skipSave",
+	}
+	Excel.CloseBehavior = CloseBehavior;
 })(Excel || (Excel = {__proto__: null}));
 
 var Excel;
@@ -16854,6 +16865,7 @@ var Excel;
 			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
 			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
 			/// <field name="application" type="Excel.Application">Represents the Excel application instance that contains this workbook. Read-only. [Api set: ExcelApi 1.1]</field>
+			/// <field name="autoSave" type="Boolean">True if the workbook is in auto save mode. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="bindings" type="Excel.BindingCollection">Represents a collection of bindings that are part of the workbook. Read-only. [Api set: ExcelApi 1.1]</field>
 			/// <field name="calculationEngineVersion" type="Number">Returns a number about the version of Excel Calculation Engine. Read-Only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="chartDataPointTrack" type="Boolean">True if all charts in the workbook are tracking the actual data points to which they are attached.              False if the charts track the index of the data points. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
@@ -16864,6 +16876,7 @@ var Excel;
 			/// <field name="name" type="String">Gets the workbook name. Read-only. [Api set: ExcelApi 1.7]</field>
 			/// <field name="names" type="Excel.NamedItemCollection">Represents a collection of workbook scoped named items (named ranges and constants). Read-only. [Api set: ExcelApi 1.1]</field>
 			/// <field name="pivotTables" type="Excel.PivotTableCollection">Represents a collection of PivotTables associated with the workbook. Read-only. [Api set: ExcelApi 1.3]</field>
+			/// <field name="previouslySaved" type="Boolean">True if the workbook has ever been saved locally or online. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="properties" type="Excel.DocumentProperties">Gets the workbook properties. Read-only. [Api set: ExcelApi 1.7]</field>
 			/// <field name="protection" type="Excel.WorkbookProtection">Returns workbook protection object for a workbook. Read-only. [Api set: ExcelApi 1.7]</field>
 			/// <field name="readOnly" type="Boolean">True if the workbook is open in Read-only mode. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
@@ -16897,6 +16910,13 @@ var Excel;
 			/// <summary>Sets multiple properties on the object at the same time, based on an existing loaded object.</summary>
 			/// <param name="properties" type="Workbook">An existing Workbook object, with properties that have already been loaded and synced.</param>
 			/// </signature>
+		}
+		Workbook.prototype.close = function(closeBehavior) {
+			/// <summary>
+			/// Close current workbook. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="closeBehavior" type="String" optional="true">workbook close behavior.</param>
+			/// <returns ></returns>
 		}
 		Workbook.prototype.getActiveCell = function() {
 			/// <summary>

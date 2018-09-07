@@ -1,5 +1,5 @@
 /* Office JavaScript API library - Custom Functions */
-/* Version: 16.0.10824.30000 */
+/* Version: 16.0.10901.30010 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1120,7 +1120,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.10824.30000",
+        FileVersion: "16.0.10901.30010",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
@@ -1666,12 +1666,14 @@ var CustomFunctionMappings = {};
 }([ function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -2123,12 +2125,14 @@ var CustomFunctionMappings = {};
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -2702,6 +2706,7 @@ var CustomFunctionMappings = {};
             CommonUtility.replaceClientObjectPropertiesWithObjectPathIds(args[i], referencedObjectPaths)) : referencedObjectPathIds.push(0);
             return hasOne;
         }, CommonUtility.replaceClientObjectPropertiesWithObjectPathIds = function(value, referencedObjectPaths) {
+            var _a, _b;
             for (var key in value) {
                 var propValue = value[key];
                 if (propValue instanceof ClientObjectBase) referencedObjectPaths.push(propValue._objectPath), 
@@ -2712,7 +2717,6 @@ var CustomFunctionMappings = {};
                     _b);
                 } else Core.CoreUtility.isPlainJsonObject(propValue[i]) && CommonUtility.replaceClientObjectPropertiesWithObjectPathIds(propValue[i], referencedObjectPaths); else Core.CoreUtility.isPlainJsonObject(propValue) && CommonUtility.replaceClientObjectPropertiesWithObjectPathIds(propValue, referencedObjectPaths);
             }
-            var _a, _b;
         }, CommonUtility.normalizeName = function(name) {
             return name.substr(0, 1).toLowerCase() + name.substr(1);
         }, CommonUtility._doApiNotSupportedCheck = !1, CommonUtility;
@@ -2780,12 +2784,14 @@ var CustomFunctionMappings = {};
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -4669,12 +4675,14 @@ var CustomFunctionMappings = {};
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -4773,16 +4781,7 @@ var CustomFunctionMappings = {};
             this._ensureInitRetryDelayMillis = 500, this._resultEntryBuffer = [], this._isSetResultsTaskScheduled = !1, 
             this._batchQuotaMillis = 1e3, this._invocationContextMap = {};
         }
-        return CustomFunctionProxy.splitName = function(name) {
-            var matches = name.match(/[a-z_][a-z_0-9\.]+/gi);
-            if (null === matches || 1 !== matches.length || matches[0] !== name) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionNameContainsBadChars), "CustomFunctionProxy.splitName");
-            var splitIndex = name.lastIndexOf(".");
-            if (splitIndex < 1 || splitIndex === name.length - 1) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionNameCannotSplit), "CustomFunctionProxy.splitName");
-            return {
-                namespace: name.substring(0, splitIndex),
-                name: name.substr(splitIndex + 1)
-            };
-        }, CustomFunctionProxy.prototype._initSettings = function() {
+        return CustomFunctionProxy.prototype._initSettings = function() {
             if ("object" == typeof exports.Script && "object" == typeof exports.Script._CustomFunctionSettings) {
                 if ("number" == typeof exports.Script._CustomFunctionSettings.setResultsDelayMillis) {
                     var setResultsDelayMillis = exports.Script._CustomFunctionSettings.setResultsDelayMillis;
@@ -4827,7 +4826,7 @@ var CustomFunctionMappings = {};
                 }
                 if (metadataArray.length > 0 && this._handleMetadataEntries(metadataArray), invocationArray.length > 0) {
                     var batchArray = this._batchInvocationEntries(invocationArray);
-                    this._invokeRemainingBatchEntries(batchArray, 0);
+                    batchArray.length > 0 && this._invokeRemainingBatchEntries(batchArray, 0);
                 }
                 cancellationArray.length > 0 && this._handleCancellationEntries(cancellationArray);
             } catch (ex) {
@@ -4873,24 +4872,16 @@ var CustomFunctionMappings = {};
                 if (_isNullOrUndefined(message)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "message", "CustomFunctionProxy._batchInvocationEntries");
                 if (_isNullOrUndefined(message.invocationId) || message.invocationId < 0) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "invocationId", "CustomFunctionProxy._batchInvocationEntries");
                 if (_isNullOrUndefined(message.functionName)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "functionName", "CustomFunctionProxy._batchInvocationEntries");
-                var call = null, isCancelable = !1, isStreaming = !1, metadata = exports.Script._CustomFunctionMetadata[message.functionName];
-                if (!_isNullOrUndefined(metadata)) {
-                    if (call = this_1._getCustomFunctionMappings(message.functionName), _isNullOrUndefined(call)) {
-                        if (_isNullOrUndefined(window)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionWindowMissing), "CustomFunctionProxy._batchInvocationEntries");
-                        for (var functionParent = window, beginOfSegmentIndex = 0, endOfSegmentIndex = message.functionName.indexOf(".", beginOfSegmentIndex); endOfSegmentIndex > beginOfSegmentIndex; ) {
-                            var functionNameSegment = message.functionName.substring(beginOfSegmentIndex, endOfSegmentIndex);
-                            if (_isNullOrUndefined(functionParent[functionNameSegment]) || "object" != typeof functionParent[functionNameSegment]) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, message.functionName), "CustomFunctionProxy._batchInvocationEntries");
-                            functionParent = functionParent[functionNameSegment], beginOfSegmentIndex = endOfSegmentIndex + 1, 
-                            endOfSegmentIndex = message.functionName.indexOf(".", beginOfSegmentIndex);
-                        }
-                        var functionName = message.functionName.substring(beginOfSegmentIndex);
-                        if (_isNullOrUndefined(functionParent[functionName])) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, message.functionName), "CustomFunctionProxy._batchInvocationEntries");
-                        if ("function" != typeof functionParent[functionName]) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionInvalidFunction, message.functionName), "CustomFunctionProxy._batchInvocationEntries");
-                        call = functionParent[functionName];
-                    }
-                    isCancelable = metadata.options.cancelable, isStreaming = metadata.options.stream;
+                var isCancelable, isStreaming, call = null, metadata = exports.Script._CustomFunctionMetadata[message.functionName];
+                if (_isNullOrUndefined(metadata)) return CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionNotFoundLog, message.functionName), 
+                this_1._setError(message.invocationId, "N/A", 1), "continue";
+                try {
+                    call = this_1._getFunction(message.functionName);
+                } catch (ex) {
+                    return CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionNotFoundLog, message.functionName), 
+                    this_1._setError(message.invocationId, ex, 1), "continue";
                 }
-                if (isStreaming || isCancelable) {
+                if (isCancelable = metadata.options.cancelable, (isStreaming = metadata.options.stream) || isCancelable) {
                     var setResult = void 0;
                     isStreaming && (setResult = function(result) {
                         _this._setResult(message.invocationId, result);
@@ -4919,6 +4910,14 @@ var CustomFunctionMappings = {};
                     throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionInvalidFunctionMapping, functionName), "CustomFunctionProxy._getCustomFunctionMappings");
                 }
             }
+        }, CustomFunctionProxy.prototype._getFunction = function(functionName) {
+            var call = this._getCustomFunctionMappings(functionName);
+            if (!_isNullOrUndefined(call)) return call;
+            if (_isNullOrUndefined(window)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionWindowMissing), "CustomFunctionProxy._getFunction");
+            for (var functionParent = window, functionNameSegments = functionName.split("."), i = 0; i < functionNameSegments.length - 1; i++) if (functionParent = functionParent[functionNameSegments[i]], 
+            _isNullOrUndefined(functionParent) || "object" != typeof functionParent) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionDefintionMissingOnWindow, functionName), "CustomFunctionProxy._getFunction");
+            if ("function" != typeof (call = functionParent[functionNameSegments[functionNameSegments.length - 1]])) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.invalidOperation, OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionInvalidFunction, functionName), "CustomFunctionProxy._getFunction");
+            return call;
         }, CustomFunctionProxy.prototype._invokeRemainingBatchEntries = function(batchArray, startIndex) {
             OfficeExtension.Utility.log("CustomFunctionProxy._invokeRemainingBatchEntries");
             for (var startTimeMillis = Date.now(), i = startIndex; i < batchArray.length; i++) {
@@ -4935,7 +4934,7 @@ var CustomFunctionMappings = {};
             try {
                 results = batch.isBatching ? batch.call.call(null, batch.parameterValueSets) : [ batch.call.apply(null, batch.parameterValueSets[0]) ];
             } catch (ex) {
-                for (var i = 0; i < batch.invocationIds.length; i++) this._setError(batch.invocationIds[i], ex);
+                for (var i = 0; i < batch.invocationIds.length; i++) this._setError(batch.invocationIds[i], ex, 2);
                 return void CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionFailureLog, batch.functionName);
             }
             if (batch.isStreaming) ; else if (results.length === batch.parameterValueSets.length) {
@@ -4946,13 +4945,13 @@ var CustomFunctionMappings = {};
                         _this._setResult(batch.invocationIds[i], value);
                     }, function(reason) {
                         CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionFailureLog, batch.functionName), 
-                        _this._setError(batch.invocationIds[i], reason);
+                        _this._setError(batch.invocationIds[i], reason, 3);
                     });
                 }, this_2 = this;
                 for (i = 0; i < results.length; i++) _loop_2(i);
             } else {
                 CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionFailureLog, batch.functionName);
-                for (i = 0; i < batch.invocationIds.length; i++) this._setError(batch.invocationIds[i], OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionUnexpectedNumberOfEntriesInResultBatch));
+                for (i = 0; i < batch.invocationIds.length; i++) this._setError(batch.invocationIds[i], OfficeExtension.Utility._getResourceString(OfficeExtension.ResourceStrings.customFunctionUnexpectedNumberOfEntriesInResultBatch), 4);
             }
         }, CustomFunctionProxy.prototype._setResult = function(invocationId, result) {
             var invocationResult = {
@@ -4964,15 +4963,16 @@ var CustomFunctionMappings = {};
                 timeCreated: Date.now(),
                 result: invocationResult
             }), this._ensureSetResultsTaskIsScheduled();
-        }, CustomFunctionProxy.prototype._setError = function(invocationId, error) {
-            var message;
-            message = "object" == typeof error ? JSON.stringify(error) : error.toString(), this._resultEntryBuffer.push({
+        }, CustomFunctionProxy.prototype._setError = function(invocationId, error, errorCode) {
+            var result = {
+                id: invocationId,
+                failed: !0,
+                value: "object" == typeof error ? JSON.stringify(error) : error.toString(),
+                errorCode: errorCode
+            };
+            this._resultEntryBuffer.push({
                 timeCreated: Date.now(),
-                result: {
-                    id: invocationId,
-                    failed: !0,
-                    value: message
-                }
+                result: result
             }), this._ensureSetResultsTaskIsScheduled();
         }, CustomFunctionProxy.prototype._ensureSetResultsTaskIsScheduled = function() {
             !this._isSetResultsTaskScheduled && this._resultEntryBuffer.length > 0 && (OfficeExtension.Utility.log("setTimeout(CustomFunctionProxy._executeSetResultsTask)"), 
@@ -4996,6 +4996,7 @@ var CustomFunctionMappings = {};
         }, CustomFunctionProxy.CustomFunctionExecutionStartLog = new CustomFunctionLog(CustomFunctionLoggingSeverity.Verbose, "CustomFunctions [Execution] [Begin] Function="), 
         CustomFunctionProxy.CustomFunctionExecutionFailureLog = new CustomFunctionLog(CustomFunctionLoggingSeverity.Error, "CustomFunctions [Execution] [End] [Failure] Function="), 
         CustomFunctionProxy.CustomFunctionExecutionFinishLog = new CustomFunctionLog(CustomFunctionLoggingSeverity.Info, "CustomFunctions [Execution] [End] [Success] Function="), 
+        CustomFunctionProxy.CustomFunctionExecutionNotFoundLog = new CustomFunctionLog(CustomFunctionLoggingSeverity.Error, "CustomFunctions [Execution] [NotFound] Function="), 
         CustomFunctionProxy;
     }();
     exports.CustomFunctionProxy = CustomFunctionProxy, exports.customFunctionProxy = new CustomFunctionProxy(), 
