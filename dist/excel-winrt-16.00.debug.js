@@ -1,5 +1,5 @@
 /* Excel WinRT-specific API library */
-/* Version: 16.0.10901.30000 */
+/* Version: 16.0.10908.30000 */
 
 /* Office.js Version: 16.0.10325.1000 */ 
 /*
@@ -23253,7 +23253,7 @@ var Excel;
 		});
 		Object.defineProperty(ChartSeries.prototype, "xerrorBars", {
 			get: function () {
-				_throwIfApiNotSupported("ChartSeries.xerrorBars", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.xerrorBars", _defaultApiSetName, "1.9", _hostName);
 				if (!this._X) {
 					this._X=_createPropertyObject(Excel.ChartErrorBars, this, "XErrorBars", false, 4);
 				}
@@ -23264,7 +23264,7 @@ var Excel;
 		});
 		Object.defineProperty(ChartSeries.prototype, "yerrorBars", {
 			get: function () {
-				_throwIfApiNotSupported("ChartSeries.yerrorBars", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.yerrorBars", _defaultApiSetName, "1.9", _hostName);
 				if (!this._Y) {
 					this._Y=_createPropertyObject(Excel.ChartErrorBars, this, "YErrorBars", false, 4);
 				}
@@ -23289,7 +23289,7 @@ var Excel;
 		Object.defineProperty(ChartSeries.prototype, "bubbleScale", {
 			get: function () {
 				_throwIfNotLoaded("bubbleScale", this._Bu, _typeChartSeries, this._isNull);
-				_throwIfApiNotSupported("ChartSeries.bubbleScale", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.bubbleScale", _defaultApiSetName, "1.9", _hostName);
 				return this._Bu;
 			},
 			set: function (value) {
@@ -23730,7 +23730,7 @@ var Excel;
 		Object.defineProperty(ChartSeries.prototype, "splitValue", {
 			get: function () {
 				_throwIfNotLoaded("splitValue", this._Spl, _typeChartSeries, this._isNull);
-				_throwIfApiNotSupported("ChartSeries.splitValue", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.splitValue", _defaultApiSetName, "1.9", _hostName);
 				return this._Spl;
 			},
 			set: function (value) {
