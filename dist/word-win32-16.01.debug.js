@@ -23802,8 +23802,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame,
-                    hideTitle: options.hideTitle
+                    displayInIFrame: options.displayInIFrame
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {
@@ -23974,7 +23973,13 @@ window.OfficeExtensionBatch = window.OfficeExtension;
             return callStorageManager(function(storage, invokeId) {
                 return storage.multiGet(invokeId, JSON.stringify(keys));
             }, function(result) {
-                return JSON.parse(result);
+                var keyValues = JSON.parse(result), map = {};
+                return keyValues && keyValues.forEach(function(_a) {
+                    var key = _a[0], value = _a[1];
+                    return map[key] = value, value;
+                }), keys.map(function(key) {
+                    return [ key, map[key] ];
+                });
             }, callback);
         },
         multiSet: function(keyValuePairs, callback) {
@@ -24065,7 +24070,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                     eventArgsTransformFunc: function(args) {
                         var perkvstorArgs;
                         try {
-                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 !== hr ? new OfficeExtension.Error(function(internalCode) {
+                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 != hr ? new OfficeExtension.Error(function(internalCode) {
                                 var _a, table = ((_a = {})[16389] = {
                                     code: "GenericException",
                                     message: "Unknown error."

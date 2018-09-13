@@ -10409,11 +10409,14 @@ window.OfficeExtensionBatch = window.OfficeExtension;
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var prefix = "__OfficeRuntime.AsyncStorage__";
+    var prefix = "_Office_AsyncStorage_", dummyUnusedKey = prefix + "|_unusedKey_";
+    function ensureFreshLocalStorage() {
+        window.localStorage.setItem(dummyUnusedKey, null), window.localStorage.removeItem(dummyUnusedKey);
+    }
     function performAction(action, callback) {
         return void 0 === callback && (callback = function() {}), new Promise(function(resolve, reject) {
             try {
-                action(), callback(null), resolve();
+                ensureFreshLocalStorage(), action(), callback(null), resolve();
             } catch (e) {
                 callback(e), reject(e);
             }
@@ -10422,6 +10425,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
     function performActionAndReturnResult(action, callback) {
         return void 0 === callback && (callback = function() {}), new Promise(function(resolve, reject) {
             try {
+                ensureFreshLocalStorage();
                 var result = action();
                 callback(null, result), resolve(result);
             } catch (e) {
@@ -10432,6 +10436,11 @@ window.OfficeExtensionBatch = window.OfficeExtension;
     function performMultiAction(collection, action, callback) {
         return void 0 === callback && (callback = function() {}), new Promise(function(resolve, reject) {
             var errors = [];
+            try {
+                ensureFreshLocalStorage();
+            } catch (e) {
+                errors.push(e);
+            }
             collection.forEach(function(item) {
                 try {
                     action(item);
@@ -10516,8 +10525,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
             var dialog, dialogOptions = {
                 width: options.width ? parseInt(options.width, 10) : 50,
                 height: options.height ? parseInt(options.height, 10) : 50,
-                displayInIFrame: options.displayInIFrame,
-                hideTitle: options.hideTitle
+                displayInIframe: options.displayInIFrame
             };
             function messageHandler(args) {
                 options.onMessage && options.onMessage(args.message, dialog);
