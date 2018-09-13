@@ -7678,7 +7678,7 @@ OSF.DDA.WAC.Delegate.openDialog = function OSF_DDA_WAC_Delegate$OpenDialog(args)
         return;
     }
     var dialogUrl = dialogInfo[OSF.ShowWindowDialogParameterKeys.Url].toLowerCase();
-    if (dialogUrl == null) {
+    if (dialogUrl == null || !(dialogUrl.substr(0, httpsIdentifyString.length) === httpsIdentifyString)) {
         if (dialogUrl.substr(0, httpIdentifyString.length) === httpIdentifyString) {
             showDialogCallback(OSF.DDA.ErrorCodeManager.errorCodes.ooeRequireHTTPS);
         }
@@ -7758,7 +7758,9 @@ OSF.InitializationHelper.prototype.registerMessageReceivedEventForWindowDialog =
 };
 OSF.InitializationHelper.prototype.prepareApiSurface = function OSF_InitializationHelper$prepareApiSurfaceAndInitialize(appContext) {
     OSF.WebApp._UpdateLinksForHostAndXdmInfo();
+    var license = new OSF.DDA.License(appContext.get_eToken());
     this.initWebDialog(appContext);
+    OSF._OfficeAppFactory.setContext(new OSF.DDA.Context(appContext, appContext.doc, license));
     var getDelegateMethods = OSF.DDA.WAC.getDelegateMethods;
     var parameterMap = OSF.DDA.WAC.Delegate.ParameterMap;
     OSF._OfficeAppFactory.setHostFacade(new OSF.DDA.DispIdHost.Facade(getDelegateMethods, parameterMap));
