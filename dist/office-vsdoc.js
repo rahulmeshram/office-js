@@ -12459,6 +12459,7 @@ var Excel;
 			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
 			/// <field name="id" type="String">Represents the shape identifier for the image object. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="shape" type="Excel.Shape">Returns the shape object for the image. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="format" type="String">Returns the format for the image. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 		}
 
 		Image.prototype.load = function(option) {
@@ -13065,6 +13066,21 @@ var Excel;
 		"fanfoldLegalGerman": "fanfoldLegalGerman",
 	}
 	Excel.PaperType = PaperType;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+	var PictureFormat = {
+		__proto__: null,
+		"unknown": "unknown",
+		"bmp": "bmp",
+		"jpeg": "jpeg",
+		"gif": "gif",
+		"png": "png",
+		"svg": "svg",
+	}
+	Excel.PictureFormat = PictureFormat;
 })(Excel || (Excel = {__proto__: null}));
 
 var Excel;
@@ -15198,6 +15214,34 @@ var Excel;
 			/// Deletes the Shape [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
 			/// <returns ></returns>
+		}
+		Shape.prototype.incrementLeft = function(increment) {
+			/// <summary>
+			/// Moves the shape horizontally by the specified number of points. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="increment" type="Number">Specifies how far the shape is to be moved horizontally, in points. A positive value moves the shape to the right; a negative value moves it to the left. If the sheet is RTL, IncrementLeft with a positive value should move the shape to the left instead of right.</param>
+			/// <returns ></returns>
+		}
+		Shape.prototype.incrementRotation = function(increment) {
+			/// <summary>
+			/// Changes the rotation of the shape around the z-axis by the specified number of degrees.              Use the Rotation property to set the absolute rotation of the shape. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="increment" type="Number">Specifies how far the shape is to be rotated horizontally, in degrees. A positive value rotates the shape clockwise; a negative value rotates it counterclockwise.</param>
+			/// <returns ></returns>
+		}
+		Shape.prototype.incrementTop = function(increment) {
+			/// <summary>
+			/// Moves the shape vertically by the specified number of points. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="increment" type="Number">Specifies how far the shape is to be moved vertically, in points. A positive value moves the shape down; a negative value moves it up.</param>
+			/// <returns ></returns>
+		}
+		Shape.prototype.saveAsPicture = function(format) {
+			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = '';
+			return result;
 		}
 		Shape.prototype.setZOrder = function(value) {
 			/// <summary>

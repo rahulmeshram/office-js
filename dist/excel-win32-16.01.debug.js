@@ -1,7 +1,7 @@
 /* Excel Desktop-specific API library */
-/* Version: 16.0.10908.30000 */
+/* Version: 16.0.10912.30000 */
 
-/* Office.js Version: 16.0.10325.1000 */ 
+/* Office.js Version: 16.0.10325.1000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -37553,6 +37553,18 @@ var Excel;
 		Shape.prototype.delete=function () {
 			_invokeMethod(this, "Delete", 0, [], 0, 0);
 		};
+		Shape.prototype.saveAsPicture=function (format) {
+			return _invokeMethod(this, "SaveAsPicture", 0, [format], 0, 0);
+		};
+		Shape.prototype.incrementLeft=function (increment) {
+			_invokeMethod(this, "IncrementLeft", 0, [increment], 0, 0);
+		};
+		Shape.prototype.incrementRotation=function (increment) {
+			_invokeMethod(this, "IncrementRotation", 0, [increment], 0, 0);
+		};
+		Shape.prototype.incrementTop=function (increment) {
+			_invokeMethod(this, "IncrementTop", 0, [increment], 0, 0);
+		};
 		Shape.prototype.setZOrder=function (value) {
 			_invokeMethod(this, "SetZOrder", 0, [value], 0, 0);
 		};
@@ -37814,7 +37826,7 @@ var Excel;
 		});
 		Object.defineProperty(Image.prototype, "_scalarPropertyNames", {
 			get: function () {
-				return ["id"];
+				return ["id", "format"];
 			},
 			enumerable: true,
 			configurable: true
@@ -37844,6 +37856,14 @@ var Excel;
 			enumerable: true,
 			configurable: true
 		});
+		Object.defineProperty(Image.prototype, "format", {
+			get: function () {
+				_throwIfNotLoaded("format", this._f, _typeImage, this._isNull);
+				return this._f;
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Image.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
@@ -37852,6 +37872,9 @@ var Excel;
 			_fixObjectPathIfNecessary(this, obj);
 			if (!_isUndefined(obj["Id"])) {
 				this._I=obj["Id"];
+			}
+			if (!_isUndefined(obj["format"])) {
+				this._f=obj["format"];
 			}
 			_handleNavigationPropertyResults(this, obj, ["shape", "Shape"]);
 		};
@@ -37876,6 +37899,7 @@ var Excel;
 		};
 		Image.prototype.toJSON=function () {
 			return _toJson(this, {
+				"format": this._f,
 				"id": this._I,
 			}, {});
 		};
@@ -38985,6 +39009,15 @@ var Excel;
 		ShapeFontUnderlineStyle["wavyHeavy"]="WavyHeavy";
 		ShapeFontUnderlineStyle["wavyDouble"]="WavyDouble";
 	})(ShapeFontUnderlineStyle=Excel.ShapeFontUnderlineStyle || (Excel.ShapeFontUnderlineStyle={}));
+	var PictureFormat;
+	(function (PictureFormat) {
+		PictureFormat["unknown"]="UNKNOWN";
+		PictureFormat["bmp"]="BMP";
+		PictureFormat["jpeg"]="JPEG";
+		PictureFormat["gif"]="GIF";
+		PictureFormat["png"]="PNG";
+		PictureFormat["svg"]="SVG";
+	})(PictureFormat=Excel.PictureFormat || (Excel.PictureFormat={}));
 	var BindingType;
 	(function (BindingType) {
 		BindingType["range"]="Range";

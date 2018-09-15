@@ -5889,7 +5889,7 @@ var OSFAriaLogger;
         function AriaLogger() {
         }
         AriaLogger.prototype.getAriaCDNLocation = function () {
-            return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "/ariatelemetry/aria-web-telemetry.js");
+            return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "ariatelemetry/aria-web-telemetry.js");
         };
         AriaLogger.getInstance = function () {
             if (AriaLogger.AriaLoggerObj === undefined) {
@@ -7943,7 +7943,7 @@ OSF.InitializationHelper.prototype.prepareApiSurface = function OSF_Initializati
             var dialog, dialogOptions = {
                 width: options.width ? parseInt(options.width, 10) : 50,
                 height: options.height ? parseInt(options.height, 10) : 50,
-                displayInIframe: options.displayInIFrame
+                displayInIframe: options.displayInIFrame || !1
             };
             function messageHandler(args) {
                 options.onMessage && options.onMessage(args.message, dialog);

@@ -4925,7 +4925,7 @@ var OSFAriaLogger;
         function AriaLogger() {
         }
         AriaLogger.prototype.getAriaCDNLocation = function () {
-            return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "/ariatelemetry/aria-web-telemetry.js");
+            return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "ariatelemetry/aria-web-telemetry.js");
         };
         AriaLogger.getInstance = function () {
             if (AriaLogger.AriaLoggerObj === undefined) {
