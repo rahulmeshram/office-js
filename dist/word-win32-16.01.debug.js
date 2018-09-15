@@ -1,7 +1,7 @@
 /* Word Desktop-specific API library */
 /* Version: 16.0.10710.30000 */
 
-/* Office.js Version: 16.0.10316.10000 */ 
+/* Office.js Version: 16.0.10316.10000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -23289,12 +23289,14 @@ window.OfficeExtensionBatch = window.OfficeExtension;
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -23323,7 +23325,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
         }, Dialog;
     }();
     exports.Dialog = Dialog, exports.displayWebDialog = function(url, options) {
-        return new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
+        return void 0 === options && (options = {}), new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
             if (options.width && options.height && (!isInt(options.width) || !isInt(options.height))) throw new OfficeExtension.Error({
                 code: "InvalidArgument",
                 message: "Dimensions must be % or number."
@@ -23342,7 +23344,8 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                   case 10:
                   default:
                     12006 === args.originalErrorCode ? (eventResult && (eventResult.remove(), ctx.sync()), 
-                    options.onClose && options.onClose()) : options.onRuntimeError && options.onRuntimeError(args.error, dialog);
+                    options.onClose && options.onClose()) : options.onRuntimeError && (options.onRuntimeError(args.error, dialog), 
+                    reject(args.error));
                 }
                 return OfficeExtension.CoreUtility.Promise.resolve();
             });
@@ -23350,8 +23353,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame,
-                    hideTitle: options.hideTitle
+                    displayInIFrame: options.displayInIFrame
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {
@@ -23452,12 +23454,14 @@ window.OfficeExtensionBatch = window.OfficeExtension;
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -23520,7 +23524,13 @@ window.OfficeExtensionBatch = window.OfficeExtension;
             return callStorageManager(function(storage, invokeId) {
                 return storage.multiGet(invokeId, JSON.stringify(keys));
             }, function(result) {
-                return JSON.parse(result);
+                var keyValues = JSON.parse(result), map = {};
+                return keyValues && keyValues.forEach(function(_a) {
+                    var key = _a[0], value = _a[1];
+                    return map[key] = value, value;
+                }), keys.map(function(key) {
+                    return [ key, map[key] ];
+                });
             }, callback);
         },
         multiSet: function(keyValuePairs, callback) {
@@ -23611,7 +23621,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                     eventArgsTransformFunc: function(args) {
                         var perkvstorArgs;
                         try {
-                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 !== hr ? new OfficeExtension.Error(function(internalCode) {
+                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 != hr ? new OfficeExtension.Error(function(internalCode) {
                                 var _a, table = ((_a = {})[16389] = {
                                     code: "GenericException",
                                     message: "Unknown error."

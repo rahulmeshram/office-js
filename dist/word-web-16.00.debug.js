@@ -1,7 +1,7 @@
 /* Word Web-specific API library */
 /* Version: 16.0.10710.30000 */
 
-/* Office.js Version: 16.0.10316.10000 */ 
+/* Office.js Version: 16.0.10316.10000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -24998,19 +24998,24 @@ window.OfficeExtensionBatch = window.OfficeExtension;
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var AsyncStorage = __webpack_require__(1);
+    var AsyncStorage = __webpack_require__(1), DialogApi = __webpack_require__(2);
     window._OfficeRuntimeWeb = {
-        displayWebDialog: function() {
-            throw new Error("Not yet implemented");
-        },
+        displayWebDialog: DialogApi.displayWebDialog,
         AsyncStorage: AsyncStorage
     };
 }, function(module, exports, __webpack_require__) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+    var prefix = "_Office_AsyncStorage_", dummyUnusedKey = prefix + "|_unusedKey_";
+    function ensureFreshLocalStorage() {
+        window.localStorage.setItem(dummyUnusedKey, null), window.localStorage.removeItem(dummyUnusedKey);
+    }
     function performAction(action, callback) {
         return void 0 === callback && (callback = function() {}), new Promise(function(resolve, reject) {
             try {
-                action(), callback(null), resolve();
+                ensureFreshLocalStorage(), action(), callback(null), resolve();
             } catch (e) {
                 callback(e), reject(e);
             }
@@ -25019,6 +25024,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
     function performActionAndReturnResult(action, callback) {
         return void 0 === callback && (callback = function() {}), new Promise(function(resolve, reject) {
             try {
+                ensureFreshLocalStorage();
                 var result = action();
                 callback(null, result), resolve(result);
             } catch (e) {
@@ -25029,6 +25035,11 @@ window.OfficeExtensionBatch = window.OfficeExtension;
     function performMultiAction(collection, action, callback) {
         return void 0 === callback && (callback = function() {}), new Promise(function(resolve, reject) {
             var errors = [];
+            try {
+                ensureFreshLocalStorage();
+            } catch (e) {
+                errors.push(e);
+            }
             collection.forEach(function(item) {
                 try {
                     action(item);
@@ -25038,43 +25049,49 @@ window.OfficeExtensionBatch = window.OfficeExtension;
             }), callback(errors), errors.length > 0 ? reject(errors) : resolve();
         });
     }
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), exports.getItem = function(key, callback) {
+    exports.getItem = function(key, callback) {
         return performActionAndReturnResult(function() {
-            return window.localStorage.getItem(key);
+            return window.localStorage.getItem(prefix + key);
         }, callback);
     }, exports.setItem = function(key, value, callback) {
         return performAction(function() {
-            return window.localStorage.setItem(key, value);
+            return window.localStorage.setItem(prefix + key, value);
         }, callback);
     }, exports.removeItem = function(key, callback) {
         return performAction(function() {
-            return window.localStorage.removeItem(key);
+            return window.localStorage.removeItem(prefix + key);
         }, callback);
     }, exports.clear = function(callback) {
         return performAction(function() {
-            return window.localStorage.clear();
+            Object.keys(window.localStorage).filter(function(fullKey) {
+                return 0 === fullKey.indexOf(prefix);
+            }).forEach(function(fullKey) {
+                return window.localStorage.removeItem(fullKey);
+            });
         }, callback);
     }, exports.getAllKeys = function(callback) {
         return performActionAndReturnResult(function() {
-            return Object.keys(window.localStorage);
+            return Object.keys(window.localStorage).filter(function(fullKey) {
+                return 0 === fullKey.indexOf(prefix);
+            }).map(function(fullKey) {
+                return fullKey.substr(prefix.length);
+            });
         }, callback);
     }, exports.multiSet = function(keyValuePairs, callback) {
         return performMultiAction(keyValuePairs, function(_a) {
             var key = _a[0], value = _a[1];
-            return window.localStorage.setItem(key, value);
+            return window.localStorage.setItem(prefix + key, value);
         }, callback);
     }, exports.multiRemove = function(keys, callback) {
         return performMultiAction(keys, function(key) {
-            return window.localStorage.removeItem(key);
+            return window.localStorage.removeItem(prefix + key);
         }, callback);
     }, exports.multiGet = function(keys, callback) {
         return new Promise(function(resolve, reject) {
             callback || (callback = function() {});
             var errors = [], results = keys.map(function(key) {
                 try {
-                    return [ key, window.localStorage.getItem(key) ];
+                    return [ key, window.localStorage.getItem(prefix + key) ];
                 } catch (e) {
                     errors.push(e);
                 }
@@ -25085,6 +25102,69 @@ window.OfficeExtensionBatch = window.OfficeExtension;
             resolve(results));
         });
     };
+}, function(module, exports, __webpack_require__) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+    var OfficeExtension = __webpack_require__(3), Dialog = function() {
+        function Dialog(_dialog) {
+            this._dialog = _dialog;
+        }
+        return Dialog.prototype.close = function() {
+            return this._dialog.close(), OfficeExtension.CoreUtility.Promise.resolve();
+        }, Dialog;
+    }();
+    exports.Dialog = Dialog, exports.displayWebDialog = function(url, options) {
+        return new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
+            if (options.width && options.height && (!isInt(options.width) || !isInt(options.height))) throw new OfficeExtension.Error({
+                code: "InvalidArgument",
+                message: 'Dimensions must be "number%" or number.'
+            });
+            var dialog, dialogOptions = {
+                width: options.width ? parseInt(options.width, 10) : 50,
+                height: options.height ? parseInt(options.height, 10) : 50,
+                displayInIframe: options.displayInIFrame || !1
+            };
+            function messageHandler(args) {
+                options.onMessage && options.onMessage(args.message, dialog);
+            }
+            function eventHandler(args) {
+                12006 === args.error ? options.onClose && options.onClose() : options.onRuntimeError && options.onRuntimeError(new OfficeExtension.Error(lookupErrorCodeAndMessage(args.error)), dialog);
+            }
+            function isInt(value) {
+                return /^(\-|\+)?([0-9]+)%?$/.test(value);
+            }
+            function lookupErrorCodeAndMessage(internalCode) {
+                var _a, table = ((_a = {})[12002] = {
+                    code: "InvalidUrl",
+                    message: "Cannot load URL, no such page or bad URL syntax."
+                }, _a[12003] = {
+                    code: "InvalidUrl",
+                    message: "HTTPS is required."
+                }, _a[12004] = {
+                    code: "Untrusted",
+                    message: "Domain is not trusted."
+                }, _a[12005] = {
+                    code: "InvalidUrl",
+                    message: "HTTPS is required."
+                }, _a[12007] = {
+                    code: "FailedToOpen",
+                    message: "Another dialog is already opened."
+                }, _a);
+                return table[internalCode] ? table[internalCode] : {
+                    code: "Unknown",
+                    message: "An unknown error has occured"
+                };
+            }
+            Office.context.ui.displayDialogAsync(url, dialogOptions, function(asyncResult) {
+                "failed" === asyncResult.status ? reject(new OfficeExtension.Error(lookupErrorCodeAndMessage(asyncResult.error.code))) : ((dialog = asyncResult.value).addEventHandler(Office.EventType.DialogMessageReceived, messageHandler), 
+                dialog.addEventHandler(Office.EventType.DialogEventReceived, eventHandler), resolve(new Dialog(dialog)));
+            });
+        });
+    };
+}, function(module, exports) {
+    module.exports = OfficeExtensionBatch;
 } ]);
 
 

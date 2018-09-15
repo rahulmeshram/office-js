@@ -1,7 +1,7 @@
 /* Excel Mac-specific API library */
-/* Version: 16.0.10901.30000 */
+/* Version: 16.0.10912.30000 */
 
-/* Office.js Version: 16.0.10325.1000 */ 
+/* Office.js Version: 16.0.10325.1000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -23938,7 +23938,7 @@ var Excel;
 		});
 		Object.defineProperty(ChartSeries.prototype, "xerrorBars", {
 			get: function () {
-				_throwIfApiNotSupported("ChartSeries.xerrorBars", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.xerrorBars", _defaultApiSetName, "1.9", _hostName);
 				if (!this._X) {
 					this._X=_createPropertyObject(Excel.ChartErrorBars, this, "XErrorBars", false, 4);
 				}
@@ -23949,7 +23949,7 @@ var Excel;
 		});
 		Object.defineProperty(ChartSeries.prototype, "yerrorBars", {
 			get: function () {
-				_throwIfApiNotSupported("ChartSeries.yerrorBars", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.yerrorBars", _defaultApiSetName, "1.9", _hostName);
 				if (!this._Y) {
 					this._Y=_createPropertyObject(Excel.ChartErrorBars, this, "YErrorBars", false, 4);
 				}
@@ -23974,7 +23974,7 @@ var Excel;
 		Object.defineProperty(ChartSeries.prototype, "bubbleScale", {
 			get: function () {
 				_throwIfNotLoaded("bubbleScale", this._Bu, _typeChartSeries, this._isNull);
-				_throwIfApiNotSupported("ChartSeries.bubbleScale", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.bubbleScale", _defaultApiSetName, "1.9", _hostName);
 				return this._Bu;
 			},
 			set: function (value) {
@@ -24415,7 +24415,7 @@ var Excel;
 		Object.defineProperty(ChartSeries.prototype, "splitValue", {
 			get: function () {
 				_throwIfNotLoaded("splitValue", this._Spl, _typeChartSeries, this._isNull);
-				_throwIfApiNotSupported("ChartSeries.splitValue", _defaultApiSetName, "1.8", _hostName);
+				_throwIfApiNotSupported("ChartSeries.splitValue", _defaultApiSetName, "1.9", _hostName);
 				return this._Spl;
 			},
 			set: function (value) {
@@ -37623,6 +37623,18 @@ var Excel;
 		Shape.prototype.delete=function () {
 			_invokeMethod(this, "Delete", 0, [], 0, 0);
 		};
+		Shape.prototype.saveAsPicture=function (format) {
+			return _invokeMethod(this, "SaveAsPicture", 0, [format], 0, 0);
+		};
+		Shape.prototype.incrementLeft=function (increment) {
+			_invokeMethod(this, "IncrementLeft", 0, [increment], 0, 0);
+		};
+		Shape.prototype.incrementRotation=function (increment) {
+			_invokeMethod(this, "IncrementRotation", 0, [increment], 0, 0);
+		};
+		Shape.prototype.incrementTop=function (increment) {
+			_invokeMethod(this, "IncrementTop", 0, [increment], 0, 0);
+		};
 		Shape.prototype.setZOrder=function (value) {
 			_invokeMethod(this, "SetZOrder", 0, [value], 0, 0);
 		};
@@ -37884,7 +37896,7 @@ var Excel;
 		});
 		Object.defineProperty(Image.prototype, "_scalarPropertyNames", {
 			get: function () {
-				return ["id"];
+				return ["id", "format"];
 			},
 			enumerable: true,
 			configurable: true
@@ -37914,6 +37926,14 @@ var Excel;
 			enumerable: true,
 			configurable: true
 		});
+		Object.defineProperty(Image.prototype, "format", {
+			get: function () {
+				_throwIfNotLoaded("format", this._f, _typeImage, this._isNull);
+				return this._f;
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Image.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
@@ -37922,6 +37942,9 @@ var Excel;
 			_fixObjectPathIfNecessary(this, obj);
 			if (!_isUndefined(obj["Id"])) {
 				this._I=obj["Id"];
+			}
+			if (!_isUndefined(obj["format"])) {
+				this._f=obj["format"];
 			}
 			_handleNavigationPropertyResults(this, obj, ["shape", "Shape"]);
 		};
@@ -37946,6 +37969,7 @@ var Excel;
 		};
 		Image.prototype.toJSON=function () {
 			return _toJson(this, {
+				"format": this._f,
 				"id": this._I,
 			}, {});
 		};
@@ -39055,6 +39079,15 @@ var Excel;
 		ShapeFontUnderlineStyle["wavyHeavy"]="WavyHeavy";
 		ShapeFontUnderlineStyle["wavyDouble"]="WavyDouble";
 	})(ShapeFontUnderlineStyle=Excel.ShapeFontUnderlineStyle || (Excel.ShapeFontUnderlineStyle={}));
+	var PictureFormat;
+	(function (PictureFormat) {
+		PictureFormat["unknown"]="UNKNOWN";
+		PictureFormat["bmp"]="BMP";
+		PictureFormat["jpeg"]="JPEG";
+		PictureFormat["gif"]="GIF";
+		PictureFormat["png"]="PNG";
+		PictureFormat["svg"]="SVG";
+	})(PictureFormat=Excel.PictureFormat || (Excel.PictureFormat={}));
 	var BindingType;
 	(function (BindingType) {
 		BindingType["range"]="Range";
@@ -41506,12 +41539,14 @@ window.OfficeExtensionBatch = window.OfficeExtension;
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -41540,7 +41575,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
         }, Dialog;
     }();
     exports.Dialog = Dialog, exports.displayWebDialog = function(url, options) {
-        return new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
+        return void 0 === options && (options = {}), new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
             if (options.width && options.height && (!isInt(options.width) || !isInt(options.height))) throw new OfficeExtension.Error({
                 code: "InvalidArgument",
                 message: "Dimensions must be % or number."
@@ -41559,7 +41594,8 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                   case 10:
                   default:
                     12006 === args.originalErrorCode ? (eventResult && (eventResult.remove(), ctx.sync()), 
-                    options.onClose && options.onClose()) : options.onRuntimeError && options.onRuntimeError(args.error, dialog);
+                    options.onClose && options.onClose()) : options.onRuntimeError && (options.onRuntimeError(args.error, dialog), 
+                    reject(args.error));
                 }
                 return OfficeExtension.CoreUtility.Promise.resolve();
             });
@@ -41567,8 +41603,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame,
-                    hideTitle: options.hideTitle
+                    displayInIFrame: options.displayInIFrame
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {
@@ -41669,12 +41704,14 @@ window.OfficeExtensionBatch = window.OfficeExtension;
 }, function(module, exports, __webpack_require__) {
     "use strict";
     var __extends = this && this.__extends || function() {
-        var extendStatics = Object.setPrototypeOf || {
-            __proto__: []
-        } instanceof Array && function(d, b) {
-            d.__proto__ = b;
-        } || function(d, b) {
-            for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+        var extendStatics = function(d, b) {
+            return (extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
+            })(d, b);
         };
         return function(d, b) {
             function __() {
@@ -41737,7 +41774,13 @@ window.OfficeExtensionBatch = window.OfficeExtension;
             return callStorageManager(function(storage, invokeId) {
                 return storage.multiGet(invokeId, JSON.stringify(keys));
             }, function(result) {
-                return JSON.parse(result);
+                var keyValues = JSON.parse(result), map = {};
+                return keyValues && keyValues.forEach(function(_a) {
+                    var key = _a[0], value = _a[1];
+                    return map[key] = value, value;
+                }), keys.map(function(key) {
+                    return [ key, map[key] ];
+                });
             }, callback);
         },
         multiSet: function(keyValuePairs, callback) {
@@ -41828,7 +41871,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                     eventArgsTransformFunc: function(args) {
                         var perkvstorArgs;
                         try {
-                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 !== hr ? new OfficeExtension.Error(function(internalCode) {
+                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 != hr ? new OfficeExtension.Error(function(internalCode) {
                                 var _a, table = ((_a = {})[16389] = {
                                     code: "GenericException",
                                     message: "Unknown error."

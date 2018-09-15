@@ -1,5 +1,5 @@
 /* Office JavaScript API library */
-/* Version: 16.0.10906.10000 */
+/* Version: 16.0.10824.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1114,7 +1114,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.10906.10000",
+        FileVersion: "16.0.10824.30000",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
