@@ -1,4 +1,9 @@
+version: 1.1.9-adhoc.32
 tag: adhoc
+githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.9-adhoc.32
+githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.9-adhoc.32
+deployedAt: 2018-09-15 1:01 am UTC  (2018-09-14 6:01 pm Pacific Time)
+
 history:
     adhocBranchName: >-
         __adhoc--beta--local-enlistment--2018-09-14--5.57pm--online-dialog-and-aria-fix
@@ -33,3 +38,11 @@ history:
             message: >-
                 [BEGIN PUBLISH UPDATES] --
                 __adhoc--beta--local-enlistment--2018-09-14--5.57pm--online-dialog-and-aria-fix
+
+
+unpkgUrls: |-
+    this specific build number:
+        https://unpkg.com/@microsoft/office-js@1.1.9-adhoc.32/dist/office.js
+        https://unpkg.com/@microsoft/office-js@1.1.9-adhoc.32/dist/office.d.ts
+
+buildLog: https://travis-ci.org/OfficeDev/office-js/builds/428861584
