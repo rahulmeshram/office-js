@@ -1,5 +1,5 @@
 /* Excel Mac specific API library (Core APIs only) */
-/* Version: 16.0.10915.30001 */
+/* Version: 16.0.10928.30001 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1062,7 +1062,8 @@ OSF.AppName = {
     VisioWebApp: 8388610,
     OneNoteIOS: 8388611,
     WordAndroid: 8388613,
-    PowerpointAndroid: 8388614
+    PowerpointAndroid: 8388614,
+    Visio: 8388615
 };
 OSF.InternalPerfMarker = {
     DataCoercionBegin: "Agave.HostCall.CoerceDataStart",
@@ -5185,7 +5186,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.10915.30001";
+        appInfo.hostJSVersion = "16.0.10928.30001";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }
@@ -5968,7 +5969,8 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame
+                    displayInIFrame: options.displayInIFrame,
+                    hideTitle: options.hideTitle
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {
@@ -6144,7 +6146,7 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
                     var key = _a[0], value = _a[1];
                     return map[key] = value, value;
                 }), keys.map(function(key) {
-                    return [ key, map[key] ];
+                    return [ key, map[key] ? map[key] : null ];
                 });
             }, callback);
         },

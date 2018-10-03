@@ -1,7 +1,3 @@
-/* Excel Mac-specific API library */
-/* Version: 16.0.10912.30000 */
-
-/* Office.js Version: 16.0.10325.1000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -17,6 +13,13 @@
 *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
 * @version   2.3.0
 */
+
+
+// Sources:
+// osfweb: custom
+// runtime: tenantxl_api_RI 16.0.10924.30005
+// core: daddev 16.0\11002.10000
+// host: tenantxl_api_RI 16.0.10924.30005
 
 var __extends=(this && this.__extends) || function (d, b) {
 	for (var p in b) if (b.hasOwnProperty(p)) d[p]=b[p];
@@ -1382,6 +1385,7 @@ OSF.DDA.EventDispId={
 	dispidOlkRecipientsChangedEvent: 47,
 	dispidOlkAppointmentTimeChangedEvent: 48,
 	dispidOlkRecurrenceChangedEvent: 49,
+	dispidOlkAttachmentsChangedEvent: 50,
 	dispidTaskSelectionChangedEvent: 56,
 	dispidResourceSelectionChangedEvent: 57,
 	dispidViewSelectionChangedEvent: 58,
@@ -1518,6 +1522,7 @@ OSF.DDA.ErrorCodeManager=(function () {
 			ooeSSOUserConsentNotSupportedByCurrentAddinCategory: 13009,
 			ooeSSOConnectionLost: 13010,
 			ooeResourceNotAllowed: 13011,
+			ooeSSOUnsupportedPlatform: 13012,
 			ooeAccessDenied: 13990,
 			ooeGeneralException: 13991
 		},
@@ -1619,6 +1624,7 @@ OSF.DDA.ErrorCodeManager=(function () {
 			_errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeAddinIsAlreadyRequestingToken]={ name: stringNS.L_AddinIsAlreadyRequestingToken, message: stringNS.L_AddinIsAlreadyRequestingTokenMessage };
 			_errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeSSOUserConsentNotSupportedByCurrentAddinCategory]={ name: stringNS.L_SSOUserConsentNotSupportedByCurrentAddinCategory, message: stringNS.L_SSOUserConsentNotSupportedByCurrentAddinCategoryMessage };
 			_errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeSSOConnectionLost]={ name: stringNS.L_SSOConnectionLostError, message: stringNS.L_SSOConnectionLostErrorMessage };
+			_errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeSSOUnsupportedPlatform]={ name: stringNS.L_SSOConnectionLostError, message: stringNS.L_SSOUnsupportedPlatform };
 			_errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeOperationCancelled]={ name: stringNS.L_OperationCancelledError, message: stringNS.L_OperationCancelledErrorMessage };
 		}
 	};
@@ -1803,6 +1809,7 @@ var OfficeExt;
 					"documentevents": 1.1,
 					"file": 1.1,
 					"pdffile": 1.1,
+					"powerpointapi": 1.1,
 					"selection": 1.1,
 					"settings": 1.1,
 					"textcoercion": 1.1
@@ -3105,6 +3112,7 @@ OSF.DDA.DispIdHost.Facade=function OSF_DDA_DispIdHost_Facade(getDelegateMethods,
 		"RecipientsChanged": did.dispidOlkRecipientsChangedEvent,
 		"AppointmentTimeChanged": did.dispidOlkAppointmentTimeChangedEvent,
 		"RecurrenceChanged": did.dispidOlkRecurrenceChangedEvent,
+		"AttachmentsChanged": did.dispidOlkAttachmentsChangedEvent,
 		"TaskSelectionChanged": did.dispidTaskSelectionChangedEvent,
 		"ResourceSelectionChanged": did.dispidResourceSelectionChangedEvent,
 		"ViewSelectionChanged": did.dispidViewSelectionChangedEvent,
@@ -4988,19 +4996,185 @@ var Logger;
 	}
 	Logger.ulsEndpoint=creatULSEndpoint();
 })(Logger || (Logger={}));
+var CDN_PATH_OTELJS='telemetry/oteljs.js';
+var CDN_PATH_OTELJS_AGAVE='telemetry/oteljs_agave.js';
 var OSFAriaLogger;
 (function (OSFAriaLogger) {
+	var TelemetryEventAppActivated={ name: "AppActivated", enabled: true, critical: true, points: [
+			{ name: "Browser", type: "string" },
+			{ name: "Message", type: "string" },
+			{ name: "SessionId", type: "string" },
+			{ name: "AppId", type: "string" },
+			{ name: "AssetId", type: "string" },
+			{ name: "AppURL", type: "string" },
+			{ name: "UserId", type: "string" },
+			{ name: "ClientId", type: "string" },
+			{ name: "Host", type: "string" },
+			{ name: "HostVersion", type: "string" },
+			{ name: "CorrelationId", type: "string" },
+			{ name: "AppSizeWidth", type: "int64" },
+			{ name: "AppSizeHeight", type: "int64" },
+			{ name: "AppInstanceId", type: "string" },
+			{ name: "DocUrl", type: "string" },
+			{ name: "OfficeJSVersion", type: "string" },
+			{ name: "HostJSVersion", type: "string" },
+			{ name: "WacHostEnvironment", type: "string" },
+			{ name: "IsFromWacAutomation", type: "string" },
+			{ name: "Date", type: "string" },
+		] };
+	var TelemetryEventScriptLoad={ name: "ScriptLoad", enabled: true, critical: false, points: [
+			{ name: "SessionId", type: "string" },
+			{ name: "ScriptId", type: "string" },
+			{ name: "StartTime", type: "double" },
+			{ name: "ResponseTime", type: "double" },
+			{ name: "Date", type: "string" },
+		] };
+	var TelemetryEventApiUsage={ name: "APIUsage", enabled: false, critical: false, points: [
+			{ name: "SessionId", type: "string" },
+			{ name: "APIType", type: "string" },
+			{ name: "APIID", type: "int64" },
+			{ name: "Parameters", type: "string" },
+			{ name: "ResponseTime", type: "int64" },
+			{ name: "ErrorType", type: "int64" },
+			{ name: "Date", type: "string" },
+		] };
+	var TelemetryEventAppInitialization={ name: "AppInitialization", enabled: true, critical: false, points: [
+			{ name: "SessionId", type: "string" },
+			{ name: "SuccessCode", type: "int64" },
+			{ name: "Message", type: "string" },
+			{ name: "Date", type: "string" },
+		] };
+	var TelemetryEventApiClosed={ name: "AppClosed", enabled: true, critical: false, points: [
+			{ name: "SessionId", type: "string" },
+			{ name: "FocusTime", type: "int64" },
+			{ name: "AppSizeFinalWidth", type: "int64" },
+			{ name: "AppSizeFinalHeight", type: "int64" },
+			{ name: "OpenTime", type: "int64" },
+			{ name: "Date", type: "string" },
+		] };
+	var TelemetryEvents=[
+		TelemetryEventAppActivated,
+		TelemetryEventScriptLoad,
+		TelemetryEventApiUsage,
+		TelemetryEventAppInitialization,
+		TelemetryEventApiClosed,
+	];
+	function createDataField(value, point) {
+		var key=point.name;
+		var type=point.type;
+		var field=undefined;
+		switch (type) {
+			case "string":
+				field=oteljs.makeStringDataField(key, value);
+				break;
+			case "double":
+				field=oteljs.makeDoubleDataField(key, value);
+				break;
+			case "int64":
+				field=oteljs.makeInt64DataField(key, value);
+				break;
+			case "boolean":
+				field=oteljs.makeBooleanDataField(key, value);
+				break;
+		}
+		return field;
+	}
+	function getEventDefinition(eventName) {
+		for (var _i=0; _i < TelemetryEvents.length; _i++) {
+			var event_1=TelemetryEvents[_i];
+			if (event_1.name===eventName) {
+				return event_1;
+			}
+		}
+		return undefined;
+	}
+	function eventEnabled(eventName) {
+		var eventDefinition=getEventDefinition(eventName);
+		if (eventDefinition===undefined) {
+			return false;
+		}
+		return eventDefinition.enabled;
+	}
+	function generateTelemetryEvent(eventName, telemetryData) {
+		var eventDefinition=getEventDefinition(eventName);
+		if (eventDefinition===undefined) {
+			return undefined;
+		}
+		var dataFields=[];
+		for (var _i=0, _a=eventDefinition.points; _i < _a.length; _i++) {
+			var point=_a[_i];
+			var key=point.name;
+			var value=telemetryData[key];
+			if (value===undefined) {
+				continue;
+			}
+			var field=createDataField(value, point);
+			if (field !==undefined) {
+				dataFields.push(field);
+			}
+		}
+		var flags={};
+		if (eventDefinition.critical) {
+			flags={ samplingPolicy: oteljs.SamplingPolicy.CriticalBusinessImpact };
+		}
+		var eventNameFull="Office.Extensibility.OfficeJs."+eventName+"X";
+		var event={ eventName: eventNameFull, dataFields: dataFields, eventFlags: flags };
+		return event;
+	}
 	var AriaLogger=(function () {
 		function AriaLogger() {
 		}
 		AriaLogger.prototype.getAriaCDNLocation=function () {
-			return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath()+"/ariatelemetry/aria-web-telemetry.js");
+			return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath()+"ariatelemetry/aria-web-telemetry.js");
 		};
 		AriaLogger.getInstance=function () {
 			if (AriaLogger.AriaLoggerObj===undefined) {
 				AriaLogger.AriaLoggerObj=new AriaLogger();
 			}
 			return AriaLogger.AriaLoggerObj;
+		};
+		AriaLogger.getOtelCDNLocation=function () {
+			return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath()+CDN_PATH_OTELJS);
+		};
+		AriaLogger.getOtelSinkCDNLocation=function () {
+			return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath()+CDN_PATH_OTELJS_AGAVE);
+		};
+		AriaLogger.getTelemetryLogger=function () {
+			if (AriaLogger.otelTelemetryLogger===undefined) {
+				var logger=new oteljs.TelemetryLogger();
+				var sink=new oteljs_agave.AgaveSink();
+				logger.addSink(sink);
+				var namespace="Office.Extensibility.OfficeJs";
+				var ariaTenantToken='db334b301e7b474db5e0f02f07c51a47-a1b5bc36-1bbe-482f-a64a-c2d9cb606706-7439';
+				var nexusTenantToken=1775;
+				logger.setTenantToken(namespace, ariaTenantToken, nexusTenantToken);
+				AriaLogger.otelTelemetryLogger=logger;
+			}
+			return AriaLogger.otelTelemetryLogger;
+		};
+		AriaLogger.sendOtelTelemetryEventCallback=function (eventName, telemetryData) {
+			var event=generateTelemetryEvent(eventName, telemetryData);
+			if (event===undefined) {
+				return;
+			}
+			var time=new Date();
+			event.dataFields.push(oteljs.makeStringDataField("Date", time.toISOString()));
+			try {
+				var logger=AriaLogger.getTelemetryLogger();
+				logger.sendTelemetryEvent(event);
+			}
+			catch (e) {
+			}
+		};
+		AriaLogger.sendOtelTelemetryEvent=function (eventName, telemetryData) {
+			var timeoutAfterOneSecond=1000;
+			var afterLoadOtelSink=function () {
+				AriaLogger.sendOtelTelemetryEventCallback(eventName, telemetryData);
+			};
+			var afterLoadOtel=function () {
+				OSF.OUtil.loadScript(AriaLogger.getOtelSinkCDNLocation(), afterLoadOtelSink, timeoutAfterOneSecond);
+			};
+			OSF.OUtil.loadScript(AriaLogger.getOtelCDNLocation(), afterLoadOtel, timeoutAfterOneSecond);
 		};
 		AriaLogger.prototype.isIUsageData=function (arg) {
 			return arg["Fields"] !==undefined;
@@ -5027,6 +5201,9 @@ var OSFAriaLogger;
 				catch (e) {
 				}
 			}, startAfterMs);
+			if (eventEnabled(tableName)) {
+				AriaLogger.sendOtelTelemetryEvent(tableName, telemetryData);
+			}
 		};
 		AriaLogger.prototype.logData=function (data) {
 			if (this.isIUsageData(data)) {
@@ -5183,7 +5360,7 @@ var OSFAppTelemetry;
 		}
 		appInfo.message=context.get_hostCustomMessage();
 		appInfo.officeJSVersion=OSF.ConstantNames.FileVersion;
-		appInfo.hostJSVersion="16.0.10316.10000";
+		appInfo.hostJSVersion="16.0.10925.30000";
 		if (context._wacHostEnvironment) {
 			appInfo.wacHostEnvironment=context._wacHostEnvironment;
 		}
@@ -5706,6 +5883,14 @@ OSF.DDA.OMFactory.manufactureEventArgs=function OSF_DDA_OMFactory$manufactureEve
 		case Microsoft.Office.WebExtension.EventType.RecurrenceChanged:
 			if (OSF._OfficeAppFactory.getHostInfo()["hostType"]=="outlook") {
 				args=new OSF.DDA.OlkRecurrenceChangedEventArgs(eventProperties);
+			}
+			else {
+				throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType, OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType, eventType));
+			}
+			break;
+		case Microsoft.Office.WebExtension.EventType.AttachmentsChanged:
+			if (OSF._OfficeAppFactory.getHostInfo()["hostType"]=="outlook") {
+				args=new OSF.DDA.OlkAttachmentsChangedEventArgs(eventProperties);
 			}
 			else {
 				throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType, OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType, eventType));
@@ -14733,7 +14918,17 @@ var OfficeFirstPartyAuth;
 							resolve(arg.tokenValue);
 						}
 						else {
-							reject(arg.code);
+							if (OfficeExtension.CoreUtility.isNullOrUndefined(arg.errorInfo)) {
+								reject({ code: arg.code });
+							}
+							else {
+								try {
+									reject(JSON.parse(arg.errorInfo));
+								}
+								catch (e) {
+									reject({ code: arg.code, message: arg.errorInfo });
+								}
+							}
 						}
 					}
 					return null;
@@ -14883,7 +15078,8 @@ var OfficeCore;
 						eventArgsTransformFunc: function (value) {
 							var newArgs={
 								tokenValue: value.tokenValue,
-								code: value.code
+								code: value.code,
+								errorInfo: value.errorInfo
 							};
 							return OfficeExtension.Utility._createPromiseFromResult(newArgs);
 						}
@@ -15348,6 +15544,9 @@ var OfficeCore;
 		ErrorCodes["unsupportedUserIdentity"]="UnsupportedUserIdentity";
 		ErrorCodes["userNotSignedIn"]="UserNotSignedIn";
 	})(ErrorCodes=OfficeCore.ErrorCodes || (OfficeCore.ErrorCodes={}));
+	var Interfaces;
+	(function (Interfaces) {
+	})(Interfaces=OfficeCore.Interfaces || (OfficeCore.Interfaces={}));
 })(OfficeCore || (OfficeCore={}));
 
 var __extends=(this && this.__extends) || (function () {
@@ -16534,6 +16733,10 @@ var Excel;
 		Workbook.prototype.registerCustomFunctions=function (addinNamespace, metadataContent, addinId) {
 			_throwIfApiNotSupported("Workbook.registerCustomFunctions", "CustomFunctions", "1.1", _hostName);
 			_invokeMethod(this, "RegisterCustomFunctions", 0, [addinNamespace, metadataContent, addinId], 0, 0);
+		};
+		Workbook.prototype.save=function (saveBehavior) {
+			_throwIfApiNotSupported("Workbook.save", _defaultApiSetName, "1.9", _hostName);
+			_invokeMethod(this, "Save", 0, [saveBehavior], 0, 0);
 		};
 		Workbook.prototype._GetObjectByReferenceId=function (bstrReferenceId) {
 			return _invokeMethod(this, "_GetObjectByReferenceId", 1, [bstrReferenceId], 4, 0);
@@ -37402,14 +37605,14 @@ var Excel;
 		});
 		Object.defineProperty(Shape.prototype, "_scalarPropertyNames", {
 			get: function () {
-				return ["id", "name", "left", "top", "width", "height", "rotation", "zorderPosition", "altTextTitle", "altTextDescription", "type", "lockAspectRatio", "placement", "geometricShapeType"];
+				return ["id", "name", "left", "top", "width", "height", "rotation", "zorderPosition", "altTextTitle", "altTextDescription", "type", "lockAspectRatio", "placement", "geometricShapeType", "visible"];
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "_scalarPropertyUpdateable", {
 			get: function () {
-				return [false, false, true, true, true, true, true, false, true, true, false, true, true, true];
+				return [false, false, true, true, true, true, true, false, true, true, false, true, true, true, true];
 			},
 			enumerable: true,
 			configurable: true
@@ -37593,6 +37796,18 @@ var Excel;
 			enumerable: true,
 			configurable: true
 		});
+		Object.defineProperty(Shape.prototype, "visible", {
+			get: function () {
+				_throwIfNotLoaded("visible", this._V, _typeShape, this._isNull);
+				return this._V;
+			},
+			set: function (value) {
+				this._V=value;
+				_invokeSetProperty(this, "Visible", value, 0);
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Object.defineProperty(Shape.prototype, "width", {
 			get: function () {
 				_throwIfNotLoaded("width", this._W, _typeShape, this._isNull);
@@ -37614,7 +37829,7 @@ var Excel;
 			configurable: true
 		});
 		Shape.prototype.set=function (properties, options) {
-			this._recursivelySet(properties, options, ["left", "top", "width", "height", "rotation", "altTextTitle", "altTextDescription", "lockAspectRatio", "placement", "geometricShapeType"], ["fill"], [
+			this._recursivelySet(properties, options, ["left", "top", "width", "height", "rotation", "altTextTitle", "altTextDescription", "lockAspectRatio", "placement", "geometricShapeType", "visible"], ["fill"], [
 				"geometricShape",
 				"image",
 				"textFrame"
@@ -37637,6 +37852,12 @@ var Excel;
 		};
 		Shape.prototype.saveAsPicture=function (format) {
 			return _invokeMethod(this, "SaveAsPicture", 0, [format], 0, 0);
+		};
+		Shape.prototype.scaleHeight=function (scaleFactor, scaleType, scaleFrom) {
+			_invokeMethod(this, "ScaleHeight", 0, [scaleFactor, scaleType, scaleFrom], 0, 0);
+		};
+		Shape.prototype.scaleWidth=function (scaleFactor, scaleType, scaleFrom) {
+			_invokeMethod(this, "ScaleWidth", 0, [scaleFactor, scaleType, scaleFrom], 0, 0);
 		};
 		Shape.prototype.setZOrder=function (value) {
 			_invokeMethod(this, "SetZOrder", 0, [value], 0, 0);
@@ -37694,6 +37915,9 @@ var Excel;
 			}
 			if (!_isUndefined(obj["Type"])) {
 				this._Ty=obj["Type"];
+			}
+			if (!_isUndefined(obj["Visible"])) {
+				this._V=obj["Visible"];
 			}
 			if (!_isUndefined(obj["Width"])) {
 				this._W=obj["Width"];
@@ -37784,6 +38008,7 @@ var Excel;
 				"rotation": this._R,
 				"top": this._To,
 				"type": this._Ty,
+				"visible": this._V,
 				"width": this._W,
 				"zorderPosition": this._Z,
 			}, {
@@ -39054,6 +39279,17 @@ var Excel;
 		ShapeType["image"]="Image";
 		ShapeType["geometricShape"]="GeometricShape";
 	})(ShapeType=Excel.ShapeType || (Excel.ShapeType={}));
+	var ShapeScaleType;
+	(function (ShapeScaleType) {
+		ShapeScaleType["currentSize"]="CurrentSize";
+		ShapeScaleType["originalSize"]="OriginalSize";
+	})(ShapeScaleType=Excel.ShapeScaleType || (Excel.ShapeScaleType={}));
+	var ShapeScaleFrom;
+	(function (ShapeScaleFrom) {
+		ShapeScaleFrom["scaleFromTopLeft"]="ScaleFromTopLeft";
+		ShapeScaleFrom["scaleFromMiddle"]="ScaleFromMiddle";
+		ShapeScaleFrom["scaleFromBottomRight"]="ScaleFromBottomRight";
+	})(ShapeScaleFrom=Excel.ShapeScaleFrom || (Excel.ShapeScaleFrom={}));
 	var ShapeFillType;
 	(function (ShapeFillType) {
 		ShapeFillType["noFill"]="NoFill";
@@ -40086,6 +40322,11 @@ var Excel;
 		CloseBehavior["save"]="Save";
 		CloseBehavior["skipSave"]="SkipSave";
 	})(CloseBehavior=Excel.CloseBehavior || (Excel.CloseBehavior={}));
+	var SaveBehavior;
+	(function (SaveBehavior) {
+		SaveBehavior["save"]="Save";
+		SaveBehavior["prompt"]="Prompt";
+	})(SaveBehavior=Excel.SaveBehavior || (Excel.SaveBehavior={}));
 	var _typeFunctionResult="FunctionResult";
 	var FunctionResult=(function (_super) {
 		__extends(FunctionResult, _super);
@@ -41477,461 +41718,3 @@ var Excel;
 	})(Interfaces=Excel.Interfaces || (Excel.Interfaces={}));
 })(Excel || (Excel={}));
 
-
-
-window.OfficeExtensionBatch = window.OfficeExtension;
-
-
-
-!function(modules) {
-    var installedModules = {};
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) return installedModules[moduleId].exports;
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: !1,
-            exports: {}
-        };
-        return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__), 
-        module.l = !0, module.exports;
-    }
-    __webpack_require__.m = modules, __webpack_require__.c = installedModules, __webpack_require__.d = function(exports, name, getter) {
-        __webpack_require__.o(exports, name) || Object.defineProperty(exports, name, {
-            enumerable: !0,
-            get: getter
-        });
-    }, __webpack_require__.r = function(exports) {
-        "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(exports, Symbol.toStringTag, {
-            value: "Module"
-        }), Object.defineProperty(exports, "__esModule", {
-            value: !0
-        });
-    }, __webpack_require__.t = function(value, mode) {
-        if (1 & mode && (value = __webpack_require__(value)), 8 & mode) return value;
-        if (4 & mode && "object" == typeof value && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        if (__webpack_require__.r(ns), Object.defineProperty(ns, "default", {
-            enumerable: !0,
-            value: value
-        }), 2 & mode && "string" != typeof value) for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    }, __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function() {
-            return module.default;
-        } : function() {
-            return module;
-        };
-        return __webpack_require__.d(getter, "a", getter), getter;
-    }, __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    }, __webpack_require__.p = "", __webpack_require__(__webpack_require__.s = 1);
-}([ function(module, exports) {
-    module.exports = OfficeExtensionBatch;
-}, function(module, exports, __webpack_require__) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    });
-    var DialogApi = __webpack_require__(2), AsyncStorage = __webpack_require__(3);
-    window._OfficeRuntimeNative = {
-        displayWebDialog: DialogApi.displayWebDialog,
-        AsyncStorage: AsyncStorage.AsyncStorage
-    };
-}, function(module, exports, __webpack_require__) {
-    "use strict";
-    var __extends = this && this.__extends || function() {
-        var extendStatics = function(d, b) {
-            return (extendStatics = Object.setPrototypeOf || {
-                __proto__: []
-            } instanceof Array && function(d, b) {
-                d.__proto__ = b;
-            } || function(d, b) {
-                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
-            })(d, b);
-        };
-        return function(d, b) {
-            function __() {
-                this.constructor = d;
-            }
-            extendStatics(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, 
-            new __());
-        };
-    }();
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    });
-    var OfficeExtension = __webpack_require__(0), _createTopLevelServiceObject = (OfficeExtension.BatchApiHelper.createPropertyObject, 
-    OfficeExtension.BatchApiHelper.createMethodObject, OfficeExtension.BatchApiHelper.createIndexerObject, 
-    OfficeExtension.BatchApiHelper.createRootServiceObject, OfficeExtension.BatchApiHelper.createTopLevelServiceObject), _invokeMethod = (OfficeExtension.BatchApiHelper.createChildItemObject, 
-    OfficeExtension.BatchApiHelper.invokeMethod), _isNullOrUndefined = (OfficeExtension.BatchApiHelper.invokeEnsureUnchanged, 
-    OfficeExtension.BatchApiHelper.invokeSetProperty, OfficeExtension.Utility.isNullOrUndefined), _toJson = (OfficeExtension.Utility.isUndefined, 
-    OfficeExtension.Utility.throwIfNotLoaded, OfficeExtension.Utility.throwIfApiNotSupported, 
-    OfficeExtension.Utility.load, OfficeExtension.Utility.retrieve, OfficeExtension.Utility.toJson), _fixObjectPathIfNecessary = OfficeExtension.Utility.fixObjectPathIfNecessary, _processRetrieveResult = (OfficeExtension.Utility._handleNavigationPropertyResults, 
-    OfficeExtension.Utility.adjustToDateTime, OfficeExtension.Utility.processRetrieveResult), Dialog = function() {
-        function Dialog(_dialogService) {
-            this._dialogService = _dialogService;
-        }
-        return Dialog.prototype.close = function() {
-            return this._dialogService.close(), this._dialogService.context.sync();
-        }, Dialog;
-    }();
-    exports.Dialog = Dialog, exports.displayWebDialog = function(url, options) {
-        return void 0 === options && (options = {}), new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
-            if (options.width && options.height && (!isInt(options.width) || !isInt(options.height))) throw new OfficeExtension.Error({
-                code: "InvalidArgument",
-                message: "Dimensions must be % or number."
-            });
-            var ctx = new OfficeExtension.ClientRequestContext(), dialogService = DialogService.newObject(ctx), dialog = new Dialog(dialogService), eventResult = dialogService.onDialogMessage.add(function(args) {
-                switch (OfficeExtension.Utility.log("dialogMessageHandler:" + JSON.stringify(args)), 
-                args.type) {
-                  case 17:
-                    args.error ? reject(args.error) : resolve(dialog);
-                    break;
-
-                  case 12:
-                    options.onMessage && options.onMessage(args.message, dialog);
-                    break;
-
-                  case 10:
-                  default:
-                    12006 === args.originalErrorCode ? (eventResult && (eventResult.remove(), ctx.sync()), 
-                    options.onClose && options.onClose()) : options.onRuntimeError && (options.onRuntimeError(args.error, dialog), 
-                    reject(args.error));
-                }
-                return OfficeExtension.CoreUtility.Promise.resolve();
-            });
-            return ctx.sync().then(function() {
-                var dialogOptions = {
-                    width: options.width ? parseInt(options.width) : 50,
-                    height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame
-                };
-                return dialogService.displayDialog(url, dialogOptions), ctx.sync();
-            }).catch(function(e) {
-                reject(e);
-            });
-        });
-        function isInt(value) {
-            return /^(\-|\+)?([0-9]+)%?$/.test(value);
-        }
-    };
-    var DialogEventType, DialogService = function(_super) {
-        function DialogService() {
-            return null !== _super && _super.apply(this, arguments) || this;
-        }
-        return __extends(DialogService, _super), Object.defineProperty(DialogService.prototype, "_className", {
-            get: function() {
-                return "DialogService";
-            },
-            enumerable: !0,
-            configurable: !0
-        }), DialogService.prototype.close = function() {
-            _invokeMethod(this, "Close", 1, [], 4, 0);
-        }, DialogService.prototype.displayDialog = function(url, options) {
-            _invokeMethod(this, "DisplayDialog", 1, [ url, options ], 4, 0);
-        }, DialogService.prototype._handleResult = function(value) {
-            (_super.prototype._handleResult.call(this, value), _isNullOrUndefined(value)) || _fixObjectPathIfNecessary(this, value);
-        }, DialogService.prototype._handleRetrieveResult = function(value, result) {
-            _super.prototype._handleRetrieveResult.call(this, value, result), _processRetrieveResult(this, value, result);
-        }, DialogService.newObject = function(context) {
-            return _createTopLevelServiceObject(DialogService, context, "Microsoft.Dialog.DialogService", !1, 4);
-        }, Object.defineProperty(DialogService.prototype, "onDialogMessage", {
-            get: function() {
-                return this.m_dialogMessage || (this.m_dialogMessage = new OfficeExtension.GenericEventHandlers(this.context, this, "DialogMessage", {
-                    eventType: 65536,
-                    registerFunc: function() {},
-                    unregisterFunc: function() {},
-                    getTargetIdFunc: function() {
-                        return null;
-                    },
-                    eventArgsTransformFunc: function(args) {
-                        var transformedArgs;
-                        try {
-                            var parsedMessage = JSON.parse(args.message), error = parsedMessage.errorCode ? new OfficeExtension.Error(function(internalCode) {
-                                var _a, table = ((_a = {})[12002] = {
-                                    code: "InvalidUrl",
-                                    message: "Cannot load URL, no such page or bad URL syntax."
-                                }, _a[12003] = {
-                                    code: "InvalidUrl",
-                                    message: "HTTPS is required."
-                                }, _a[12004] = {
-                                    code: "Untrusted",
-                                    message: "Domain is not trusted."
-                                }, _a[12005] = {
-                                    code: "InvalidUrl",
-                                    message: "HTTPS is required."
-                                }, _a[12007] = {
-                                    code: "FailedToOpen",
-                                    message: "Another dialog is already opened."
-                                }, _a);
-                                return table[internalCode] ? table[internalCode] : {
-                                    code: "Unknown",
-                                    message: "An unknown error has occured"
-                                };
-                            }(parsedMessage.errorCode)) : null;
-                            transformedArgs = {
-                                originalErrorCode: parsedMessage.errorCode,
-                                type: parsedMessage.type,
-                                error: error,
-                                message: parsedMessage.message
-                            };
-                        } catch (e) {
-                            transformedArgs = {
-                                originalErrorCode: null,
-                                type: 17,
-                                error: new OfficeExtension.Error({
-                                    code: "GenericException",
-                                    message: "Unknown error"
-                                }),
-                                message: e.message
-                            };
-                        }
-                        return OfficeExtension.Utility._createPromiseFromResult(transformedArgs);
-                    }
-                })), this.m_dialogMessage;
-            },
-            enumerable: !0,
-            configurable: !0
-        }), DialogService.prototype.toJSON = function() {
-            return _toJson(this, {}, {});
-        }, DialogService;
-    }(OfficeExtension.ClientObject);
-    exports.DialogService = DialogService, function(DialogEventType) {
-        DialogEventType[DialogEventType.dialogMessageReceived = 0] = "dialogMessageReceived", 
-        DialogEventType[DialogEventType.dialogEventReceived = 1] = "dialogEventReceived";
-    }(DialogEventType || (DialogEventType = {})), function(DialogErrorCodes) {
-        DialogErrorCodes.generalException = "GeneralException";
-    }(exports.DialogErrorCodes || (exports.DialogErrorCodes = {}));
-}, function(module, exports, __webpack_require__) {
-    "use strict";
-    var __extends = this && this.__extends || function() {
-        var extendStatics = function(d, b) {
-            return (extendStatics = Object.setPrototypeOf || {
-                __proto__: []
-            } instanceof Array && function(d, b) {
-                d.__proto__ = b;
-            } || function(d, b) {
-                for (var p in b) b.hasOwnProperty(p) && (d[p] = b[p]);
-            })(d, b);
-        };
-        return function(d, b) {
-            function __() {
-                this.constructor = d;
-            }
-            extendStatics(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, 
-            new __());
-        };
-    }();
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    });
-    var OfficeExtension = __webpack_require__(0), _createTopLevelServiceObject = (OfficeExtension.BatchApiHelper.createPropertyObject, 
-    OfficeExtension.BatchApiHelper.createMethodObject, OfficeExtension.BatchApiHelper.createIndexerObject, 
-    OfficeExtension.BatchApiHelper.createRootServiceObject, OfficeExtension.BatchApiHelper.createTopLevelServiceObject), _invokeMethod = (OfficeExtension.BatchApiHelper.createChildItemObject, 
-    OfficeExtension.BatchApiHelper.invokeMethod), _isNullOrUndefined = (OfficeExtension.BatchApiHelper.invokeEnsureUnchanged, 
-    OfficeExtension.BatchApiHelper.invokeSetProperty, OfficeExtension.Utility.isNullOrUndefined), _toJson = (OfficeExtension.Utility.isUndefined, 
-    OfficeExtension.Utility.throwIfNotLoaded, OfficeExtension.Utility.throwIfApiNotSupported, 
-    OfficeExtension.Utility.load, OfficeExtension.Utility.retrieve, OfficeExtension.Utility.toJson), _fixObjectPathIfNecessary = OfficeExtension.Utility.fixObjectPathIfNecessary, _processRetrieveResult = (OfficeExtension.Utility._handleNavigationPropertyResults, 
-    OfficeExtension.Utility.adjustToDateTime, OfficeExtension.Utility.processRetrieveResult);
-    function callStorageManager(nativeCall, getValueOnSuccess, callback) {
-        return new OfficeExtension.CoreUtility.Promise(function(resolve, reject) {
-            var storageManager = PersistentKvStorageManager.getInstance(), invokeId = storageManager.setCallBack(function(result, error) {
-                if (error) return callback && callback(error), void reject(error);
-                var value = getValueOnSuccess(result);
-                callback && callback(null, value), resolve(value);
-            });
-            storageManager.ctx.sync().then(function() {
-                var storageService = storageManager.getPersistentKvStorageService();
-                return nativeCall(storageService, invokeId), storageManager.ctx.sync();
-            }).catch(function(e) {
-                reject(e);
-            });
-        });
-    }
-    exports.AsyncStorage = {
-        getItem: function(key, callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.multiGet(invokeId, JSON.stringify([ key ]));
-            }, function(result) {
-                var parsedResult = JSON.parse(result);
-                return parsedResult && parsedResult[0] && parsedResult[0][1] ? parsedResult[0][1] : null;
-            }, callback);
-        },
-        setItem: function(key, value, callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.multiSet(invokeId, JSON.stringify([ [ key, value ] ]));
-            }, function() {
-                return null;
-            }, callback);
-        },
-        removeItem: function(key, callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.multiRemove(invokeId, JSON.stringify([ key ]));
-            }, function() {
-                return null;
-            }, callback);
-        },
-        multiGet: function(keys, callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.multiGet(invokeId, JSON.stringify(keys));
-            }, function(result) {
-                var keyValues = JSON.parse(result), map = {};
-                return keyValues && keyValues.forEach(function(_a) {
-                    var key = _a[0], value = _a[1];
-                    return map[key] = value, value;
-                }), keys.map(function(key) {
-                    return [ key, map[key] ];
-                });
-            }, callback);
-        },
-        multiSet: function(keyValuePairs, callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.multiSet(invokeId, JSON.stringify(keyValuePairs));
-            }, function() {
-                return null;
-            }, callback);
-        },
-        multiRemove: function(keys, callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.multiRemove(invokeId, JSON.stringify(keys));
-            }, function() {
-                return null;
-            }, callback);
-        },
-        getAllKeys: function(callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.getAllKeys(invokeId);
-            }, function(result) {
-                return JSON.parse(result);
-            }, callback);
-        },
-        clear: function(callback) {
-            return callStorageManager(function(storage, invokeId) {
-                return storage.clear(invokeId);
-            }, function() {
-                return null;
-            }, callback);
-        }
-    };
-    var PersistentKvStorageManager = function() {
-        function PersistentKvStorageManager() {
-            var _this = this;
-            this._invokeId = 0, this._callDict = {}, this.ctx = new OfficeExtension.ClientRequestContext(), 
-            this._perkvstorService = PersistentKvStorageService.newObject(this.ctx), this._eventResult = this._perkvstorService.onPersistentStorageMessage.add(function(args) {
-                OfficeExtension.Utility.log("persistentKvStoragegMessageHandler:" + JSON.stringify(args));
-                var callback = _this._callDict[args.invokeId];
-                callback && (callback(args.message, args.error), delete _this._callDict[args.invokeId]);
-            });
-        }
-        return PersistentKvStorageManager.getInstance = function() {
-            return void 0 === PersistentKvStorageManager.instance ? PersistentKvStorageManager.instance = new PersistentKvStorageManager() : PersistentKvStorageManager.instance._perkvstorService = PersistentKvStorageService.newObject(PersistentKvStorageManager.instance.ctx), 
-            PersistentKvStorageManager.instance;
-        }, PersistentKvStorageManager.prototype.getPersistentKvStorageService = function() {
-            return this._perkvstorService;
-        }, PersistentKvStorageManager.prototype.getCallBack = function(callId) {
-            return this._callDict[callId];
-        }, PersistentKvStorageManager.prototype.setCallBack = function(callback) {
-            var id = this._invokeId;
-            return this._callDict[this._invokeId++] = callback, id;
-        }, PersistentKvStorageManager;
-    }(), PersistentKvStorageService = function(_super) {
-        function PersistentKvStorageService() {
-            return null !== _super && _super.apply(this, arguments) || this;
-        }
-        return __extends(PersistentKvStorageService, _super), Object.defineProperty(PersistentKvStorageService.prototype, "_className", {
-            get: function() {
-                return "PersistentKvStorageService";
-            },
-            enumerable: !0,
-            configurable: !0
-        }), PersistentKvStorageService.prototype.clear = function(id) {
-            _invokeMethod(this, "Clear", 1, [ id ], 4, 0);
-        }, PersistentKvStorageService.prototype.getAllKeys = function(id) {
-            _invokeMethod(this, "GetAllKeys", 1, [ id ], 4, 0);
-        }, PersistentKvStorageService.prototype.multiGet = function(id, jsonKeys) {
-            _invokeMethod(this, "MultiGet", 1, [ id, jsonKeys ], 4, 0);
-        }, PersistentKvStorageService.prototype.multiRemove = function(id, jsonKeys) {
-            _invokeMethod(this, "MultiRemove", 1, [ id, jsonKeys ], 4, 0);
-        }, PersistentKvStorageService.prototype.multiSet = function(id, jsonKeyValue) {
-            _invokeMethod(this, "MultiSet", 1, [ id, jsonKeyValue ], 4, 0);
-        }, PersistentKvStorageService.prototype._handleResult = function(value) {
-            (_super.prototype._handleResult.call(this, value), _isNullOrUndefined(value)) || _fixObjectPathIfNecessary(this, value);
-        }, PersistentKvStorageService.prototype._handleRetrieveResult = function(value, result) {
-            _super.prototype._handleRetrieveResult.call(this, value, result), _processRetrieveResult(this, value, result);
-        }, PersistentKvStorageService.newObject = function(context) {
-            return _createTopLevelServiceObject(PersistentKvStorageService, context, "Microsoft.PersistentKvStorage.PersistentKvStorageService", !1, 4);
-        }, Object.defineProperty(PersistentKvStorageService.prototype, "onPersistentStorageMessage", {
-            get: function() {
-                return this.m_persistentStorageMessage || (this.m_persistentStorageMessage = new OfficeExtension.GenericEventHandlers(this.context, this, "PersistentStorageMessage", {
-                    eventType: 65537,
-                    registerFunc: function() {},
-                    unregisterFunc: function() {},
-                    getTargetIdFunc: function() {
-                        return null;
-                    },
-                    eventArgsTransformFunc: function(args) {
-                        var perkvstorArgs;
-                        try {
-                            var parsedMessage = JSON.parse(args.message), hr = parseInt(parsedMessage.errorCode), error = 0 != hr ? new OfficeExtension.Error(function(internalCode) {
-                                var _a, table = ((_a = {})[16389] = {
-                                    code: "GenericException",
-                                    message: "Unknown error."
-                                }, _a[65535] = {
-                                    code: "Unexcepted",
-                                    message: "Catastrophic failure."
-                                }, _a[14] = {
-                                    code: "OutOfMemory",
-                                    message: "Ran out of memory."
-                                }, _a[87] = {
-                                    code: "InvalidArg",
-                                    message: "One or more arguments are invalid."
-                                }, _a[16385] = {
-                                    code: "NotImplemented",
-                                    message: "Not implemented."
-                                }, _a[6] = {
-                                    code: "BadHandle",
-                                    message: "File Handle is not Set."
-                                }, _a[5] = {
-                                    code: "AccessDenied",
-                                    message: "Can't read the AsyncStorage File."
-                                }, _a);
-                                return table[internalCode] ? table[internalCode] : {
-                                    code: "Unknown",
-                                    message: "An unknown error has occured"
-                                };
-                            }(hr)) : null;
-                            perkvstorArgs = {
-                                invokeId: parsedMessage.invokeId,
-                                message: parsedMessage.message,
-                                error: error
-                            };
-                        } catch (e) {
-                            perkvstorArgs = {
-                                invokeId: -1,
-                                message: e.message,
-                                error: new OfficeExtension.Error({
-                                    code: "GenericException",
-                                    message: "Unknown error"
-                                })
-                            };
-                        }
-                        return OfficeExtension.Utility._createPromiseFromResult(perkvstorArgs);
-                    }
-                })), this.m_persistentStorageMessage;
-            },
-            enumerable: !0,
-            configurable: !0
-        }), PersistentKvStorageService.prototype.toJSON = function() {
-            return _toJson(this, {}, {});
-        }, PersistentKvStorageService;
-    }(OfficeExtension.ClientObject);
-    exports.PersistentKvStorageService = PersistentKvStorageService, function(ErrorCodes) {
-        ErrorCodes.generalException = "GeneralException";
-    }(exports.ErrorCodes || (exports.ErrorCodes = {}));
-} ]);
-
-
-
-window.OfficeRuntime = window._OfficeRuntimeNative;

@@ -1,5 +1,5 @@
 /* Excel web application specific API library (Core APIs only) */
-/* Version: 16.0.10915.30001 */
+/* Version: 16.0.10928.30002 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1062,7 +1062,8 @@ OSF.AppName = {
     VisioWebApp: 8388610,
     OneNoteIOS: 8388611,
     WordAndroid: 8388613,
-    PowerpointAndroid: 8388614
+    PowerpointAndroid: 8388614,
+    Visio: 8388615
 };
 OSF.InternalPerfMarker = {
     DataCoercionBegin: "Agave.HostCall.CoerceDataStart",
@@ -6079,7 +6080,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.10915.30001";
+        appInfo.hostJSVersion = "16.0.10928.30002";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }

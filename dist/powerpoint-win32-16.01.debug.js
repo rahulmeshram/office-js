@@ -14401,7 +14401,8 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame
+                    displayInIFrame: options.displayInIFrame,
+                    hideTitle: options.hideTitle
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {
@@ -14577,7 +14578,7 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                     var key = _a[0], value = _a[1];
                     return map[key] = value, value;
                 }), keys.map(function(key) {
-                    return [ key, map[key] ];
+                    return [ key, map[key] ? map[key] : null ];
                 });
             }, callback);
         },
