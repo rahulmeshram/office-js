@@ -1,4 +1,4 @@
-/* Version: 16.0.10915.10000 */
+/* Version: 16.0.11006.10000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -7678,18 +7678,6 @@ var Excel;
 
 var Excel;
 (function (Excel) {
-	/// <summary> [Api set: CustomFunctions 1.1] </summary>
-	var CustomFunctionDimensionality = {
-		__proto__: null,
-		"invalid": "invalid",
-		"scalar": "scalar",
-		"matrix": "matrix",
-	}
-	Excel.CustomFunctionDimensionality = CustomFunctionDimensionality;
-})(Excel || (Excel = {__proto__: null}));
-
-var Excel;
-(function (Excel) {
 	var Interfaces;
 	(function (Interfaces) {
 		var CustomFunctionEventArgs = (function() {
@@ -7726,20 +7714,6 @@ var Excel;
 		"webService": "webService",
 	}
 	Excel.CustomFunctionType = CustomFunctionType;
-})(Excel || (Excel = {__proto__: null}));
-
-var Excel;
-(function (Excel) {
-	/// <summary> Custom functions in Excel use the following list of enumerations. [Api set: CustomFunctions 1.1] </summary>
-	var CustomFunctionValueType = {
-		__proto__: null,
-		"invalid": "invalid",
-		"boolean": "boolean",
-		"number": "number",
-		"string": "string",
-		"isodate": "isodate",
-	}
-	Excel.CustomFunctionValueType = CustomFunctionValueType;
 })(Excel || (Excel = {__proto__: null}));
 
 var Excel;
@@ -14981,6 +14955,17 @@ var Excel;
 
 var Excel;
 (function (Excel) {
+	/// <summary> Specifies the save behavior for workbook.save API. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+	var SaveBehavior = {
+		__proto__: null,
+		"save": "save",
+		"prompt": "prompt",
+	}
+	Excel.SaveBehavior = SaveBehavior;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
 	var Interfaces;
 	(function (Interfaces) {
 		var SearchCriteria = (function() {
@@ -15181,6 +15166,7 @@ var Excel;
 			/// <field name="textFrame" type="Excel.TextFrame">Returns the textFrame object of a shape. Read only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="top" type="Number">The distance, in points, from the top edge of the shape to the top of the worksheet.              Throws an invalid argument exception when set with negative value as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="type" type="String">Returns the type of the specified shape. Read-only. See Excel.ShapeType for detail. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="visible" type="Boolean">Represents the visibility, in boolean, of the specified shape. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="width" type="Number">Represents the width, in points, of the shape.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="zorderPosition" type="Number">Returns the position of the specified shape in the z-order, the very bottom shape&apos;s z-order value is 0. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onActivated" type="OfficeExtension.EventHandlers">Occurs when the shape is activated. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
@@ -15237,11 +15223,32 @@ var Excel;
 			/// <returns ></returns>
 		}
 		Shape.prototype.saveAsPicture = function(format) {
+			/// <summary>
+			/// Saves the shape as a picture and returns the picture in the form of base64 encoded string, using the DPI sets to 96. Only support saves as to Excel.PictureFormat.BMP, Excel.PictureFormat.PNG, Excel.PictureFormat.JPEG and Excel.PictureFormat.GIF. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
 			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
 			var result = new OfficeExtension.ClientResult();
 			result.__proto__ = null;
 			result.value = '';
 			return result;
+		}
+		Shape.prototype.scaleHeight = function(scaleFactor, scaleType, scaleFrom) {
+			/// <summary>
+			/// Scales the height of the shape by a specified factor. For pictures, you can indicate whether you want to scale the shape relative to the original or the current size. Shapes other than pictures are always scaled relative to their current height. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="scaleFactor" type="Number">Specifies the ratio between the height of the shape after you resize it and the current or original height.</param>
+			/// <param name="scaleType" type="String">OriginalSize to scale the shape relative to its original size. CurrentSize to scale it relative to its current size. You can specify OriginalSize for this argument only if the specified shape is a picture.</param>
+			/// <param name="scaleFrom" type="String" optional="true">Optional. One of the constants of ShapeScaleFrom which specifies which part of the shape retains its position when the shape is scaled. If omitted, it represents the shape&apos;s upper left corner retains its position.</param>
+			/// <returns ></returns>
+		}
+		Shape.prototype.scaleWidth = function(scaleFactor, scaleType, scaleFrom) {
+			/// <summary>
+			/// Scales the width of the shape by a specified factor. For pictures, you can indicate whether you want to scale the shape relative to the original or the current size. Shapes other than pictures are always scaled relative to their current width. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="scaleFactor" type="Number">Specifies the ratio between the width of the shape after you resize it and the current or original width.</param>
+			/// <param name="scaleType" type="String">OriginalSize to scale the shape relative to its original size. CurrentSize to scale it relative to its current size. You can specify OriginalSize for this argument only if the specified shape is a picture.</param>
+			/// <param name="scaleFrom" type="String" optional="true">Optional. One of the constants of ShapeScaleFrom which specifies which part of the shape retains its position when the shape is scaled. If omitted, it represents the shape&apos;s upper left corner retains its position.</param>
+			/// <returns ></returns>
 		}
 		Shape.prototype.setZOrder = function(value) {
 			/// <summary>
@@ -15542,6 +15549,29 @@ var Excel;
 		"wavyDouble": "wavyDouble",
 	}
 	Excel.ShapeFontUnderlineStyle = ShapeFontUnderlineStyle;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+	var ShapeScaleFrom = {
+		__proto__: null,
+		"scaleFromTopLeft": "scaleFromTopLeft",
+		"scaleFromMiddle": "scaleFromMiddle",
+		"scaleFromBottomRight": "scaleFromBottomRight",
+	}
+	Excel.ShapeScaleFrom = ShapeScaleFrom;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+	var ShapeScaleType = {
+		__proto__: null,
+		"currentSize": "currentSize",
+		"originalSize": "originalSize",
+	}
+	Excel.ShapeScaleType = ShapeScaleType;
 })(Excel || (Excel = {__proto__: null}));
 
 var Excel;
@@ -17008,6 +17038,13 @@ var Excel;
 			/// Gets the currently selected one or more ranges from the workbook. Unlike getSelectedRange(), this method returns a RangeAreas object that represents all the selected ranges. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
 			/// <returns type="Excel.RangeAreas"></returns>
+		}
+		Workbook.prototype.save = function(saveBehavior) {
+			/// <summary>
+			/// Save current workbook. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// </summary>
+			/// <param name="saveBehavior" type="String" optional="true">workbook save behavior.</param>
+			/// <returns ></returns>
 		}
 		Workbook.prototype.onSelectionChanged = {
 			__proto__: null,
@@ -19718,6 +19755,7 @@ var Excel;
 				/// <field name="placement" type="String">Represents the placment, value that represents the way the object is attached to the cells below it. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="rotation" type="Number">Represents the rotation, in degrees, of the shape. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="top" type="Number">The distance, in points, from the top edge of the shape to the top of the worksheet.              Throws an invalid argument exception when set with negative value as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
+				/// <field name="visible" type="Boolean">Represents the visibility, in boolean, of the specified shape. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="width" type="Number">Represents the width, in points, of the shape.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 			}
 			return ShapeUpdateData;
@@ -19968,7 +20006,7 @@ var Word;
 		}
 		Body.prototype.getHtml = function() {
 			/// <summary>
-			/// Gets the HTML representation of the body object. [Api set: WordApi 1.1]
+			/// Gets an HTML representation of the body object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `Body.getOoxml()` and convert the returned XML to HTML. [Api set: WordApi 1.1]
 			/// </summary>
 			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
 			var result = new OfficeExtension.ClientResult();
@@ -20271,7 +20309,7 @@ var Word;
 		}
 		ContentControl.prototype.getHtml = function() {
 			/// <summary>
-			/// Gets the HTML representation of the content control object. [Api set: WordApi 1.1]
+			/// Gets an HTML representation of the content control object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `ContentControl.getOoxml()` and convert the returned XML to HTML. [Api set: WordApi 1.1]
 			/// </summary>
 			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
 			var result = new OfficeExtension.ClientResult();
@@ -22095,7 +22133,7 @@ var Word;
 		}
 		Paragraph.prototype.getHtml = function() {
 			/// <summary>
-			/// Gets the HTML representation of the paragraph object. [Api set: WordApi 1.1]
+			/// Gets an HTML representation of the paragraph object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `Paragraph.getOoxml()` and convert the returned XML to HTML. [Api set: WordApi 1.1]
 			/// </summary>
 			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
 			var result = new OfficeExtension.ClientResult();
@@ -22437,7 +22475,7 @@ var Word;
 		}
 		Range.prototype.getHtml = function() {
 			/// <summary>
-			/// Gets the HTML representation of the range object. [Api set: WordApi 1.1]
+			/// Gets an HTML representation of the range object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `Range.getOoxml()` and convert the returned XML to HTML. [Api set: WordApi 1.1]
 			/// </summary>
 			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
 			var result = new OfficeExtension.ClientResult();

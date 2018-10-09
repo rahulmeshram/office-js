@@ -1,5 +1,5 @@
 // Type definitions for Office.js
-// Project: http://dev.office.com
+// Project: https://github.com/OfficeDev/office-js
 // Definitions by: OfficeDev <https://github.com/OfficeDev>, Lance Austin <https://github.com/LanceEA>, Michael Zlatkovsky <https://github.com/Zlatkovsky>, Kim Brandl <https://github.com/kbrandl>, Ricky Kirkham <https://github.com/Rick-Kirkham>, Alex Jerabek <https://github.com/AlexJerabek>, Elizabeth Samuel <https://github.com/ElizabethSamuel-MSFT>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.4
@@ -982,7 +982,7 @@ declare namespace Office {
         * 
         * This method is available in the DialogApi requirement set for Word, Excel, or PowerPoint add-ins, and in the Mailbox requirement set 1.4 
         * for Outlook. For more on how to specify a requirement set in your manifest, see 
-        * {@link https://docs.microsoft.com/en-us/office/dev/add-ins/develop/specify-office-hosts-and-api-requirements | Specify Office hosts and API requirements}.
+        * {@link https://docs.microsoft.com/office/dev/add-ins/develop/specify-office-hosts-and-api-requirements | Specify Office hosts and API requirements}.
         *
         * The initial page must be on the same domain as the parent page (the startAddress parameter). After the initial page loads, you can go to 
         * other domains.
@@ -1478,7 +1478,7 @@ declare namespace Office {
      *  <table>
      *   <tr><th>                    </th><th> Office for Windows desktop </th></tr>
      *   <tr><td><strong> Excel      </strong></td><td> Y                          </td></tr>
-     *   <tr><td><strong> Outlook    </strong></td><td> Y                          </td></tr>
+     *   <tr><td><strong> Outlook    </strong></td><td> Y (in preview)             </td></tr>
      *   <tr><td><strong> PowerPoint </strong></td><td> Y                          </td></tr>
      *   <tr><td><strong> Word       </strong></td><td> Y                          </td></tr>
      *  </table>
@@ -1817,11 +1817,9 @@ declare namespace Office {
          */
         ActiveViewChanged,
         /**
-         * Triggers when the appointment date or time of the selected series is changed in Outlook.
+         * Triggers when any date or time of the selected appointment or series is changed in Outlook.
          * 
-         * [Api set: Mailbox Preview]
-         * 
-         * @beta
+         * [Api set: Mailbox 1.7]
          */
         AppointmentTimeChanged,
         /**
@@ -1920,26 +1918,20 @@ declare namespace Office {
          * Triggers when the OfficeTheme is changed in Outlook.
          * 
          * [Api set: Mailbox Preview]
-         * 
-         * @beta
          */
         OfficeThemeChanged,
         /**
-         * Triggers when the recipient list of the selected item is changed in Outlook.
+         * Triggers when the recipient list of the selected item or the appointment location is changed in Outlook.
          * 
-         * [Api set: Mailbox Preview]
-         * 
-         * @beta
+         * [Api set: Mailbox 1.7]
          */
         RecipientsChanged,
         /**
          * Triggers when the recurrence pattern of the selected series is changed in Outlook.
          * 
-         * [Api set: Mailbox Preview]
-         * 
-         * @beta
+         * [Api set: Mailbox 1.7]
          */
-        RecurrencePatternChanged,
+        RecurrenceChanged,
         /**
          * Triggers when a Resource selection happens in Project.
          */
@@ -4828,7 +4820,7 @@ declare namespace Office {
          * Clears formatting on the bound table.
          *
          * @remarks
-         * See {@link https://docs.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-tables#format-a-table | Format tables in add-ins for Excel} for more information.
+         * See {@link https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-tables#format-a-table | Format tables in add-ins for Excel} for more information.
          * 
          * **Support details**
          * 
@@ -5121,7 +5113,7 @@ declare namespace Office {
     }
     /**
      * Specifies enumerated values for the `cells` property in the cellFormat parameter of 
-     * {@link https://docs.microsoft.com/en-us/office/dev/add-ins/excel/excel-add-ins-tables#format-a-table | table formatting methods}.
+     * {@link https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-tables#format-a-table | table formatting methods}.
      *
      * @remarks
      * 
@@ -7374,14 +7366,12 @@ declare namespace Office {
         /**
          * Specifies the day of week or type of day.
          *
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>
          * {@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}
          * </td><td>Compose or read</td></tr></table>
-         * 
-         * @beta
          */
         enum Days {
             /**
@@ -7424,6 +7414,44 @@ declare namespace Office {
              * Day of week.
              */
             Day = "day"
+        }
+        /**
+         * This bit mask represents a delegate's permissions on a shared folder.
+         *
+         * [Api set: Mailbox Preview]
+         *
+         * @remarks
+         * <table><tr><td>
+         * {@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}
+         * </td><td>Compose or read</td></tr></table>
+         * 
+         * @beta
+         */
+        enum DelegatePermissions {
+            /**
+             * Delegate has permission to read items.
+             */
+            Read = 1,
+            /**
+             * Delegate has permission to create and write items.
+             */
+            Write = 2,
+            /**
+             * Delegate has permission to delete only the items they created.
+             */
+            DeleteOwn = 4,
+            /**
+             * Delegate has permission to delete any items.
+             */
+            DeleteAll = 8,
+            /**
+             * Delegate has permission to edit only they items they created.
+             */
+            EditOwn = 16,
+            /**
+             * Delegate has permission to edit any items.
+             */
+            EditAll = 32
         }
         /**
          * Specifies an entity's type.
@@ -7512,14 +7540,12 @@ declare namespace Office {
         /**
          * Specifies the month.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>
          * {@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}
          * </td><td>Compose or read</td></tr></table>
-         *
-         * @beta
          */
         enum Month {
             /**
@@ -7620,14 +7646,12 @@ declare namespace Office {
         /**
          * Specifies the time zone applied to the recurrence.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>
          * {@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}
          * </td><td>Compose or read</td></tr></table>
-         *
-         * @beta
          */
         enum RecurrenceTimeZone {
             /**
@@ -8180,14 +8204,12 @@ declare namespace Office {
         /**
          * Specifies the type of recurrence.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>
          * {@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}
          * </td><td>Compose or read</td></tr></table>
-         *
-         * @beta
          */
         enum RecurrenceType {
             /**
@@ -8270,14 +8292,12 @@ declare namespace Office {
         /**
          * Specifies the week of the month.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>
          * {@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}
          * </td><td>Compose or read</td></tr></table>
-         *
-         * @beta
          */
         enum WeekNumber {
             /**
@@ -8539,7 +8559,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `getAsync(coerciontype: Office.CoercionType, callback: (result: AsyncResult<Office.Body>) => void): void;`
          * 
@@ -8606,7 +8626,7 @@ declare namespace Office {
          * 
          * <tr><td>Errors</td><td>DataExceedsMaximumSize - The data parameter is longer than 1,000,000 characters.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `prependAsync(data: string, options: Office.AsyncContextOptions & CoercionTypeOptions): void;`
          * 
@@ -8705,7 +8725,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>DataExceedsMaximumSize - The data parameter is longer than 1,000,000 characters.</td></tr><tr><td></td><td>InvalidFormatError - The options.coercionType parameter is set to Office.CoercionType.Html and the message body is in plain text.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `setAsync(data: string, options: Office.AsyncContextOptions & CoercionTypeOptions): void;`
          * 
@@ -8812,7 +8832,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>DataExceedsMaximumSize - The data parameter is longer than 1,000,000 characters.</td></tr><tr><td></td><td>InvalidFormatError - The options.coercionType parameter is set to Office.CoercionType.Html and the message body is in plain text.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `setSelectedDataAsync(data: string, options: Office.AsyncContextOptions & CoercionTypeOptions): void;`
          * 
@@ -9205,14 +9225,12 @@ declare namespace Office {
     /**
      * Provides a method to get the from value of a message in an Outlook add-in.
      * 
-     * [Api set: Mailbox Preview]
+     * [Api set: Mailbox 1.7]
      * 
      * @remarks
      * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
      * 
      * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose</td></tr></table>
-     * 
-     * @beta
      */
     export interface From {
         /**
@@ -9222,7 +9240,7 @@ declare namespace Office {
          * 
          * The from value of the item is provided as an {@link Office.EmailAddressDetails} in the asyncResult.value property.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -9246,7 +9264,7 @@ declare namespace Office {
          * 
          * The from value of the item is provided as an {@link Office.EmailAddressDetails} in the asyncResult.value property.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -9264,20 +9282,18 @@ declare namespace Office {
      * Represents the appointment organizer, even if an alias or a delegate was used to create the appointment. 
      * This object provides a method to get the organizer value of an appointment in an Outlook add-in.
      * 
-     * [Api set: Mailbox Preview]
+     * [Api set: Mailbox 1.7]
      * 
      * @remarks
      * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
      * 
      * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose</td></tr></table>
-     * 
-     * @beta
      */
     export interface Organizer {
         /**
          * Gets the organizer value of an appointment as an {@link Office.EmailAddressDetails} in the asyncResult.value property.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -9421,15 +9437,13 @@ declare namespace Office {
          * 
          * The organizer property returns an {@link Office.Organizer | Organizer} object that provides a method to get the organizer value.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Appointment Organizer</td></tr></table>
-         *
-         * @beta
          */
         organizer: Office.Organizer;
         /**
@@ -9443,15 +9457,13 @@ declare namespace Office {
          * Note: If the recurrence object is null, this indicates that the object is a single appointment or a meeting request of a single 
          * appointment and NOT a part of a series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Appointment Organizer</td></tr></table>
-         * 
-         * @beta
          */
         recurrence: Recurrence;
         /**
@@ -9482,15 +9494,13 @@ declare namespace Office {
          * The seriesId property returns null for items that do not have parent items such as single appointments, series items, or meeting requests 
          * and returns undefined for any other items that are not meeting requests.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Appointment Organizer</td></tr></table>
-         * 
-         * @beta
          */
         seriesId: string;
         /**
@@ -9651,14 +9661,16 @@ declare namespace Office {
          * @param callback When the method completes, the function passed in the callback parameter is called with a single parameter of type asyncResult. 
          *                  On success, the attachment identifier will be provided in the asyncResult.value property. 
          *                  If uploading the attachment fails, the asyncResult object will contain an Error object that provides a description of the error.
+         * 
+         * @beta
          */
         addFileAttachmentFromBase64Async(base64File: string, attachmentName: string, options?: Office.AsyncContextOptions, callback?: (result: AsyncResult<string>) => void): void;
         /**
          * Adds an event handler for a supported event.
          * 
-         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrencePatternChanged`.
+         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * 
@@ -9677,17 +9689,15 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
          * Adds an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -9700,8 +9710,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to addHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
@@ -9726,7 +9734,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>NumberOfAttachmentsExceeded - The message or appointment has too many attachments.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `addItemAttachmentAsync(itemId: any, attachmentName: string): void;`
          * 
@@ -10058,9 +10066,9 @@ declare namespace Office {
         * Removes an event handler for a supported event.
         * 
         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-        * `Office.EventType.RecurrencePatternChanged`.
+        * `Office.EventType.RecurrenceChanged`.
         * 
-        * [Api set: Mailbox Preview]
+        * [Api set: Mailbox 1.7]
         *
         * @remarks
         *
@@ -10079,16 +10087,14 @@ declare namespace Office {
         *        asyncContext: Developers can provide any object they wish to access in the callback method.
         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
         *                 asyncResult, which is an Office.AsyncResult object.
-        * 
-        * @beta
         */
        removeHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
        /**
         * Removes an event handler for a supported event.
         * 
-        * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrencePatternChanged`.
+        * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrenceChanged`.
         * 
-        * [Api set: Mailbox Preview]
+        * [Api set: Mailbox 1.7]
         *
         * @remarks
         *
@@ -10101,8 +10107,6 @@ declare namespace Office {
         *                The type property on the parameter will match the eventType parameter passed to removeHandlerAsync.
         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
         *                 asyncResult, which is an Office.AsyncResult object.
-        * 
-        * @beta
         */
        removeHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
@@ -10594,15 +10598,13 @@ declare namespace Office {
          * Note: If the recurrence object is null, this indicates that the object is a single appointment or a meeting request of a single 
          * appointment and NOT a part of a series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Appointment Attendee</td></tr></table>
-         * 
-         * @beta
          */
         recurrence: Recurrence;
         /**
@@ -10649,15 +10651,13 @@ declare namespace Office {
          * The seriesId property returns null for items that do not have parent items such as single appointments, series items, or meeting requests 
          * and returns undefined for any other items that are not meeting requests.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Appointment Attendee</td></tr></table>
-         * 
-         * @beta
          */
         seriesId: string;
         /**
@@ -10681,9 +10681,9 @@ declare namespace Office {
          * Adds an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -10702,8 +10702,6 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType: Office.EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
 
@@ -10711,9 +10709,9 @@ declare namespace Office {
          * Adds an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -10726,8 +10724,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to addHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
@@ -11066,9 +11062,9 @@ declare namespace Office {
         * Removes an event handler for a supported event.
         * 
         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-        * `Office.EventType.RecurrencePatternChanged`.
+        * `Office.EventType.RecurrenceChanged`.
         * 
-        * [Api set: Mailbox Preview]
+        * [Api set: Mailbox 1.7]
         *
         * @remarks
         *
@@ -11087,17 +11083,15 @@ declare namespace Office {
         *        asyncContext: Developers can provide any object they wish to access in the callback method.
         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
         *                 asyncResult, which is an Office.AsyncResult object.
-        * 
-        * @beta
         */
        removeHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
        /**
         * Removes an event handler for a supported event.
         * 
         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-        * `Office.EventType.RecurrencePatternChanged`.
+        * `Office.EventType.RecurrenceChanged`.
         * 
-        * [Api set: Mailbox Preview]
+        * [Api set: Mailbox 1.7]
         *
         * @remarks
         *
@@ -11110,8 +11104,6 @@ declare namespace Office {
         *                The type property on the parameter will match the eventType parameter passed to removeHandlerAsync.
         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
         *                 asyncResult, which is an Office.AsyncResult object.
-        * 
-        * @beta
         */
        removeHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void; 
     }
@@ -11207,15 +11199,13 @@ declare namespace Office {
          * Note: If the recurrence object is null, this indicates that the object is a single appointment or a meeting request of a single appointment 
          * and NOT a part of a series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
-         * 
-         * @beta
          */
         recurrence: Office.Recurrence;
 
@@ -11233,24 +11223,22 @@ declare namespace Office {
          * The seriesId property returns null for items that do not have parent items such as single appointments, series items, or meeting requests 
          * and returns undefined for any other items that are not meeting requests.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
-         * 
-         * @beta
          */
         seriesId: string;
 
         /**
          * Adds an event handler for a supported event.
          * 
-         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrencePatternChanged`.
+         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -11269,17 +11257,15 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType: Office.EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
 
         /**
          * Adds an event handler for a supported event.
          * 
-         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrencePatternChanged`.
+         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -11292,8 +11278,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to addHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType: Office.EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
 		
@@ -11328,6 +11312,48 @@ declare namespace Office {
         getInitializationContextAsync(options?: Office.AsyncContextOptions, callback?: (result: AsyncResult<string>) => void): void;
 
        /**
+        * Gets the properties of an appointment or message in a shared folder, calendar, or mailbox.
+        *
+        * [Api set: Mailbox Preview]
+        *
+        * @remarks
+        * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
+        *
+        * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
+        * 
+        * In addition to this signature, this method also has the following signature:
+        * 
+        * `getAsync(callback: (result: AsyncResult<Office.SharedProperties>) => void): void;`
+        *
+        * @param options An object literal that contains one or more of the following properties.
+        *        asyncContext: Developers can provide any object they wish to access in the callback method.
+        * @param callback When the method completes, the function passed in the callback parameter is called with a single parameter of 
+        *                 type Office.AsyncResult.
+        *                 The `value` property of the result is the properties of the shared item.
+        * 
+        * @beta
+        */
+        getSharedPropertiesAsync(options: Office.AsyncContextOptions, callback: (result: AsyncResult<Office.SharedProperties>) => void): void;
+
+       /**
+        * Gets the properties of an appointment or message in a shared folder, calendar, or mailbox.
+        *
+        * [Api set: Mailbox Preview]
+        *
+        * @remarks
+        * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
+        *
+        * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
+        * 
+        * @param callback When the method completes, the function passed in the callback parameter is called with a single parameter of 
+        *                 type Office.AsyncResult.
+        *                 The `value` property of the result is the properties of the shared item.
+        * 
+        * @beta
+        */
+       getSharedPropertiesAsync(callback: (result: AsyncResult<Office.SharedProperties>) => void): void;
+
+       /**
         * Asynchronously loads custom properties for this add-in on the selected item.
         *
         * Custom properties are stored as key/value pairs on a per-app, per-item basis. 
@@ -11357,9 +11383,9 @@ declare namespace Office {
         * Removes an event handler for a supported event.
         * 
         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-        * `Office.EventType.RecurrencePatternChanged`.
+        * `Office.EventType.RecurrenceChanged`.
         * 
-        * [Api set: Mailbox Preview]
+        * [Api set: Mailbox 1.7]
         *
         * @remarks
         *
@@ -11378,8 +11404,6 @@ declare namespace Office {
         *        asyncContext: Developers can provide any object they wish to access in the callback method.
         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
         *                 asyncResult, which is an Office.AsyncResult object.
-        * 
-        * @beta
         */
        removeHandlerAsync(eventType: Office.EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
 
@@ -11387,9 +11411,9 @@ declare namespace Office {
         * Removes an event handler for a supported event.
         * 
         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-        * `Office.EventType.RecurrencePatternChanged`.
+        * `Office.EventType.RecurrenceChanged`.
         * 
-        * [Api set: Mailbox Preview]
+        * [Api set: Mailbox 1.7]
         *
         * @remarks
         *
@@ -11402,8 +11426,6 @@ declare namespace Office {
         *                The type property on the parameter will match the eventType parameter passed to removeHandlerAsync.
         * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
         *                 asyncResult, which is an Office.AsyncResult object.
-        * 
-        * @beta
         */
        removeHandlerAsync(eventType: Office.EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
     }
@@ -11559,6 +11581,8 @@ declare namespace Office {
          * @param callback When the method completes, the function passed in the callback parameter is called with a single parameter of type asyncResult. 
          *                  On success, the attachment identifier will be provided in the asyncResult.value property. 
          *                  If uploading the attachment fails, the asyncResult object will contain an Error object that provides a description of the error.
+         * 
+         * @beta
          */
         addFileAttachmentFromBase64Async(base64File: string, attachmentName: string, options?: Office.AsyncContextOptions, callback?: (result: AsyncResult<string>) => void): void;
 
@@ -11584,7 +11608,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>NumberOfAttachmentsExceeded - The message or appointment has too many attachments.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `addItemAttachmentAsync(itemId: any, attachmentName: string): void;`
          * 
@@ -12702,19 +12726,17 @@ declare namespace Office {
          * Gets the email address of the sender of a message.
          *
          * The from and sender properties represent the same person unless the message is sent by a delegate. 
-         * In that case, the from property represents the delegator, and the sender property represents the delegate.
+         * In that case, the from property represents the owner, and the sender property represents the delegate.
          *
          * The from property returns a From object that provides a method to get the from value.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Message Compose</td></tr></table>
-         *
-         * @beta
          */
         from: Office.From;
         /**
@@ -12757,15 +12779,13 @@ declare namespace Office {
          * Note: If the recurrence object is null, this indicates that the object is a single appointment or a meeting request of a single appointment 
          * and NOT a part of a series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Message Compose</td></tr></table>
-         * 
-         * @beta
          */
         recurrence: Recurrence;
         /**
@@ -12782,15 +12802,13 @@ declare namespace Office {
          * The seriesId property returns null for items that do not have parent items such as single appointments, series items, or meeting requests 
          * and returns undefined for any other items that are not meeting requests.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Message Compose</td></tr></table>
-         * 
-         * @beta
          */
         seriesId: string;
         /**
@@ -12952,14 +12970,16 @@ declare namespace Office {
          * @param callback When the method completes, the function passed in the callback parameter is called with a single parameter of type asyncResult. 
          *                  On success, the attachment identifier will be provided in the asyncResult.value property. 
          *                  If uploading the attachment fails, the asyncResult object will contain an Error object that provides a description of the error.
+         * 
+         * @beta
          */
         addFileAttachmentFromBase64Async(base64File: string, attachmentName: string, options?: Office.AsyncContextOptions, callback?: (result: AsyncResult<string>) => void): void;
         /**
          * Adds an event handler for a supported event.
          * 
-         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrencePatternChanged`.
+         * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -12978,17 +12998,15 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
          * Adds an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -13001,8 +13019,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to addHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
@@ -13027,7 +13043,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>NumberOfAttachmentsExceeded - The message or appointment has too many attachments.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `addItemAttachmentAsync(itemId: any, attachmentName: string): void;`
          * 
@@ -13365,9 +13381,9 @@ declare namespace Office {
          * Removes an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -13386,17 +13402,15 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         removeHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
          * Removes an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -13409,8 +13423,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to removeHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         removeHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
@@ -13915,15 +13927,13 @@ declare namespace Office {
          * Note: If the recurrence object is null, this indicates that the object is a single appointment or a meeting request of a single appointment 
          * and NOT a part of a series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Message Read</td></tr></table>
-         * 
-         * @beta
          */
         recurrence: Recurrence;
         /**
@@ -13940,15 +13950,13 @@ declare namespace Office {
          * The seriesId property returns null for items that do not have parent items such as single appointments, series items, or meeting requests 
          * and returns undefined for any other items that are not meeting requests.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Message Read</td></tr></table>
-         * 
-         * @beta
          */
         seriesId: string;
         /**
@@ -14005,9 +14013,9 @@ declare namespace Office {
          * Adds an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -14026,8 +14034,6 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
 
@@ -14035,9 +14041,9 @@ declare namespace Office {
          * Adds an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -14050,8 +14056,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to addHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         addHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
@@ -14394,9 +14398,9 @@ declare namespace Office {
          * Removes an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -14415,17 +14419,15 @@ declare namespace Office {
          *        asyncContext: Developers can provide any object they wish to access in the callback method.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         removeHandlerAsync(eventType:EventType, handler: any, options?: any, callback?: (result: AsyncResult<void>) => void): void;
         /**
          * Removes an event handler for a supported event.
          * 
          * Currently the supported event types are `Office.EventType.AppointmentTimeChanged`, `Office.EventType.RecipientsChanged`, and 
-         * `Office.EventType.RecurrencePatternChanged`.
+         * `Office.EventType.RecurrenceChanged`.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          *
@@ -14438,8 +14440,6 @@ declare namespace Office {
          *                The type property on the parameter will match the eventType parameter passed to removeHandlerAsync.
          * @param callback Optional. When the method completes, the function passed in the callback parameter is called with a single parameter, 
          *                 asyncResult, which is an Office.AsyncResult object.
-         * 
-         * @beta
          */
         removeHandlerAsync(eventType:EventType, handler: any, callback?: (result: AsyncResult<void>) => void): void;
     }
@@ -14693,7 +14693,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          *
-         * The ewsUrl value can be used by a remote service to make EWS calls to the user's mailbox. For example, you can create a remote service to {@link https://msdn.microsoft.com/library/office/dn148008.aspx | get attachments from the selected item}.
+         * The ewsUrl value can be used by a remote service to make EWS calls to the user's mailbox. For example, you can create a remote service to {@link https://docs.microsoft.com/outlook/add-ins/get-attachments-of-an-outlook-item | get attachments from the selected item}.
          *
          * Note: This member is not supported in Outlook for iOS or Outlook for Android.
          */
@@ -14808,7 +14808,7 @@ declare namespace Office {
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          *
          * Item IDs retrieved via EWS or via the itemId property use a different format than the format used by REST APIs (such as the 
-         * {@link https://msdn.microsoft.com/office/office365/APi/mail-rest-operations | Outlook Mail API} or the {@link http://graph.microsoft.io/ | Microsoft Graph}. 
+         * {@link https://docs.microsoft.com/previous-versions/office/office-365-api/api/version-2.0/mail-rest-operations | Outlook Mail API} or the {@link http://graph.microsoft.io/ | Microsoft Graph}. 
          * The convertToRestId method converts an EWS-formatted ID into the proper format for REST.
          *
          * @param itemId An item ID formatted for Exchange Web Services (EWS)
@@ -15077,7 +15077,7 @@ declare namespace Office {
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose and read</td></tr></table>
          *
          * The getUserIdentityTokenAsync method returns a token that you can use to identify and 
-         * {@link https://msdn.microsoft.com/library/office/fp179828.aspx | authenticate the add-in and user with a third-party system}.
+         * {@link https://docs.microsoft.com/outlook/add-ins/authentication | authenticate the add-in and user with a third-party system}.
          *
          * @param callback When the method completes, the function passed in the callback parameter is called with a single parameter of 
          *                 type Office.AsyncResult.
@@ -15333,7 +15333,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `getAllAsync(callback: (result: AsyncResult<Office.NotificationMessageDetails[]>) => void): void;`
          *
@@ -15367,7 +15367,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `removeAsync(key: string): void;`
          * 
@@ -15437,7 +15437,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `replaceAsync(key: string, JSONmessage: NotificationMessageDetails): void;`
          * 
@@ -15566,7 +15566,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>NumberOfRecipientsExceeded - The number of recipients exceeded 100 entries.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `addAsync(recipients: (string | EmailUser | EmailAddressDetails)[]): void;`
          * 
@@ -15666,7 +15666,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `getAsync(callback: (result: AsyncResult<Office.EmailAddressDetails[]>) => void): void;`
          *
@@ -15716,7 +15716,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>NumberOfRecipientsExceeded - The number of recipients exceeded 100 entries.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `setAsync(recipients: (string | EmailUser | EmailAddressDetails)[]): void;`
          * 
@@ -15822,7 +15822,7 @@ declare namespace Office {
      * meeting requests. 
      * It will have a dictionary with the following keys: seriesTime, recurrenceType, recurrenceProperties, and recurrenceTimeZone (optional).
      * 
-     * [Api set: Mailbox Preview]
+     * [Api set: Mailbox 1.7]
      * 
      * @remarks
      * 
@@ -15869,14 +15869,12 @@ declare namespace Office {
      *     <td>Yes (item.recurrence)</td>
      *   </tr>
      * </table>
-     * 
-     * @beta
      */
     export interface Recurrence {
         /**
          * Gets or sets the properties of the recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15884,11 +15882,11 @@ declare namespace Office {
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          */
-        recurrenceProperties: RecurrenceProperties;
+        recurrenceProperties: Office.RecurrenceProperties;
         /**
          * Gets or sets the properties of the recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15896,12 +15894,12 @@ declare namespace Office {
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          */
-        recurrenceTimeZone: Office.MailboxEnums.RecurrenceTimeZone;
+        recurrenceTimeZone: Office.RecurrenceTimeZone;
 
         /**
          * Gets or sets the type of the recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15916,7 +15914,7 @@ declare namespace Office {
          * and end times of instances. **This object is not in UTC time.** 
          * Instead, it is set in the time zone specified by the recurrenceTimeZone value or defaulted to the item's time zone.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15931,7 +15929,7 @@ declare namespace Office {
          * 
          * This method returns the entire recurrence object for the appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15939,7 +15937,7 @@ declare namespace Office {
          * 
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `getAsync(callback?: (result: AsyncResult<Office.Recurrence>) => void): void;`
          * 
@@ -15956,7 +15954,7 @@ declare namespace Office {
          * 
          * This method returns the entire recurrence object for the appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15975,7 +15973,7 @@ declare namespace Office {
          * 
          * Note: setAsync should only be available for series items and not instance items.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -15985,7 +15983,7 @@ declare namespace Office {
          * 
          * <tr><td>Errors</td><td>InvalidEndTime - The appointment end time is before its start time.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `setAsync(recurrencePattern: Recurrence, callback?: (result: AsyncResult<void>) => void): void;`
          * 
@@ -16002,7 +16000,7 @@ declare namespace Office {
          * 
          * Note: setAsync should only be available for series items and not instance items.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          * 
          * @remarks
          * 
@@ -16020,17 +16018,15 @@ declare namespace Office {
     }
 
     /**
-     * Gets or sets the properties of the recurrence.
+     * Represents the properties of the recurrence.
      * 
-     * [Api set: Mailbox Preview]
+     * [Api set: Mailbox 1.7]
      * 
      * @remarks
      * 
      * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
      * 
      * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
-     * 
-     * @beta
      */
     export interface RecurrenceProperties {
         /**
@@ -16062,6 +16058,29 @@ declare namespace Office {
          * Valid values are: 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', and 'Sun'.
          */
         firstDayOfWeek: Office.MailboxEnums.Days;
+    }
+
+    /**
+     * Represents the time zone of the recurrence.
+     * 
+     * [Api set: Mailbox 1.7]
+     * 
+     * @remarks
+     * 
+     * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
+     * 
+     * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
+     */
+    export interface RecurrenceTimeZone {
+        /**
+         * Represents the name of the recurrence time zone.
+         */
+        name: Office.MailboxEnums.RecurrenceTimeZone;
+
+        /**
+         * Integer value representing the difference in minutes between the local time zone and UTC at the date that the meeting series began.
+         */
+        offset: number;
     }
 
     /**
@@ -16185,7 +16204,7 @@ declare namespace Office {
          * The set method creates a new setting of the specified name if it does not already exist, or sets an existing setting of the specified name. 
          * The value is stored in the document as the serialized JSON representation of its data type.
          *
-         * A maximum of 2MB is available for the settings of each add-in, and each individual setting is limited to 32KB.
+         * A maximum of 32KB is available for the settings of each add-in.
          *
          * Any changes made to settings using the set function will not be saved to the server until the saveAsync function is called.
          *
@@ -16206,20 +16225,18 @@ declare namespace Office {
      * The SeriesTime object provides methods to get and set the dates and times of appointments in a recurring series and get the dates and times of 
      * meeting requests in a recurring series.
      * 
-     * [Api set: Mailbox Preview]
+     * [Api set: Mailbox 1.7]
      *
      * @remarks
      * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
      *
      * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
-     * 
-     * @beta
      */
     interface SeriesTime {
         /**
          * Gets the duration in minutes of a usual instance in a recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -16231,7 +16248,7 @@ declare namespace Office {
         /**
          * Gets the end date of a recurrence pattern in the following {@link https://www.iso.org/iso-8601-date-and-time-format.html | ISO 8601} date format: "YYYY-MM-DD"
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -16245,7 +16262,7 @@ declare namespace Office {
          * add-in set the recurrence pattern using the following {@link https://www.iso.org/iso-8601-date-and-time-format.html | ISO 8601} format: 
          * "THH:mm:ss:mmm"
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -16257,7 +16274,7 @@ declare namespace Office {
         /**
          * Gets the start date of a recurrence pattern in the following {@link https://www.iso.org/iso-8601-date-and-time-format.html | ISO 8601} date format: "YYYY-MM-DD"
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -16270,7 +16287,7 @@ declare namespace Office {
          * Gets the start time of a usual appointment instance of a recurrence pattern in whichever time zone that the user/add-in set the 
          * recurrence pattern using the following {@link https://www.iso.org/iso-8601-date-and-time-format.html | ISO 8601} format: "THH:mm:ss:mmm"
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
@@ -16282,7 +16299,7 @@ declare namespace Office {
         /**
          * Sets the duration of all appointments in a recurrence pattern. This will also change the end time of the recurrence pattern.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16296,7 +16313,7 @@ declare namespace Office {
         /**
          * Sets the end date of a recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16305,7 +16322,7 @@ declare namespace Office {
          * 
          * <tr><td>Errors</td><td>Invalid date format - The date is not in an acceptable format.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `setEndDate(date: string): void;` (Where date is the end date of the recurring appointment series represented in the 
          * {@link https://www.iso.org/iso-8601-date-and-time-format.html | ISO 8601} date format: "YYYY-MM-DD").
@@ -16318,7 +16335,7 @@ declare namespace Office {
         /**
          * Sets the end date of a recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16333,7 +16350,7 @@ declare namespace Office {
         /**
          * Sets the start date of a recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16342,7 +16359,7 @@ declare namespace Office {
          * 
          * <tr><td>Errors</td><td>Invalid date format - The date is not in an acceptable format.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `setStartDate(date: string): void;` (Where date is the start date of the recurring appointment series represented in the {@link https://www.iso.org/iso-8601-date-and-time-format.html | ISO 8601} date format: "YYYY-MM-DD").
          *  
@@ -16355,7 +16372,7 @@ declare namespace Office {
         /**
          * Sets the start date of a recurring appointment series.
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16372,7 +16389,7 @@ declare namespace Office {
          * Sets the start time of all instances of a recurring appointment series in whichever time zone the recurrence pattern is set 
          * (the item's time zone is used by default).
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16381,7 +16398,7 @@ declare namespace Office {
          * 
          * <tr><td>Errors</td><td>Invalid time format - The time is not in an acceptable format.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `setStartTime(time: string): void;` (Where time is the start time of all instances represented by standard datetime string format: "THH:mm:ss:mmm").
          * 
@@ -16394,7 +16411,7 @@ declare namespace Office {
          * Sets the start time of all instances of a recurring appointment series in whichever time zone the recurrence pattern is set 
          * (the item's time zone is used by default).
          * 
-         * [Api set: Mailbox Preview]
+         * [Api set: Mailbox 1.7]
          *
          * @remarks
          * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadWriteItem</td></tr>
@@ -16406,6 +16423,33 @@ declare namespace Office {
          * @param time Start time of all instances represented by standard datetime string format: "THH:mm:ss:mmm".
          */
         setStartTime(time: string): void;
+    }
+
+    /**
+     * Represents the properties of an appointment or message in a shared folder, mailbox, or calendar.
+     *
+     * [Api set: Mailbox Preview]
+     *
+     * @remarks
+     * <table><tr><td>{@link https://docs.microsoft.com/outlook/add-ins/understanding-outlook-add-in-permissions | Minimum permission level}</td><td>ReadItem</td></tr>
+     *
+     * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose or read</td></tr></table>
+     * 
+     * @beta
+     */
+    interface SharedProperties {
+        /**
+         * The email address of the owner of a shared item.
+         */
+        owner: String;
+        /**
+         * The remote REST url related to the owner’s mailbox.
+         */
+        restUrl: String;
+        /**
+         * The permissions that the delegate has on a shared folder.
+         */
+        delegatePermissions: Office.MailboxEnums.DelegatePermissions;
     }
 
     /**
@@ -16431,7 +16475,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `getAsync(callback: (result: AsyncResult<string>) => void): void;`
          *
@@ -16473,7 +16517,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>DataExceedsMaximumSize - The subject parameter is longer than 255 characters.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `setAsync(subject: string): void;`
          * 
@@ -16595,7 +16639,7 @@ declare namespace Office {
          *
          * <tr><td>{@link https://docs.microsoft.com/outlook/add-ins/#extension-points | Applicable Outlook mode}</td><td>Compose</td></tr></table>
          * 
-         * In addition to the main signature, this method also has this signature:
+         * In addition to this signature, this method also has the following signature:
          * 
          * `getAsync(callback: (result: AsyncResult<Date>) => void): void;`
          *
@@ -16639,7 +16683,7 @@ declare namespace Office {
          *
          * <tr><td>Errors</td><td>InvalidEndTime - The appointment end time is before the appointment start time.</td></tr></table>
          * 
-         * In addition to the main signature, this method also has these signatures:
+         * In addition to this signature, this method also has the following signatures:
          * 
          * `setAsync(dateTime: Date): void;`
          * 
@@ -18631,6 +18675,24 @@ declare namespace Excel {
          * [Api set: ExcelApi BETA (PREVIEW ONLY)]
          */
         getSelectedRanges(): Excel.RangeAreas;
+        /**
+         *
+         * Save current workbook.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param saveBehavior workbook save behavior.
+         */
+        save(saveBehavior?: Excel.SaveBehavior): void;
+        /**
+         *
+         * Save current workbook.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param saveBehavior workbook save behavior.
+         */
+        save(saveBehavior?: "Save" | "Prompt"): void;
         /**
          * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
          *
@@ -29384,7 +29446,7 @@ declare namespace Excel {
          *
          * @param sortby Represents whether the sorting is done in an ascending or descending order.
          */
-        sortByLabels(sortby: Excel.SortBy): void;
+        sortByLabels(sortby: SortBy): void;
         /**
          *
          * Sorts the PivotField by specified values in a given scope. The scope defines which specific values will be used to sort when
@@ -32994,6 +33056,13 @@ declare namespace Excel {
         readonly type: Excel.ShapeType | "Unknown" | "Image" | "GeometricShape";
         /**
          *
+         * Represents the visibility, in boolean, of the specified shape.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
+        visible: boolean;
+        /**
+         *
          * Represents the width, in points, of the shape.
             Throws an invalid argument exception when set with negative value or zero as input.
          *
@@ -33056,8 +33125,64 @@ declare namespace Excel {
          * @param increment Specifies how far the shape is to be moved vertically, in points. A positive value moves the shape down; a negative value moves it up.
          */
         incrementTop(increment: number): void;
+        /**
+         *
+         * Saves the shape as a picture and returns the picture in the form of base64 encoded string, using the DPI sets to 96. Only support saves as to Excel.PictureFormat.BMP, Excel.PictureFormat.PNG, Excel.PictureFormat.JPEG and Excel.PictureFormat.GIF.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
         saveAsPicture(format: Excel.PictureFormat): OfficeExtension.ClientResult<string>;
+        /**
+         *
+         * Saves the shape as a picture and returns the picture in the form of base64 encoded string, using the DPI sets to 96. Only support saves as to Excel.PictureFormat.BMP, Excel.PictureFormat.PNG, Excel.PictureFormat.JPEG and Excel.PictureFormat.GIF.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         */
         saveAsPicture(format: "UNKNOWN" | "BMP" | "JPEG" | "GIF" | "PNG" | "SVG"): OfficeExtension.ClientResult<string>;
+        /**
+         *
+         * Scales the height of the shape by a specified factor. For pictures, you can indicate whether you want to scale the shape relative to the original or the current size. Shapes other than pictures are always scaled relative to their current height.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param scaleFactor Specifies the ratio between the height of the shape after you resize it and the current or original height.
+         * @param scaleType OriginalSize to scale the shape relative to its original size. CurrentSize to scale it relative to its current size. You can specify OriginalSize for this argument only if the specified shape is a picture.
+         * @param scaleFrom Optional. One of the constants of ShapeScaleFrom which specifies which part of the shape retains its position when the shape is scaled. If omitted, it represents the shape's upper left corner retains its position.
+         */
+        scaleHeight(scaleFactor: number, scaleType: Excel.ShapeScaleType, scaleFrom?: Excel.ShapeScaleFrom): void;
+        /**
+         *
+         * Scales the height of the shape by a specified factor. For pictures, you can indicate whether you want to scale the shape relative to the original or the current size. Shapes other than pictures are always scaled relative to their current height.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param scaleFactor Specifies the ratio between the height of the shape after you resize it and the current or original height.
+         * @param scaleType OriginalSize to scale the shape relative to its original size. CurrentSize to scale it relative to its current size. You can specify OriginalSize for this argument only if the specified shape is a picture.
+         * @param scaleFrom Optional. One of the constants of ShapeScaleFrom which specifies which part of the shape retains its position when the shape is scaled. If omitted, it represents the shape's upper left corner retains its position.
+         */
+        scaleHeight(scaleFactor: number, scaleType: "CurrentSize" | "OriginalSize", scaleFrom?: "ScaleFromTopLeft" | "ScaleFromMiddle" | "ScaleFromBottomRight"): void;
+        /**
+         *
+         * Scales the width of the shape by a specified factor. For pictures, you can indicate whether you want to scale the shape relative to the original or the current size. Shapes other than pictures are always scaled relative to their current width.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param scaleFactor Specifies the ratio between the width of the shape after you resize it and the current or original width.
+         * @param scaleType OriginalSize to scale the shape relative to its original size. CurrentSize to scale it relative to its current size. You can specify OriginalSize for this argument only if the specified shape is a picture.
+         * @param scaleFrom Optional. One of the constants of ShapeScaleFrom which specifies which part of the shape retains its position when the shape is scaled. If omitted, it represents the shape's upper left corner retains its position.
+         */
+        scaleWidth(scaleFactor: number, scaleType: Excel.ShapeScaleType, scaleFrom?: Excel.ShapeScaleFrom): void;
+        /**
+         *
+         * Scales the width of the shape by a specified factor. For pictures, you can indicate whether you want to scale the shape relative to the original or the current size. Shapes other than pictures are always scaled relative to their current width.
+         *
+         * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+         *
+         * @param scaleFactor Specifies the ratio between the width of the shape after you resize it and the current or original width.
+         * @param scaleType OriginalSize to scale the shape relative to its original size. CurrentSize to scale it relative to its current size. You can specify OriginalSize for this argument only if the specified shape is a picture.
+         * @param scaleFrom Optional. One of the constants of ShapeScaleFrom which specifies which part of the shape retains its position when the shape is scaled. If omitted, it represents the shape's upper left corner retains its position.
+         */
+        scaleWidth(scaleFactor: number, scaleType: "CurrentSize" | "OriginalSize", scaleFrom?: "ScaleFromTopLeft" | "ScaleFromMiddle" | "ScaleFromBottomRight"): void;
         /**
          *
          * Moves the specified shape in front of or behind other shapes in the collection (that is, changes the shape's position in the z-order).
@@ -34246,6 +34371,21 @@ declare namespace Excel {
     /**
      * [Api set: ExcelApi BETA (PREVIEW ONLY)]
      */
+    enum ShapeScaleType {
+        currentSize = "CurrentSize",
+        originalSize = "OriginalSize",
+    }
+    /**
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
+    enum ShapeScaleFrom {
+        scaleFromTopLeft = "ScaleFromTopLeft",
+        scaleFromMiddle = "ScaleFromMiddle",
+        scaleFromBottomRight = "ScaleFromBottomRight",
+    }
+    /**
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
     enum ShapeFillType {
         noFill = "NoFill",
         solid = "Solid",
@@ -34610,67 +34750,6 @@ declare namespace Excel {
     enum CustomFunctionMetadataFormat {
         invalid = "Invalid",
         openApi = "OpenApi",
-    }
-    /**
-     *
-     * Custom functions in Excel use the following list of enumerations.
-     *
-     * [Api set: CustomFunctions 1.1]
-     */
-    enum CustomFunctionValueType {
-        /**
-         *
-         * An invalid type in Excel.
-         *
-         */
-        invalid = "Invalid",
-        /**
-         *
-         * A boolean type in Excel.
-         *
-         */
-        boolean = "Boolean",
-        /**
-         *
-         * A number type in Excel, such as dates, currencies, and other numbers.
-         *
-         */
-        number = "Number",
-        /**
-         *
-         * A string type in Excel.
-         *
-         */
-        string = "String",
-        /**
-         *
-         * An ISO Date in Excel.
-         *
-         */
-        isodate = "ISODate",
-    }
-    /**
-     * [Api set: CustomFunctions 1.1]
-     */
-    enum CustomFunctionDimensionality {
-        /**
-         *
-         * An invalid type in Excel.
-         *
-         */
-        invalid = "Invalid",
-        /**
-         *
-         * A single cell’s value in Excel.
-         *
-         */
-        scalar = "Scalar",
-        /**
-         *
-         * A range of values in Excel, with one or more rows, and one or more columns. In JavaScript, a range is implemented as an array, where each array element is another array.
-         *
-         */
-        matrix = "Matrix",
     }
     /**
      *
@@ -36042,6 +36121,28 @@ declare namespace Excel {
          *
          */
         skipSave = "SkipSave",
+    }
+    /**
+     *
+     * Specifies the save behavior for workbook.save API.
+     *
+     * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+     */
+    enum SaveBehavior {
+        /**
+         *
+         * Save the workbook without prompting the user. If file is not saved,
+            it will save it with default name under default location.
+         *
+         */
+        save = "Save",
+        /**
+         *
+         * Prompts the saveas experience to the user if the workbook has not been saved,
+            Ignored if the workbook was previously saved.
+         *
+         */
+        prompt = "Prompt",
     }
     /**
      *
@@ -43983,6 +44084,13 @@ declare namespace Excel {
             top?: number;
             /**
              *
+             * Represents the visibility, in boolean, of the specified shape.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            visible?: boolean;
+            /**
+             *
              * Represents the width, in points, of the shape.
             Throws an invalid argument exception when set with negative value or zero as input.
              *
@@ -49433,6 +49541,13 @@ declare namespace Excel {
              * [Api set: ExcelApi BETA (PREVIEW ONLY)]
              */
             type?: Excel.ShapeType | "Unknown" | "Image" | "GeometricShape";
+            /**
+             *
+             * Represents the visibility, in boolean, of the specified shape.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            visible?: boolean;
             /**
              *
              * Represents the width, in points, of the shape.
@@ -57547,6 +57662,13 @@ declare namespace Excel {
             type?: boolean;
             /**
              *
+             * For EACH ITEM in the collection: Represents the visibility, in boolean, of the specified shape.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            visible?: boolean;
+            /**
+             *
              * For EACH ITEM in the collection: Represents the width, in points, of the shape.
             Throws an invalid argument exception when set with negative value or zero as input.
              *
@@ -57684,6 +57806,13 @@ declare namespace Excel {
              * [Api set: ExcelApi BETA (PREVIEW ONLY)]
              */
             type?: boolean;
+            /**
+             *
+             * Represents the visibility, in boolean, of the specified shape.
+             *
+             * [Api set: ExcelApi BETA (PREVIEW ONLY)]
+             */
+            visible?: boolean;
             /**
              *
              * Represents the width, in points, of the shape.
@@ -58198,7 +58327,7 @@ declare namespace Word {
         clear(): void;
         /**
          *
-         * Gets the HTML representation of the body object.
+         * Gets an HTML representation of the body object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `Body.getOoxml()` and convert the returned XML to HTML.
          *
          * [Api set: WordApi 1.1]
          */
@@ -58694,7 +58823,7 @@ declare namespace Word {
         delete(keepContent: boolean): void;
         /**
          *
-         * Gets the HTML representation of the content control object.
+         * Gets an HTML representation of the content control object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `ContentControl.getOoxml()` and convert the returned XML to HTML.
          *
          * [Api set: WordApi 1.1]
          */
@@ -61278,7 +61407,7 @@ declare namespace Word {
         detachFromList(): void;
         /**
          *
-         * Gets the HTML representation of the paragraph object.
+         * Gets an HTML representation of the paragraph object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `Paragraph.getOoxml()` and convert the returned XML to HTML.
          *
          * [Api set: WordApi 1.1]
          */
@@ -61867,7 +61996,7 @@ declare namespace Word {
         getBookmarks(includeHidden?: boolean, includeAdjacent?: boolean): OfficeExtension.ClientResult<string[]>;
         /**
          *
-         * Gets the HTML representation of the range object.
+         * Gets an HTML representation of the range object. When rendered in a web page or HTML viewer, the formatting will be a close, but not exact, match for of the formatting of the document. This method does not return the exact same HTML for the same document on different platforms (Windows, Mac, Word Online, etc.). If you need exact fidelity, or consistency across platforms, use `Range.getOoxml()` and convert the returned XML to HTML.
          *
          * [Api set: WordApi 1.1]
          */
@@ -70019,22 +70148,30 @@ declare namespace Word {
         readonly application: Application;
     }
     /**
-     * Executes a batch script that performs actions on the Word object model, using a new RequestContext. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
+     * Executes a batch script that performs actions on the Word object model, using the RequestContext of previously created API objects.
+     * @param objects - An array of previously created API objects. The array will be validated to make sure that all of the objects share the same context. The batch will use this shared RequestContext, which means that any changes applied to these objects will be picked up by "context.sync()".
      * @param batch - A function that takes in a RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Word application. Since the Office add-in and the Word application run in two different processes, the RequestContext is required to get access to the Word object model from the add-in.
      */
-    function run<T>(batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
+    function run<T>(objects: OfficeExtension.ClientObject[], batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
     /**
-     * Executes a batch script that performs actions on the Word object model, using the RequestContext of a previously-created API object. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
-     * @param object - A previously-created API object. The batch will use the same RequestContext as the passed-in object, which means that any changes applied to the object will be picked up by "context.sync()".
+     * Executes a batch script that performs actions on the Word object model, using the RequestContext of a previously created API object. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
+     * @param object - A previously created API object. The batch will use the same RequestContext as the passed-in object, which means that any changes applied to the object will be picked up by "context.sync()".
      * @param batch - A function that takes in a RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Word application. Since the Office add-in and the Word application run in two different processes, the RequestContext is required to get access to the Word object model from the add-in.
      */
     function run<T>(object: OfficeExtension.ClientObject, batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
     /**
-     * Executes a batch script that performs actions on the Word object model, using the RequestContext of previously-created API objects.
-     * @param objects - An array of previously-created API objects. The array will be validated to make sure that all of the objects share the same context. The batch will use this shared RequestContext, which means that any changes applied to these objects will be picked up by "context.sync()".
+     * Executes a batch script that performs actions on the Word object model, using a new RequestContext. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
      * @param batch - A function that takes in a RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Word application. Since the Office add-in and the Word application run in two different processes, the RequestContext is required to get access to the Word object model from the add-in.
+     *
+     * @remarks
+     *
+     * In addition to this signature, the method also has the following signatures, which allow you to resume using the request context of previously created objects:
+     *
+     * run<T>(object: OfficeExtension.ClientObject, batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
+     *
+     * run<T>(objects: OfficeExtension.ClientObject[], batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
      */
-    function run<T>(objects: OfficeExtension.ClientObject[], batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
+    function run<T>(batch: (context: Word.RequestContext) => Promise<T>): Promise<T>;
 }
 
 
@@ -70062,6 +70199,13 @@ declare namespace OneNote {
      * [Api set: OneNoteApi 1.1]
      */
     class Application extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Gets the note tag manager. Read-only.
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly noteTagManager: OneNote.NoteTagManager;
         /**
          *
          * Gets the collection of notebooks that are open in the OneNote application instance. In OneNote Online, only one notebook at a time is open in the application instance. Read-only.
@@ -70148,6 +70292,13 @@ declare namespace OneNote {
         getSelectedPages(): OneNote.PageCollection;
         getWindowSize(): OfficeExtension.ClientResult<number[]>;
         insertHtmlAtCurrentPosition(html: string): void;
+        /**
+         *
+         * Gets if the high contrast mode is enabled. Read-only.
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        isHighContrast(): OfficeExtension.ClientResult<boolean>;
         isViewingDeletedNotes(): OfficeExtension.ClientResult<boolean>;
         /**
          *
@@ -70174,9 +70325,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Application` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Application` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Application` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Application` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Application` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70239,9 +70390,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysis` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysis` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysis` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysis` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysis` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70312,9 +70463,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysisParagraph` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysisParagraph` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisParagraph` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisParagraph` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysisParagraph` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70377,9 +70528,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysisParagraphCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysisParagraphCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisParagraphCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisParagraphCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysisParagraphCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70447,9 +70598,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysisLine` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysisLine` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisLine` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisLine` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysisLine` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70512,9 +70663,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysisLineCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysisLineCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisLineCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisLineCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysisLineCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70596,9 +70747,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysisWord` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysisWord` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisWord` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisWord` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysisWord` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70661,9 +70812,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkAnalysisWordCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkAnalysisWordCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisWordCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkAnalysisWordCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkAnalysisWordCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70717,9 +70868,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.FloatingInk` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.FloatingInk` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.FloatingInk` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.FloatingInk` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.FloatingInk` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70769,9 +70920,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkStroke` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkStroke` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkStroke` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkStroke` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkStroke` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70834,9 +70985,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkStrokeCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkStrokeCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkStrokeCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkStrokeCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkStrokeCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70897,9 +71048,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkWord` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkWord` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkWord` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkWord` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkWord` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -70962,9 +71113,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.InkWordCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.InkWordCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.InkWordCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.InkWordCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.InkWordCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71078,9 +71229,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Notebook` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Notebook` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Notebook` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Notebook` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Notebook` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71152,9 +71303,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.NotebookCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.NotebookCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.NotebookCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.NotebookCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.NotebookCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71268,9 +71419,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.SectionGroup` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.SectionGroup` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.SectionGroup` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.SectionGroup` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.SectionGroup` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71342,9 +71493,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.SectionGroupCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.SectionGroupCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.SectionGroupCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.SectionGroupCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.SectionGroupCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71501,9 +71652,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Section` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Section` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Section` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Section` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Section` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71575,9 +71726,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.SectionCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.SectionCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.SectionCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.SectionCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.SectionCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71771,9 +71922,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Page` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Page` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Page` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Page` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Page` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71845,9 +71996,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.PageCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.PageCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.PageCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.PageCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.PageCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -71957,9 +72108,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.PageContent` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.PageContent` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.PageContent` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.PageContent` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.PageContent` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72022,9 +72173,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.PageContentCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.PageContentCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.PageContentCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.PageContentCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.PageContentCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72125,9 +72276,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Outline` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Outline` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Outline` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Outline` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Outline` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72383,9 +72534,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Paragraph` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Paragraph` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Paragraph` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Paragraph` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Paragraph` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72448,9 +72599,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.ParagraphCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.ParagraphCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.ParagraphCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.ParagraphCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.ParagraphCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72476,6 +72627,13 @@ declare namespace OneNote {
      * [Api set: OneNoteApi 1.1]
      */
     class NoteTag extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Gets the TagIcon property of the NoteTag object. Read-only.
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly tagIcon: OneNote.TagIcon;
         /**
          *
          * Gets the Id of the NoteTag object. Read-only.
@@ -72504,9 +72662,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.NoteTag` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.NoteTag` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.NoteTag` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.NoteTag` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.NoteTag` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72527,6 +72685,68 @@ declare namespace OneNote {
          */
         untrack(): OneNote.NoteTag;
         toJSON(): OneNote.Interfaces.NoteTagData;
+    }
+    /**
+     *
+     * Represents the collection of NoteTags
+     *
+     * [Api set: OneNoteApi 1.3]
+     */
+    class NoteTagCollection extends OfficeExtension.ClientObject {
+        /** Gets the loaded child items in this collection. */
+        readonly items: OneNote.NoteTag[];
+        /**
+         *
+         * Returns the number of NoteTags in the collection. Read-only.
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly count: number;
+        /**
+         *
+         * Gets a NoteTag by ID or by its index in the collection. Read-only.
+         *
+         * [Api set: OneNoteApi 1.3]
+         *
+         * @param index The ID of the NoteTag, or the index location of the NoteTag in the collection.
+         */
+        getItem(index: number | string): OneNote.NoteTag;
+        /**
+         *
+         * Gets a NoteTag based on its position in the collection.
+         *
+         * [Api set: OneNoteApi 1.3]
+         *
+         * @param index Index value of the object to be retrieved. Zero-indexed.
+         */
+        getItemAt(index: number): OneNote.NoteTag;
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         *
+         * @remarks
+         *
+         * In addition to this signature, this method has the following signatures:
+         *
+         * `load(option?: string | string[]): OneNote.NoteTagCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
+         *
+         * `load(option?: { select?: string; expand?: string; }): OneNote.NoteTagCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
+         *
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.NoteTagCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         *
+         * @param options Provides options for which properties of the object to load.
+         */
+        load(option?: OneNote.Interfaces.NoteTagCollectionLoadOptions & OneNote.Interfaces.CollectionLoadOptions): OneNote.NoteTagCollection;
+        load(option?: string | string[]): OneNote.NoteTagCollection;
+        load(option?: OfficeExtension.LoadOption): OneNote.NoteTagCollection;
+        /**
+         * Track the object for automatic adjustment based on surrounding changes in the document. This call is a shorthand for context.trackedObjects.add(thisObject). If you are using this object across ".sync" calls and outside the sequential execution of a ".run" batch, and get an "InvalidObjectPath" error when setting a property or invoking a method on the object, you needed to have added the object to the tracked object collection when the object was first created.
+         */
+        track(): OneNote.NoteTagCollection;
+        /**
+         * Release the memory associated with this object, if it has previously been tracked. This call is shorthand for context.trackedObjects.remove(thisObject). Having many tracked objects slows down the host application, so please remember to free any objects you add, once you're done using them. You will need to call "context.sync()" before the memory release takes effect.
+         */
+        untrack(): OneNote.NoteTagCollection;
+        toJSON(): OneNote.Interfaces.NoteTagCollectionData;
     }
     /**
      *
@@ -72578,9 +72798,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.RichText` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.RichText` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.RichText` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.RichText` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.RichText` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72694,9 +72914,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Image` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Image` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Image` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Image` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Image` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72851,9 +73071,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.Table` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.Table` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.Table` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.Table` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.Table` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -72959,9 +73179,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.TableRow` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.TableRow` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.TableRow` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.TableRow` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.TableRow` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73024,9 +73244,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.TableRowCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.TableRowCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.TableRowCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.TableRowCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.TableRowCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73162,9 +73382,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.TableCell` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.TableCell` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.TableCell` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.TableCell` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.TableCell` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73227,9 +73447,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.TableCellCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.TableCellCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.TableCellCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.TableCellCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.TableCellCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73523,9 +73743,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.AccessibilityViolation` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.AccessibilityViolation` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolation` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolation` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.AccessibilityViolation` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73595,9 +73815,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.AccessibilityViolationCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.AccessibilityViolationCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolationCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolationCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.AccessibilityViolationCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73679,9 +73899,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.AccessibilityViolationsByEntity` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.AccessibilityViolationsByEntity` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolationsByEntity` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolationsByEntity` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.AccessibilityViolationsByEntity` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73751,9 +73971,9 @@ declare namespace OneNote {
          *
          * In addition to this signature, this method has the following signatures:
          *
-         * `load(option?: string | string[]): OneNote.AccessibilityViolationsByEntityCollection` - Where option is a comma-delimited string or an array of strings that specify the properties/relationships to load.
+         * `load(option?: string | string[]): OneNote.AccessibilityViolationsByEntityCollection` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
          *
-         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolationsByEntityCollection` - Where option.select is a comma-delimited string that specifies the properties/relationships to load, and options.expand is a comma-delimited string that specifies the relationships to load.
+         * `load(option?: { select?: string; expand?: string; }): OneNote.AccessibilityViolationsByEntityCollection` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
          *
          * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.AccessibilityViolationsByEntityCollection` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
          *
@@ -73771,6 +73991,135 @@ declare namespace OneNote {
          */
         untrack(): OneNote.AccessibilityViolationsByEntityCollection;
         toJSON(): OneNote.Interfaces.AccessibilityViolationsByEntityCollectionData;
+    }
+    /**
+     *
+     * Represents a note tag icon
+     *
+     * [Api set: OneNoteApi 1.3]
+     */
+    class TagIcon extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Gets the bitmaps of all the states of the tag icon. Read-only
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly bitmaps: string[];
+        /**
+         *
+         * Gets the name of the tag icon. Read-only
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly name: string;
+        /**
+         *
+         * Gets the note tag shape of the tag icon. Read-only
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly noteTagShape: number;
+        /**
+         *
+         * Gets the type of the tag icon. Read-only
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly type: OneNote.TagIconType | "Static" | "Interactive";
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         *
+         * @remarks
+         *
+         * In addition to this signature, this method has the following signatures:
+         *
+         * `load(option?: string | string[]): OneNote.TagIcon` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
+         *
+         * `load(option?: { select?: string; expand?: string; }): OneNote.TagIcon` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
+         *
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.TagIcon` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         *
+         * @param options Provides options for which properties of the object to load.
+         */
+        load(option?: OneNote.Interfaces.TagIconLoadOptions): OneNote.TagIcon;
+        load(option?: string | string[]): OneNote.TagIcon;
+        load(option?: {
+            select?: string;
+            expand?: string;
+        }): OneNote.TagIcon;
+        /**
+         * Track the object for automatic adjustment based on surrounding changes in the document. This call is a shorthand for context.trackedObjects.add(thisObject). If you are using this object across ".sync" calls and outside the sequential execution of a ".run" batch, and get an "InvalidObjectPath" error when setting a property or invoking a method on the object, you needed to have added the object to the tracked object collection when the object was first created.
+         */
+        track(): OneNote.TagIcon;
+        /**
+         * Release the memory associated with this object, if it has previously been tracked. This call is shorthand for context.trackedObjects.remove(thisObject). Having many tracked objects slows down the host application, so please remember to free any objects you add, once you're done using them. You will need to call "context.sync()" before the memory release takes effect.
+         */
+        untrack(): OneNote.TagIcon;
+        toJSON(): OneNote.Interfaces.TagIconData;
+    }
+    /**
+     *
+     * Represents the note tag manager
+     *
+     * [Api set: OneNoteApi 1.3]
+     */
+    class NoteTagManager extends OfficeExtension.ClientObject {
+        /**
+         *
+         * Gets the collection of built-in custom NoteTags. Read-only.
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly customNoteTags: OneNote.NoteTagCollection;
+        /**
+         *
+         * Gets the tag modification result of the previous tag modification action. Read-only
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        readonly lastModificationResult: OneNote.TagModificationResult | "Pending" | "Success" | "Fail";
+        /**
+         *
+         * Creates a custom tag if id is empty. Modifies an existing tag if a tag id is provided.
+         *
+         * [Api set: OneNoteApi 1.3]
+         *
+         * @param id The id of the tag, empty string will create a new custom tag.
+         * @param tagName The name of the tag.
+         * @param noteTagShape The tag shape id of the tag.
+         */
+        setCustomTag(id: string, tagName: string, noteTagShape: number): void;
+        /**
+         * Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+         *
+         * @remarks
+         *
+         * In addition to this signature, this method has the following signatures:
+         *
+         * `load(option?: string | string[]): OneNote.NoteTagManager` - Where option is a comma-delimited string or an array of strings that specify the properties to load.
+         *
+         * `load(option?: { select?: string; expand?: string; }): OneNote.NoteTagManager` - Where option.select is a comma-delimited string that specifies the properties to load, and options.expand is a comma-delimited string that specifies the navigation properties to load.
+         *
+         * `load(option?: { select?: string; expand?: string; top?: number; skip?: number }): OneNote.NoteTagManager` - Only available on collection types. It is similar to the preceding signature. Option.top specifies the maximum number of collection items that can be included in the result. Option.skip specifies the number of items that are to be skipped and not included in the result. If option.top is specified, the result set will start after skipping the specified number of items.
+         *
+         * @param options Provides options for which properties of the object to load.
+         */
+        load(option?: OneNote.Interfaces.NoteTagManagerLoadOptions): OneNote.NoteTagManager;
+        load(option?: string | string[]): OneNote.NoteTagManager;
+        load(option?: {
+            select?: string;
+            expand?: string;
+        }): OneNote.NoteTagManager;
+        /**
+         * Track the object for automatic adjustment based on surrounding changes in the document. This call is a shorthand for context.trackedObjects.add(thisObject). If you are using this object across ".sync" calls and outside the sequential execution of a ".run" batch, and get an "InvalidObjectPath" error when setting a property or invoking a method on the object, you needed to have added the object to the tracked object collection when the object was first created.
+         */
+        track(): OneNote.NoteTagManager;
+        /**
+         * Release the memory associated with this object, if it has previously been tracked. This call is shorthand for context.trackedObjects.remove(thisObject). Having many tracked objects slows down the host application, so please remember to free any objects you add, once you're done using them. You will need to call "context.sync()" before the memory release takes effect.
+         */
+        untrack(): OneNote.NoteTagManager;
+        toJSON(): OneNote.Interfaces.NoteTagManagerData;
     }
     /**
      * [Api set: OneNoteApi 1.2]
@@ -74041,6 +74390,21 @@ declare namespace OneNote {
         onTable = "OnTable",
         withinParagraph = "WithinParagraph",
     }
+    /**
+     * [Api set: OneNoteApi 1.3]
+     */
+    enum TagIconType {
+        static = "Static",
+        interactive = "Interactive",
+    }
+    /**
+     * [Api set: OneNoteApi 1.3]
+     */
+    enum TagModificationResult {
+        pending = "Pending",
+        success = "Success",
+        fail = "Fail",
+    }
     enum ErrorCodes {
         generalException = "GeneralException",
     }
@@ -74207,6 +74571,10 @@ declare namespace OneNote {
         interface ParagraphCollectionUpdateData {
             items?: OneNote.Interfaces.ParagraphData[];
         }
+        /** An interface for updating data on the NoteTagCollection object, for use in "noteTagCollection.set({ ... })". */
+        interface NoteTagCollectionUpdateData {
+            items?: OneNote.Interfaces.NoteTagData[];
+        }
         /** An interface for updating data on the Image object, for use in "image.set({ ... })". */
         interface ImageUpdateData {
             /**
@@ -74276,6 +74644,13 @@ declare namespace OneNote {
         }
         /** An interface describing the data returned by calling "application.toJSON()". */
         interface ApplicationData {
+            /**
+            *
+            * Gets the note tag manager. Read-only.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            noteTagManager?: OneNote.Interfaces.NoteTagManagerData;
             /**
             *
             * Gets the collection of notebooks that are open in the OneNote application instance. In OneNote Online, only one notebook at a time is open in the application instance. Read-only.
@@ -74947,6 +75322,13 @@ declare namespace OneNote {
         /** An interface describing the data returned by calling "noteTag.toJSON()". */
         interface NoteTagData {
             /**
+            *
+            * Gets the TagIcon property of the NoteTag object. Read-only.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            tagIcon?: OneNote.Interfaces.TagIconData;
+            /**
              *
              * Gets the Id of the NoteTag object. Read-only.
              *
@@ -74967,6 +75349,10 @@ declare namespace OneNote {
              * [Api set: OneNoteApi 1.1]
              */
             type?: OneNote.NoteTagType | "Unknown" | "ToDo" | "Important" | "Question" | "Contact" | "Address" | "PhoneNumber" | "Website" | "Idea" | "Critical" | "ToDoPriority1" | "ToDoPriority2";
+        }
+        /** An interface describing the data returned by calling "noteTagCollection.toJSON()". */
+        interface NoteTagCollectionData {
+            items?: OneNote.Interfaces.NoteTagData[];
         }
         /** An interface describing the data returned by calling "richText.toJSON()". */
         interface RichTextData {
@@ -75194,7 +75580,6 @@ declare namespace OneNote {
         interface TableCellCollectionData {
             items?: OneNote.Interfaces.TableCellData[];
         }
-        
         /** An interface describing the data returned by calling "accessibilityViolation.toJSON()". */
         interface AccessibilityViolationData {
             /**
@@ -75279,6 +75664,54 @@ declare namespace OneNote {
         interface AccessibilityViolationsByEntityCollectionData {
             items?: OneNote.Interfaces.AccessibilityViolationsByEntityData[];
         }
+        /** An interface describing the data returned by calling "tagIcon.toJSON()". */
+        interface TagIconData {
+            /**
+             *
+             * Gets the bitmaps of all the states of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            bitmaps?: string[];
+            /**
+             *
+             * Gets the name of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            name?: string;
+            /**
+             *
+             * Gets the note tag shape of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            noteTagShape?: number;
+            /**
+             *
+             * Gets the type of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            type?: OneNote.TagIconType | "Static" | "Interactive";
+        }
+        /** An interface describing the data returned by calling "noteTagManager.toJSON()". */
+        interface NoteTagManagerData {
+            /**
+            *
+            * Gets the collection of built-in custom NoteTags. Read-only.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            customNoteTags?: OneNote.Interfaces.NoteTagData[];
+            /**
+             *
+             * Gets the tag modification result of the previous tag modification action. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            lastModificationResult?: OneNote.TagModificationResult | "Pending" | "Success" | "Fail";
+        }
         /**
          *
          * Represents the top-level object that contains all globally addressable OneNote objects such as notebooks, the active notebook, and the active section.
@@ -75287,6 +75720,13 @@ declare namespace OneNote {
          */
         interface ApplicationLoadOptions {
             $all?: boolean;
+            /**
+            *
+            * Gets the note tag manager.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            noteTagManager?: OneNote.Interfaces.NoteTagManagerLoadOptions;
             /**
             *
             * Gets the collection of notebooks that are open in the OneNote application instance. In OneNote Online, only one notebook at a time is open in the application instance.
@@ -76586,6 +77026,13 @@ declare namespace OneNote {
         interface NoteTagLoadOptions {
             $all?: boolean;
             /**
+            *
+            * Gets the TagIcon property of the NoteTag object.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            tagIcon?: OneNote.Interfaces.TagIconLoadOptions;
+            /**
              *
              * Gets the Id of the NoteTag object. Read-only.
              *
@@ -76602,6 +77049,43 @@ declare namespace OneNote {
             /**
              *
              * Gets the type of the NoteTag object. Read-only.
+             *
+             * [Api set: OneNoteApi 1.1]
+             */
+            type?: boolean;
+        }
+        /**
+         *
+         * Represents the collection of NoteTags
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        interface NoteTagCollectionLoadOptions {
+            $all?: boolean;
+            /**
+            *
+            * For EACH ITEM in the collection: Gets the TagIcon property of the NoteTag object.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            tagIcon?: OneNote.Interfaces.TagIconLoadOptions;
+            /**
+             *
+             * For EACH ITEM in the collection: Gets the Id of the NoteTag object. Read-only.
+             *
+             * [Api set: OneNoteApi 1.1]
+             */
+            id?: boolean;
+            /**
+             *
+             * For EACH ITEM in the collection: Gets the status of the NoteTag object. Read-only.
+             *
+             * [Api set: OneNoteApi 1.1]
+             */
+            status?: boolean;
+            /**
+             *
+             * For EACH ITEM in the collection: Gets the type of the NoteTag object. Read-only.
              *
              * [Api set: OneNoteApi 1.1]
              */
@@ -77125,6 +77609,66 @@ declare namespace OneNote {
              * [Api set: OneNoteApi 1.2]
              */
             violationsCount?: boolean;
+        }
+        /**
+         *
+         * Represents a note tag icon
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        interface TagIconLoadOptions {
+            $all?: boolean;
+            /**
+             *
+             * Gets the bitmaps of all the states of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            bitmaps?: boolean;
+            /**
+             *
+             * Gets the name of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            name?: boolean;
+            /**
+             *
+             * Gets the note tag shape of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            noteTagShape?: boolean;
+            /**
+             *
+             * Gets the type of the tag icon. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            type?: boolean;
+        }
+        /**
+         *
+         * Represents the note tag manager
+         *
+         * [Api set: OneNoteApi 1.3]
+         */
+        interface NoteTagManagerLoadOptions {
+            $all?: boolean;
+            /**
+            *
+            * Gets the collection of built-in custom NoteTags.
+            *
+            * [Api set: OneNoteApi 1.3]
+            */
+            customNoteTags?: OneNote.Interfaces.NoteTagCollectionLoadOptions;
+            /**
+             *
+             * Gets the tag modification result of the previous tag modification action. Read-only
+             *
+             * [Api set: OneNoteApi 1.3]
+             */
+            lastModificationResult?: boolean;
         }
     }
 }
@@ -79672,9 +80216,9 @@ declare namespace Visio {
         readonly document: Document;
     }
     /**
-     * Executes a batch script that performs actions on the Visio object model, using a new request context. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
-     * @param batch - A function that takes in an Visio.RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Visio application. Since the Office add-in and the Visio application run in two different processes, the request context is required to get access to the Visio object model from the add-in.
-     */
+ * Executes a batch script that performs actions on the Visio object model, using a new request context. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
+ * @param batch - A function that takes in an Visio.RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Visio application. Since the Office add-in and the Visio application run in two different processes, the request context is required to get access to the Visio object model from the add-in.
+ */
     function run<T>(batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;
     /**
      * Executes a batch script that performs actions on the Visio object model, using the request context of a previously-created API object.
@@ -79683,17 +80227,25 @@ declare namespace Visio {
      */
     function run<T>(object: OfficeExtension.ClientObject | OfficeExtension.EmbeddedSession, batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;
     /**
-     * Executes a batch script that performs actions on the Visio object model, using the RequestContext of a previously-created object. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
-     * @param contextObject - A previously-created Visio.RequestContext. This context will get re-used by the batch function (instead of having a new context created). This means that the batch will be able to pick up changes made to existing API objects, if those objects were derived from this same context.
-     * @param batch - A function that takes in a RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Visio application. Since the Office add-in and the Visio application run in two different processes, the RequestContext is required to get access to the Visio object model from the add-in.
-     */
-    function run<T>(contextObject: OfficeExtension.ClientRequestContext, batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;
-    /**
      * Executes a batch script that performs actions on the Visio object model, using the request context of previously-created API objects.
      * @param objects - An array of previously-created API objects. The array will be validated to make sure that all of the objects share the same context. The batch will use this shared request context, which means that any changes applied to these objects will be picked up by "context.sync()".
      * @param batch - A function that takes in a Visio.RequestContext and returns a promise (typically, just the result of "context.sync()"). When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
      */
     function run<T>(objects: OfficeExtension.ClientObject[], batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;
+    /**
+     * Executes a batch script that performs actions on the Visio object model, using the RequestContext of a previously-created object. When the promise is resolved, any tracked objects that were automatically allocated during execution will be released.
+     * @param contextObject - A previously-created Visio.RequestContext. This context will get re-used by the batch function (instead of having a new context created). This means that the batch will be able to pick up changes made to existing API objects, if those objects were derived from this same context.
+     * @param batch - A function that takes in a RequestContext and returns a promise (typically, just the result of "context.sync()"). The context parameter facilitates requests to the Visio application. Since the Office add-in and the Visio application run in two different processes, the RequestContext is required to get access to the Visio object model from the add-in.
+     * @remarks
+     * In addition to this signature, the method also has the following signatures:
+     *
+     * `run<T>(batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;`
+     *
+     * `run<T>(object: OfficeExtension.ClientObject | OfficeExtension.EmbeddedSession, batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;`
+     *
+     * `run<T>(objects: OfficeExtension.ClientObject[], batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;`
+     */
+    function run<T>(contextObject: OfficeExtension.ClientRequestContext, batch: (context: Visio.RequestContext) => Promise<T>): Promise<T>;
 }
 
 
