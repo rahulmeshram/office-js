@@ -4924,6 +4924,7 @@ var CustomFunctionMappings = {};
                 try {
                     call = this_1._getFunction(message.functionName);
                 } catch (ex) {
+                    debugger;
                     return CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionNotFoundLog, message.functionName), 
                     this_1._setError(message.invocationId, ex, 1), "continue";
                 }
