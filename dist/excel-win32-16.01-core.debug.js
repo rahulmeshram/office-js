@@ -1,5 +1,5 @@
 /* Excel specific API library (Core APIs only) */
-/* Version: 16.0.11013.30006 */
+/* Version: 16.0.11013.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -5293,7 +5293,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.11013.30006";
+        appInfo.hostJSVersion = "16.0.11013.30000";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }
@@ -6076,7 +6076,8 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame
+                    displayInIFrame: options.displayInIFrame,
+                    hideTitle: options.hideTitle
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {

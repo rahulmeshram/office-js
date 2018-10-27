@@ -22728,7 +22728,8 @@ window.OfficeExtensionBatch = window.OfficeExtension;
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame
+                    displayInIFrame: options.displayInIFrame,
+                    hideTitle: options.hideTitle
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {
