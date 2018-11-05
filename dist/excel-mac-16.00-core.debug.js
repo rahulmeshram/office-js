@@ -1,5 +1,5 @@
 /* Excel Mac specific API library (Core APIs only) */
-/* Version: 16.0.11013.30000 */
+/* Version: 16.0.11102.30001 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -4378,6 +4378,7 @@ var OfficeExt;
                     window.clearInterval(MacRichClientHostController.interval);
                 }
                 MacRichClientHostController.popup.close();
+                MacRichClientHostController.popup = null;
                 MacRichClientHostController.NotifyError = null;
                 callback(OSF.DDA.ErrorCodeManager.errorCodes.ooeSuccess);
             }
@@ -5363,7 +5364,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.11013.30000";
+        appInfo.hostJSVersion = "16.0.11102.30001";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }
@@ -6146,8 +6147,7 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
                 var dialogOptions = {
                     width: options.width ? parseInt(options.width) : 50,
                     height: options.height ? parseInt(options.height) : 50,
-                    displayInIFrame: options.displayInIFrame,
-                    hideTitle: options.hideTitle
+                    displayInIFrame: options.displayInIFrame
                 };
                 return dialogService.displayDialog(url, dialogOptions), ctx.sync();
             }).catch(function(e) {

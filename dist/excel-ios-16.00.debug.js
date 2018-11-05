@@ -16,9 +16,9 @@
 
 
 // Sources:
-// osfweb: 16.0\11004.10000
-// runtime: 16.0.11012.30005
-// core: 16.0\11025.10000
+// osfweb: 16.0\11013.10000
+// runtime: 16.0.11025.30003
+// core: 16.0\11103.10000
 // host: 
 
 var __extends=(this && this.__extends) || function (d, b) {
@@ -1812,7 +1812,6 @@ var OfficeExt;
 					"documentevents": 1.1,
 					"file": 1.1,
 					"pdffile": 1.1,
-					"powerpointapi": 1.1,
 					"selection": 1.1,
 					"settings": 1.1,
 					"textcoercion": 1.1
@@ -5279,7 +5278,7 @@ var OSFAriaLogger;
 			{ name: "Message", type: "string" },
 			{ name: "Date", type: "string" },
 		] };
-	var TelemetryEventApiClosed={ name: "AppClosed", enabled: true, critical: false, points: [
+	var TelemetryEventAppClosed={ name: "AppClosed", enabled: true, critical: false, points: [
 			{ name: "SessionId", type: "string" },
 			{ name: "FocusTime", type: "int64" },
 			{ name: "AppSizeFinalWidth", type: "int64" },
@@ -5292,7 +5291,7 @@ var OSFAriaLogger;
 		TelemetryEventScriptLoad,
 		TelemetryEventApiUsage,
 		TelemetryEventAppInitialization,
-		TelemetryEventApiClosed,
+		TelemetryEventAppClosed,
 	];
 	function createDataField(value, point) {
 		var key=point.name;
@@ -5303,12 +5302,21 @@ var OSFAriaLogger;
 				field=oteljs.makeStringDataField(key, value);
 				break;
 			case "double":
+				if (typeof value==="string") {
+					value=parseFloat(value);
+				}
 				field=oteljs.makeDoubleDataField(key, value);
 				break;
 			case "int64":
+				if (typeof value==="string") {
+					value=parseInt(value);
+				}
 				field=oteljs.makeInt64DataField(key, value);
 				break;
 			case "boolean":
+				if (typeof value==="string") {
+					value=value==="true";
+				}
 				field=oteljs.makeBooleanDataField(key, value);
 				break;
 		}
@@ -5595,7 +5603,7 @@ var OSFAppTelemetry;
 		}
 		appInfo.message=context.get_hostCustomMessage();
 		appInfo.officeJSVersion=OSF.ConstantNames.FileVersion;
-		appInfo.hostJSVersion="16.0.11004.10000";
+		appInfo.hostJSVersion="16.0.11013.10000";
 		if (context._wacHostEnvironment) {
 			appInfo.wacHostEnvironment=context._wacHostEnvironment;
 		}
@@ -15768,7 +15776,12 @@ var Excel;
 			postprocess: postprocessBindingDescriptor
 		},
 		"AddFromPromptAsync": {
-			call: function (ctx, callArgs) { return ctx.workbook._V1Api.bindingAddFromPrompt(callArgs); },
+			call: function (ctx, callArgs) {
+				if (versionNumberIsEarlierThan({ ios: { desiredMajor: 2, desiredMinor: 20, desiredBuild: 0 } }) && OfficeExtension.CommonUtility.isSetSupported("DelayForCellEdit")) {
+					ctx._requestFlagModifier |=64;
+				}
+				return ctx.workbook._V1Api.bindingAddFromPrompt(callArgs);
+			},
 			postprocess: postprocessBindingDescriptor
 		},
 		"AddRowsAsync": {
@@ -16295,7 +16308,7 @@ var Excel;
 		});
 		Object.defineProperty(Workbook.prototype, "_navigationPropertyNames", {
 			get: function () {
-				return ["worksheets", "names", "tables", "application", "bindings", "functions", "_V1Api", "pivotTables", "settings", "customXmlParts", "internalTest", "properties", "styles", "protection", "dataConnections", "_Runtime"];
+				return ["worksheets", "names", "tables", "application", "bindings", "functions", "_V1Api", "pivotTables", "settings", "customXmlParts", "internalTest", "properties", "styles", "protection", "dataConnections", "_Runtime", "comments"];
 			},
 			enumerable: true,
 			configurable: true
@@ -16316,6 +16329,17 @@ var Excel;
 					this._B=_createPropertyObject(Excel.BindingCollection, this, "Bindings", true, 4);
 				}
 				return this._B;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Workbook.prototype, "comments", {
+			get: function () {
+				_throwIfApiNotSupported("Workbook.comments", _defaultApiSetName, "1.9", _hostName);
+				if (!this._Co) {
+					this._Co=_createPropertyObject(Excel.CommentCollection, this, "Comments", true, 4);
+				}
+				return this._Co;
 			},
 			enumerable: true,
 			configurable: true
@@ -16574,6 +16598,7 @@ var Excel;
 				"_V1Api",
 				"application",
 				"bindings",
+				"comments",
 				"customFunctions",
 				"customXmlParts",
 				"dataConnections",
@@ -16649,6 +16674,10 @@ var Excel;
 		Workbook.prototype._GetReferenceCount=function () {
 			return _invokeMethod(this, "_GetReferenceCount", 1, [], 4, 0);
 		};
+		Workbook.prototype._RegisterAutoSaveSettingChangedEvent=function () {
+			_throwIfApiNotSupported("Workbook._RegisterAutoSaveSettingChangedEvent", _defaultApiSetName, "1.9", _hostName);
+			_invokeMethod(this, "_RegisterAutoSaveSettingChangedEvent", 0, [], 0, 0);
+		};
 		Workbook.prototype._RemoveAllReferences=function () {
 			_invokeMethod(this, "_RemoveAllReferences", 1, [], 0, 0);
 		};
@@ -16658,6 +16687,10 @@ var Excel;
 		Workbook.prototype._SetOsfControlContainerReadyForCustomFunctions=function () {
 			_throwIfApiNotSupported("Workbook._SetOsfControlContainerReadyForCustomFunctions", "CustomFunctions", "1.1", _hostName);
 			_invokeMethod(this, "_SetOsfControlContainerReadyForCustomFunctions", 0, [], 0, 0);
+		};
+		Workbook.prototype._UnregisterAutoSaveSettingChangedEvent=function () {
+			_throwIfApiNotSupported("Workbook._UnregisterAutoSaveSettingChangedEvent", _defaultApiSetName, "1.9", _hostName);
+			_invokeMethod(this, "_UnregisterAutoSaveSettingChangedEvent", 0, [], 0, 0);
 		};
 		Workbook.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
@@ -16692,7 +16725,7 @@ var Excel;
 			if (!_isUndefined(obj["UsePrecisionAsDisplayed"])) {
 				this._Us=obj["UsePrecisionAsDisplayed"];
 			}
-			_handleNavigationPropertyResults(this, obj, ["application", "Application", "bindings", "Bindings", "customXmlParts", "CustomXmlParts", "dataConnections", "DataConnections", "functions", "Functions", "internalTest", "InternalTest", "names", "Names", "pivotTables", "PivotTables", "properties", "Properties", "protection", "Protection", "settings", "Settings", "styles", "Styles", "tables", "Tables", "worksheets", "Worksheets", "_Runtime", "_Runtime", "_V1Api", "_V1Api"]);
+			_handleNavigationPropertyResults(this, obj, ["application", "Application", "bindings", "Bindings", "comments", "Comments", "customXmlParts", "CustomXmlParts", "dataConnections", "DataConnections", "functions", "Functions", "internalTest", "InternalTest", "names", "Names", "pivotTables", "PivotTables", "properties", "Properties", "protection", "Protection", "settings", "Settings", "styles", "Styles", "tables", "Tables", "worksheets", "Worksheets", "_Runtime", "_Runtime", "_V1Api", "_V1Api"]);
 		};
 		Workbook.prototype.load=function (option) {
 			return _load(this, option);
@@ -16704,6 +16737,29 @@ var Excel;
 			_super.prototype._handleRetrieveResult.call(this, value, result);
 			_processRetrieveResult(this, value, result);
 		};
+		Object.defineProperty(Workbook.prototype, "onAutoSaveSettingChanged", {
+			get: function () {
+				var _this=this;
+				_throwIfApiNotSupported("Workbook.onAutoSaveSettingChanged", _defaultApiSetName, "1.9", _hostName);
+				if (!this.m_autoSaveSettingChanged) {
+					this.m_autoSaveSettingChanged=new OfficeExtension.GenericEventHandlers(this.context, this, "AutoSaveSettingChanged", {
+						eventType: 2200,
+						registerFunc: function () { _this._RegisterAutoSaveSettingChangedEvent(); },
+						unregisterFunc: function () { _this._UnregisterAutoSaveSettingChangedEvent(); },
+						getTargetIdFunc: function () { return OfficeExtension.Constants.eventWorkbookId; },
+						eventArgsTransformFunc: function (value) {
+							var event={
+								type: EventType.workbookAutoSaveSettingChanged
+							};
+							return OfficeExtension.Utility._createPromiseFromResult(event);
+						}
+					});
+				}
+				return this.m_autoSaveSettingChanged;
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Object.defineProperty(Workbook.prototype, "onSelectionChanged", {
 			get: function () {
 				var _this=this;
@@ -16764,6 +16820,7 @@ var Excel;
 				"usePrecisionAsDisplayed": this._Us
 			}, {
 				"bindings": this._B,
+				"comments": this._Co,
 				"customXmlParts": this._Cus,
 				"names": this._Na,
 				"pivotTables": this._P,
@@ -17620,6 +17677,10 @@ var Excel;
 		WorksheetCollection.prototype.add=function (name) {
 			return _createMethodObject(Excel.Worksheet, this, "Add", 0, [name], false, true, null, 0);
 		};
+		WorksheetCollection.prototype.addFromBase64=function (base64File, sheetNamesToInsert, positionType, relativeTo) {
+			_throwIfApiNotSupported("WorksheetCollection.addFromBase64", _defaultApiSetName, "1.9", _hostName);
+			return _invokeMethod(this, "AddFromBase64", 0, [base64File, sheetNamesToInsert, positionType, relativeTo], 0, 0);
+		};
 		WorksheetCollection.prototype.getActiveWorksheet=function () {
 			return _createMethodObject(Excel.Worksheet, this, "GetActiveWorksheet", 1, [], false, false, null, 4);
 		};
@@ -18094,14 +18155,14 @@ var Excel;
 		});
 		Object.defineProperty(Range.prototype, "_scalarPropertyNames", {
 			get: function () {
-				return ["numberFormat", "numberFormatLocal", "values", "text", "formulas", "formulasLocal", "rowIndex", "columnIndex", "rowCount", "columnCount", "address", "addressLocal", "cellCount", "_ReferenceId", "valueTypes", "formulasR1C1", "hidden", "rowHidden", "columnHidden", "isEntireColumn", "isEntireRow", "hyperlink", "style", "linkedDataTypeState"];
+				return ["numberFormat", "numberFormatLocal", "values", "text", "formulas", "formulasLocal", "rowIndex", "columnIndex", "rowCount", "columnCount", "address", "addressLocal", "cellCount", "_ReferenceId", "valueTypes", "formulasR1C1", "hidden", "rowHidden", "columnHidden", "isEntireColumn", "isEntireRow", "hyperlink", "style", "linkedDataTypeState", "hasSpill"];
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Range.prototype, "_scalarPropertyUpdateable", {
 			get: function () {
-				return [true, true, true, false, true, true, false, false, false, false, false, false, false, false, false, true, false, true, true, false, false, true, true, false];
+				return [true, true, true, false, true, true, false, false, false, false, false, false, false, false, false, true, false, true, true, false, false, true, true, false, false];
 			},
 			enumerable: true,
 			configurable: true
@@ -18294,11 +18355,20 @@ var Excel;
 			enumerable: true,
 			configurable: true
 		});
+		Object.defineProperty(Range.prototype, "hasSpill", {
+			get: function () {
+				_throwIfNotLoaded("hasSpill", this._H, _typeRange, this._isNull);
+				_throwIfApiNotSupported("Range.hasSpill", _defaultApiSetName, "1.9", _hostName);
+				return this._H;
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Object.defineProperty(Range.prototype, "hidden", {
 			get: function () {
-				_throwIfNotLoaded("hidden", this._H, _typeRange, this._isNull);
+				_throwIfNotLoaded("hidden", this._Hi, _typeRange, this._isNull);
 				_throwIfApiNotSupported("Range.hidden", _defaultApiSetName, "1.2", _hostName);
-				return this._H;
+				return this._Hi;
 			},
 			enumerable: true,
 			configurable: true
@@ -18613,6 +18683,14 @@ var Excel;
 			_throwIfApiNotSupported("Range.getSpecialCellsOrNullObject", _defaultApiSetName, "1.9", _hostName);
 			return _createMethodObject(Excel.RangeAreas, this, "GetSpecialCellsOrNullObject", 1, [cellType, cellValueType], false, true, null, 4);
 		};
+		Range.prototype.getSpillParent=function () {
+			_throwIfApiNotSupported("Range.getSpillParent", _defaultApiSetName, "1.9", _hostName);
+			return _createMethodObject(Excel.Range, this, "GetSpillParent", 1, [], false, true, null, 4);
+		};
+		Range.prototype.getSpillingToRange=function () {
+			_throwIfApiNotSupported("Range.getSpillingToRange", _defaultApiSetName, "1.9", _hostName);
+			return _createMethodObject(Excel.Range, this, "GetSpillingToRange", 1, [], false, true, null, 4);
+		};
 		Range.prototype.getSurroundingRegion=function () {
 			_throwIfApiNotSupported("Range.getSurroundingRegion", _defaultApiSetName, "1.7", _hostName);
 			return _createMethodObject(Excel.Range, this, "GetSurroundingRegion", 1, [], false, true, null, 4);
@@ -18708,8 +18786,11 @@ var Excel;
 			if (!_isUndefined(obj["FormulasR1C1"])) {
 				this.m_formulasR1C1=obj["FormulasR1C1"];
 			}
+			if (!_isUndefined(obj["HasSpill"])) {
+				this._H=obj["HasSpill"];
+			}
 			if (!_isUndefined(obj["Hidden"])) {
-				this._H=obj["Hidden"];
+				this._Hi=obj["Hidden"];
 			}
 			if (!_isUndefined(obj["Hyperlink"])) {
 				this._Hy=obj["Hyperlink"];
@@ -18793,7 +18874,8 @@ var Excel;
 				"formulas": this.m_formulas,
 				"formulasLocal": this.m_formulasLocal,
 				"formulasR1C1": this.m_formulasR1C1,
-				"hidden": this._H,
+				"hasSpill": this._H,
+				"hidden": this._Hi,
 				"hyperlink": this._Hy,
 				"isEntireColumn": this.m_isEntireColumn,
 				"isEntireRow": this.m_isEntireRow,
@@ -31381,20 +31463,36 @@ var Excel;
 		PivotLayout.prototype.update=function (properties) {
 			this._recursivelyUpdate(properties);
 		};
+		PivotLayout.prototype.getCell=function (dataHierarchy, rowItems, columnItems) {
+			_throwIfApiNotSupported("PivotLayout.getCell", _defaultApiSetName, "1.9", _hostName);
+			return _createMethodObject(Excel.Range, this, "GetCell", 0, [dataHierarchy, rowItems, columnItems], false, false, null, 0);
+		};
 		PivotLayout.prototype.getColumnLabelRange=function () {
 			return _createMethodObject(Excel.Range, this, "GetColumnLabelRange", 0, [], false, false, null, 0);
 		};
 		PivotLayout.prototype.getDataBodyRange=function () {
 			return _createMethodObject(Excel.Range, this, "GetDataBodyRange", 0, [], false, false, null, 0);
 		};
+		PivotLayout.prototype.getDataHierarchy=function (cell) {
+			_throwIfApiNotSupported("PivotLayout.getDataHierarchy", _defaultApiSetName, "1.9", _hostName);
+			return _createMethodObject(Excel.DataPivotHierarchy, this, "GetDataHierarchy", 0, [cell], false, false, null, 0);
+		};
 		PivotLayout.prototype.getFilterAxisRange=function () {
 			return _createMethodObject(Excel.Range, this, "GetFilterAxisRange", 0, [], false, false, null, 0);
+		};
+		PivotLayout.prototype.getPivotItems=function (axis, cell) {
+			_throwIfApiNotSupported("PivotLayout.getPivotItems", _defaultApiSetName, "1.9", _hostName);
+			return _invokeMethod(this, "GetPivotItems", 0, [axis, cell], 0, 0);
 		};
 		PivotLayout.prototype.getRange=function () {
 			return _createMethodObject(Excel.Range, this, "GetRange", 0, [], false, false, null, 0);
 		};
 		PivotLayout.prototype.getRowLabelRange=function () {
 			return _createMethodObject(Excel.Range, this, "GetRowLabelRange", 0, [], false, false, null, 0);
+		};
+		PivotLayout.prototype.setAutosortOnCell=function (cell, sortby) {
+			_throwIfApiNotSupported("PivotLayout.setAutosortOnCell", _defaultApiSetName, "1.9", _hostName);
+			_invokeMethod(this, "SetAutosortOnCell", 0, [cell, sortby], 0, 0);
 		};
 		PivotLayout.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
@@ -32823,6 +32921,14 @@ var Excel;
 		ShowAsCalculation["rankDecending"]="RankDecending";
 		ShowAsCalculation["index"]="Index";
 	})(ShowAsCalculation=Excel.ShowAsCalculation || (Excel.ShowAsCalculation={}));
+	var PivotAxis;
+	(function (PivotAxis) {
+		PivotAxis["unknown"]="Unknown";
+		PivotAxis["row"]="Row";
+		PivotAxis["column"]="Column";
+		PivotAxis["data"]="Data";
+		PivotAxis["filter"]="Filter";
+	})(PivotAxis=Excel.PivotAxis || (Excel.PivotAxis={}));
 	var _typeDocumentProperties="DocumentProperties";
 	var DocumentProperties=(function (_super) {
 		__extends(DocumentProperties, _super);
@@ -37410,6 +37516,328 @@ var Excel;
 		return RangeCollection;
 	}(OfficeExtension.ClientObject));
 	Excel.RangeCollection=RangeCollection;
+	var _typeCommentCollection="CommentCollection";
+	var CommentCollection=(function (_super) {
+		__extends(CommentCollection, _super);
+		function CommentCollection() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(CommentCollection.prototype, "_className", {
+			get: function () {
+				return "CommentCollection";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentCollection.prototype, "_isCollection", {
+			get: function () {
+				return true;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentCollection.prototype, "items", {
+			get: function () {
+				_throwIfNotLoaded("items", this.m__items, _typeCommentCollection, this._isNull);
+				return this.m__items;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		CommentCollection.prototype.getCount=function () {
+			return _invokeMethod(this, "GetCount", 1, [], 4, 0);
+		};
+		CommentCollection.prototype.getItem=function (commentId) {
+			return _createIndexerObject(Excel.Comment, this, [commentId]);
+		};
+		CommentCollection.prototype.getItemAt=function (index) {
+			return _createMethodObject(Excel.Comment, this, "GetItemAt", 1, [index], false, false, null, 4);
+		};
+		CommentCollection.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
+				this.m__items=[];
+				var _data=obj[OfficeExtension.Constants.items];
+				for (var i=0; i < _data.length; i++) {
+					var _item=_createChildItemObject(Excel.Comment, true, this, _data[i], i);
+					_item._handleResult(_data[i]);
+					this.m__items.push(_item);
+				}
+			}
+		};
+		CommentCollection.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		CommentCollection.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		CommentCollection.prototype._handleRetrieveResult=function (value, result) {
+			var _this=this;
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Excel.Comment, true, _this, childItemData, index); });
+		};
+		CommentCollection.prototype.toJSON=function () {
+			return _toJson(this, {}, {}, this.m__items);
+		};
+		return CommentCollection;
+	}(OfficeExtension.ClientObject));
+	Excel.CommentCollection=CommentCollection;
+	var _typeComment="Comment";
+	var Comment=(function (_super) {
+		__extends(Comment, _super);
+		function Comment() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(Comment.prototype, "_className", {
+			get: function () {
+				return "Comment";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Comment.prototype, "_scalarPropertyNames", {
+			get: function () {
+				return ["id", "isParent"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Comment.prototype, "_navigationPropertyNames", {
+			get: function () {
+				return ["replies"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Comment.prototype, "replies", {
+			get: function () {
+				if (!this._R) {
+					this._R=_createPropertyObject(Excel.CommentReplyCollection, this, "Replies", true, 4);
+				}
+				return this._R;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Comment.prototype, "id", {
+			get: function () {
+				_throwIfNotLoaded("id", this._I, _typeComment, this._isNull);
+				return this._I;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Comment.prototype, "isParent", {
+			get: function () {
+				_throwIfNotLoaded("isParent", this._Is, _typeComment, this._isNull);
+				return this._Is;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Comment.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["Id"])) {
+				this._I=obj["Id"];
+			}
+			if (!_isUndefined(obj["IsParent"])) {
+				this._Is=obj["IsParent"];
+			}
+			_handleNavigationPropertyResults(this, obj, ["replies", "Replies"]);
+		};
+		Comment.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		Comment.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		Comment.prototype._handleIdResult=function (value) {
+			_super.prototype._handleIdResult.call(this, value);
+			if (_isNullOrUndefined(value)) {
+				return;
+			}
+			if (!_isUndefined(value["Id"])) {
+				this._I=value["Id"];
+			}
+		};
+		Comment.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		Comment.prototype.toJSON=function () {
+			return _toJson(this, {
+				"id": this._I,
+				"isParent": this._Is
+			}, {
+				"replies": this._R
+			});
+		};
+		Comment.prototype.ensureUnchanged=function (data) {
+			_invokeEnsureUnchanged(this, data);
+			return;
+		};
+		return Comment;
+	}(OfficeExtension.ClientObject));
+	Excel.Comment=Comment;
+	var _typeCommentReplyCollection="CommentReplyCollection";
+	var CommentReplyCollection=(function (_super) {
+		__extends(CommentReplyCollection, _super);
+		function CommentReplyCollection() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(CommentReplyCollection.prototype, "_className", {
+			get: function () {
+				return "CommentReplyCollection";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentReplyCollection.prototype, "_isCollection", {
+			get: function () {
+				return true;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentReplyCollection.prototype, "items", {
+			get: function () {
+				_throwIfNotLoaded("items", this.m__items, _typeCommentReplyCollection, this._isNull);
+				return this.m__items;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		CommentReplyCollection.prototype.add=function (content, contentType) {
+			return _createMethodObject(Excel.CommentReply, this, "Add", 0, [content, contentType], false, true, null, 0);
+		};
+		CommentReplyCollection.prototype.getItem=function (commentReplyId) {
+			return _createIndexerObject(Excel.CommentReply, this, [commentReplyId]);
+		};
+		CommentReplyCollection.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
+				this.m__items=[];
+				var _data=obj[OfficeExtension.Constants.items];
+				for (var i=0; i < _data.length; i++) {
+					var _item=_createChildItemObject(Excel.CommentReply, true, this, _data[i], i);
+					_item._handleResult(_data[i]);
+					this.m__items.push(_item);
+				}
+			}
+		};
+		CommentReplyCollection.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		CommentReplyCollection.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		CommentReplyCollection.prototype._handleRetrieveResult=function (value, result) {
+			var _this=this;
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Excel.CommentReply, true, _this, childItemData, index); });
+		};
+		CommentReplyCollection.prototype.toJSON=function () {
+			return _toJson(this, {}, {}, this.m__items);
+		};
+		return CommentReplyCollection;
+	}(OfficeExtension.ClientObject));
+	Excel.CommentReplyCollection=CommentReplyCollection;
+	var _typeCommentReply="CommentReply";
+	var CommentReply=(function (_super) {
+		__extends(CommentReply, _super);
+		function CommentReply() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(CommentReply.prototype, "_className", {
+			get: function () {
+				return "CommentReply";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentReply.prototype, "_scalarPropertyNames", {
+			get: function () {
+				return ["id", "isParent"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentReply.prototype, "id", {
+			get: function () {
+				_throwIfNotLoaded("id", this._I, _typeCommentReply, this._isNull);
+				return this._I;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(CommentReply.prototype, "isParent", {
+			get: function () {
+				_throwIfNotLoaded("isParent", this._Is, _typeCommentReply, this._isNull);
+				return this._Is;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		CommentReply.prototype["delete"]=function () {
+			_invokeMethod(this, "Delete", 0, [], 0, 0);
+		};
+		CommentReply.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["Id"])) {
+				this._I=obj["Id"];
+			}
+			if (!_isUndefined(obj["IsParent"])) {
+				this._Is=obj["IsParent"];
+			}
+		};
+		CommentReply.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		CommentReply.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		CommentReply.prototype._handleIdResult=function (value) {
+			_super.prototype._handleIdResult.call(this, value);
+			if (_isNullOrUndefined(value)) {
+				return;
+			}
+			if (!_isUndefined(value["Id"])) {
+				this._I=value["Id"];
+			}
+		};
+		CommentReply.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		CommentReply.prototype.toJSON=function () {
+			return _toJson(this, {
+				"id": this._I,
+				"isParent": this._Is
+			}, {});
+		};
+		CommentReply.prototype.ensureUnchanged=function (data) {
+			_invokeEnsureUnchanged(this, data);
+			return;
+		};
+		return CommentReply;
+	}(OfficeExtension.ClientObject));
+	Excel.CommentReply=CommentReply;
 	var _typeShapeCollection="ShapeCollection";
 	var ShapeCollection=(function (_super) {
 		__extends(ShapeCollection, _super);
@@ -39129,13 +39557,13 @@ var Excel;
 		ChartPlotBy["rows"]="Rows";
 		ChartPlotBy["columns"]="Columns";
 	})(ChartPlotBy=Excel.ChartPlotBy || (Excel.ChartPlotBy={}));
-	var ChartSplitStype;
-	(function (ChartSplitStype) {
-		ChartSplitStype["splitByPosition"]="SplitByPosition";
-		ChartSplitStype["splitByValue"]="SplitByValue";
-		ChartSplitStype["splitByPercentValue"]="SplitByPercentValue";
-		ChartSplitStype["splitByCustomSplit"]="SplitByCustomSplit";
-	})(ChartSplitStype=Excel.ChartSplitStype || (Excel.ChartSplitStype={}));
+	var ChartSplitType;
+	(function (ChartSplitType) {
+		ChartSplitType["splitByPosition"]="SplitByPosition";
+		ChartSplitType["splitByValue"]="SplitByValue";
+		ChartSplitType["splitByPercentValue"]="SplitByPercentValue";
+		ChartSplitType["splitByCustomSplit"]="SplitByCustomSplit";
+	})(ChartSplitType=Excel.ChartSplitType || (Excel.ChartSplitType={}));
 	var ChartColorScheme;
 	(function (ChartColorScheme) {
 		ChartColorScheme["colorfulPalette1"]="ColorfulPalette1";
@@ -39704,6 +40132,7 @@ var Excel;
 		EventType["shapeActivated"]="ShapeActivated";
 		EventType["shapeDeactivated"]="ShapeDeactivated";
 		EventType["visualChange"]="VisualChange";
+		EventType["workbookAutoSaveSettingChanged"]="WorkbookAutoSaveSettingChanged";
 	})(EventType=Excel.EventType || (Excel.EventType={}));
 	var DocumentPropertyItem;
 	(function (DocumentPropertyItem) {
@@ -40086,6 +40515,10 @@ var Excel;
 		GeometricShapeType["chartStar"]="ChartStar";
 		GeometricShapeType["chartPlus"]="ChartPlus";
 	})(GeometricShapeType=Excel.GeometricShapeType || (Excel.GeometricShapeType={}));
+	var ContentType;
+	(function (ContentType) {
+		ContentType["plain"]="Plain";
+	})(ContentType=Excel.ContentType || (Excel.ContentType={}));
 	var SpecialCellType;
 	(function (SpecialCellType) {
 		SpecialCellType["conditionalFormats"]="ConditionalFormats";
@@ -41594,6 +42027,7 @@ var Excel;
 		ErrorCodes["invalidSelection"]="InvalidSelection";
 		ErrorCodes["itemAlreadyExists"]="ItemAlreadyExists";
 		ErrorCodes["itemNotFound"]="ItemNotFound";
+		ErrorCodes["nonBlankCellOffSheet"]="NonBlankCellOffSheet";
 		ErrorCodes["notImplemented"]="NotImplemented";
 		ErrorCodes["unsupportedOperation"]="UnsupportedOperation";
 		ErrorCodes["invalidOperationInCellEditMode"]="InvalidOperationInCellEditMode";
