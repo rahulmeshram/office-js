@@ -1,11 +1,11 @@
 /* Outlook rich client specific API library */
-/* Version: 16.0.10821.10000 */
+/* Version: 16.0.11013.10000 */
 /*
-    Copyright (c) Microsoft Corporation.  All rights reserved.
+/*!
+Copyright (c) Microsoft Corporation.  All rights reserved.
 */
-/*
-    Your use of this file is governed by the Microsoft Services Agreement http://go.microsoft.com/fwlink/?LinkId=266419.
-
+/*!
+Your use of this file is governed by the Microsoft Services Agreement http://go.microsoft.com/fwlink/?LinkId=266419.
 This file also contains the following Promise implementation (with a few small modifications):
 * @overview es6-promise - a tiny implementation of Promises/A+.
 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
@@ -1156,7 +1156,8 @@ OSF.AppName = {
     VisioWebApp: 8388610,
     OneNoteIOS: 8388611,
     WordAndroid: 8388613,
-    PowerpointAndroid: 8388614
+    PowerpointAndroid: 8388614,
+    Visio: 8388615
 };
 OSF.InternalPerfMarker = {
     DataCoercionBegin: "Agave.HostCall.CoerceDataStart",
@@ -6254,21 +6255,303 @@ var Logger;
         OSF.Logger = Logger;
     Logger.ulsEndpoint = creatULSEndpoint()
 })(Logger || (Logger = {}));
+var CDN_PATH_OTELJS = "telemetry/oteljs.js";
+var CDN_PATH_OTELJS_AGAVE = "telemetry/oteljs_agave.js";
 var OSFAriaLogger;
 (function(OSFAriaLogger)
 {
+    var TelemetryEventAppActivated = {
+            name: "AppActivated",
+            enabled: true,
+            critical: true,
+            points: [{
+                    name: "Browser",
+                    type: "string"
+                },{
+                    name: "Message",
+                    type: "string"
+                },{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "AppId",
+                    type: "string"
+                },{
+                    name: "AssetId",
+                    type: "string"
+                },{
+                    name: "AppURL",
+                    type: "string"
+                },{
+                    name: "UserId",
+                    type: "string"
+                },{
+                    name: "ClientId",
+                    type: "string"
+                },{
+                    name: "Host",
+                    type: "string"
+                },{
+                    name: "HostVersion",
+                    type: "string"
+                },{
+                    name: "CorrelationId",
+                    type: "string"
+                },{
+                    name: "AppSizeWidth",
+                    type: "int64"
+                },{
+                    name: "AppSizeHeight",
+                    type: "int64"
+                },{
+                    name: "AppInstanceId",
+                    type: "string"
+                },{
+                    name: "DocUrl",
+                    type: "string"
+                },{
+                    name: "OfficeJSVersion",
+                    type: "string"
+                },{
+                    name: "HostJSVersion",
+                    type: "string"
+                },{
+                    name: "WacHostEnvironment",
+                    type: "string"
+                },{
+                    name: "IsFromWacAutomation",
+                    type: "string"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventScriptLoad = {
+            name: "ScriptLoad",
+            enabled: true,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "ScriptId",
+                    type: "string"
+                },{
+                    name: "StartTime",
+                    type: "double"
+                },{
+                    name: "ResponseTime",
+                    type: "double"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventApiUsage = {
+            name: "APIUsage",
+            enabled: false,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "APIType",
+                    type: "string"
+                },{
+                    name: "APIID",
+                    type: "int64"
+                },{
+                    name: "Parameters",
+                    type: "string"
+                },{
+                    name: "ResponseTime",
+                    type: "int64"
+                },{
+                    name: "ErrorType",
+                    type: "int64"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventAppInitialization = {
+            name: "AppInitialization",
+            enabled: true,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "SuccessCode",
+                    type: "int64"
+                },{
+                    name: "Message",
+                    type: "string"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventAppClosed = {
+            name: "AppClosed",
+            enabled: true,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "FocusTime",
+                    type: "int64"
+                },{
+                    name: "AppSizeFinalWidth",
+                    type: "int64"
+                },{
+                    name: "AppSizeFinalHeight",
+                    type: "int64"
+                },{
+                    name: "OpenTime",
+                    type: "int64"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEvents = [TelemetryEventAppActivated,TelemetryEventScriptLoad,TelemetryEventApiUsage,TelemetryEventAppInitialization,TelemetryEventAppClosed,];
+    function createDataField(value, point)
+    {
+        var key = point.name;
+        var type = point.type;
+        var field = undefined;
+        switch(type)
+        {
+            case"string":
+                field = oteljs.makeStringDataField(key,value);
+                break;
+            case"double":
+                if(typeof value === "string")
+                    value = parseFloat(value);
+                field = oteljs.makeDoubleDataField(key,value);
+                break;
+            case"int64":
+                if(typeof value === "string")
+                    value = parseInt(value);
+                field = oteljs.makeInt64DataField(key,value);
+                break;
+            case"boolean":
+                if(typeof value === "string")
+                    value = value === "true";
+                field = oteljs.makeBooleanDataField(key,value);
+                break
+        }
+        return field
+    }
+    function getEventDefinition(eventName)
+    {
+        for(var _i = 0; _i < TelemetryEvents.length; _i++)
+        {
+            var event_1 = TelemetryEvents[_i];
+            if(event_1.name === eventName)
+                return event_1
+        }
+        return undefined
+    }
+    function eventEnabled(eventName)
+    {
+        var eventDefinition = getEventDefinition(eventName);
+        if(eventDefinition === undefined)
+            return false;
+        return eventDefinition.enabled
+    }
+    function generateTelemetryEvent(eventName, telemetryData)
+    {
+        var eventDefinition = getEventDefinition(eventName);
+        if(eventDefinition === undefined)
+            return undefined;
+        var dataFields = [];
+        for(var _i = 0, _a = eventDefinition.points; _i < _a.length; _i++)
+        {
+            var point = _a[_i];
+            var key = point.name;
+            var value = telemetryData[key];
+            if(value === undefined)
+                continue;
+            var field = createDataField(value,point);
+            if(field !== undefined)
+                dataFields.push(field)
+        }
+        var flags = {};
+        if(eventDefinition.critical)
+            flags = {samplingPolicy: oteljs.SamplingPolicy.CriticalBusinessImpact};
+        var eventNameFull = "Office.Extensibility.OfficeJs." + eventName + "X";
+        var event = {
+                eventName: eventNameFull,
+                dataFields: dataFields,
+                eventFlags: flags
+            };
+        return event
+    }
     var AriaLogger = function()
         {
             function AriaLogger(){}
             AriaLogger.prototype.getAriaCDNLocation = function()
             {
-                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "/ariatelemetry/aria-web-telemetry.js"
+                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "ariatelemetry/aria-web-telemetry.js"
             };
             AriaLogger.getInstance = function()
             {
                 if(AriaLogger.AriaLoggerObj === undefined)
                     AriaLogger.AriaLoggerObj = new AriaLogger;
                 return AriaLogger.AriaLoggerObj
+            };
+            AriaLogger.getOtelCDNLocation = function()
+            {
+                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + CDN_PATH_OTELJS
+            };
+            AriaLogger.getOtelSinkCDNLocation = function()
+            {
+                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + CDN_PATH_OTELJS_AGAVE
+            };
+            AriaLogger.getTelemetryLogger = function()
+            {
+                if(AriaLogger.otelTelemetryLogger === undefined)
+                {
+                    var logger = new oteljs.TelemetryLogger;
+                    var sink = new oteljs_agave.AgaveSink;
+                    logger.addSink(sink);
+                    var namespace = "Office.Extensibility.OfficeJs";
+                    var ariaTenantToken = "db334b301e7b474db5e0f02f07c51a47-a1b5bc36-1bbe-482f-a64a-c2d9cb606706-7439";
+                    var nexusTenantToken = 1775;
+                    logger.setTenantToken(namespace,ariaTenantToken,nexusTenantToken);
+                    AriaLogger.otelTelemetryLogger = logger
+                }
+                return AriaLogger.otelTelemetryLogger
+            };
+            AriaLogger.sendOtelTelemetryEventCallback = function(eventName, telemetryData)
+            {
+                var event = generateTelemetryEvent(eventName,telemetryData);
+                if(event === undefined)
+                    return;
+                var time = new Date;
+                event.dataFields.push(oteljs.makeStringDataField("Date",time.toISOString()));
+                try
+                {
+                    var logger = AriaLogger.getTelemetryLogger();
+                    logger.sendTelemetryEvent(event)
+                }
+                catch(e){}
+            };
+            AriaLogger.sendOtelTelemetryEvent = function(eventName, telemetryData)
+            {
+                var timeoutAfterOneSecond = 1e3;
+                var afterLoadOtelSink = function()
+                    {
+                        AriaLogger.sendOtelTelemetryEventCallback(eventName,telemetryData)
+                    };
+                var afterLoadOtel = function()
+                    {
+                        OSF.OUtil.loadScript(AriaLogger.getOtelSinkCDNLocation(),afterLoadOtelSink,timeoutAfterOneSecond)
+                    };
+                OSF.OUtil.loadScript(AriaLogger.getOtelCDNLocation(),afterLoadOtel,timeoutAfterOneSecond)
             };
             AriaLogger.prototype.isIUsageData = function(arg)
             {
@@ -6296,7 +6579,9 @@ var OSFAriaLogger;
                         this.ALogger.logEvent(eventProperties)
                     }
                     catch(e){}
-                },startAfterMs)
+                },startAfterMs);
+                if(eventEnabled(tableName))
+                    AriaLogger.sendOtelTelemetryEvent(tableName,telemetryData)
             };
             AriaLogger.prototype.logData = function(data)
             {
@@ -6456,7 +6741,7 @@ var OSFAppTelemetry;
             appInfo.appInstanceId = appInfo.appInstanceId.replace(/[{}]/g,"").toLowerCase();
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.10821.10000";
+        appInfo.hostJSVersion = "16.0.11013.10000";
         if(context._wacHostEnvironment)
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         if(context._isFromWacAutomation !== undefined && context._isFromWacAutomation !== null)
@@ -9065,7 +9350,8 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
             $h.InitialData._defineReadOnlyProperty$i(this,"contentType",this.$$d__getContentType$p$0);
         $h.InitialData._defineReadOnlyProperty$i(this,"size",this.$$d__getSize$p$0);
         $h.InitialData._defineReadOnlyProperty$i(this,"attachmentType",this.$$d__getAttachmentType$p$0);
-        $h.InitialData._defineReadOnlyProperty$i(this,"isInline",this.$$d__getIsInline$p$0);
+        if("isInline" in this._data$p$0)
+            $h.InitialData._defineReadOnlyProperty$i(this,"isInline",this.$$d__getIsInline$p$0);
         if("url" in this._data$p$0)
             $h.InitialData._defineReadOnlyProperty$i(this,"url",this.$$d__getUrl$p$0)
     };
