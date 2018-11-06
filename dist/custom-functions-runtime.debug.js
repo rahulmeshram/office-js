@@ -1,5 +1,5 @@
 /* Office JavaScript API library - Custom Functions */
-/* Version: 16.0.11102.30001 */
+/* Version: 16.0.11102.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1149,7 +1149,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.11102.30001",
+        FileVersion: "16.0.11102.30000",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
@@ -1648,7 +1648,6 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         getWindowName: function OSF__OfficeAppFactory$getWindowName() { return _windowName; }
     };
 })();
-var CustomFunctionMappings = {};
 
 
 
@@ -3051,13 +3050,15 @@ var CustomFunctionMappings = {};
     });
     var OfficeExtensionBatch = __webpack_require__(2), CFRuntime = __webpack_require__(5);
     __webpack_require__(6), __webpack_require__(7), window.OfficeExtensionBatch = OfficeExtensionBatch, 
-    window.CustomFunctionMappings = {}, "undefined" == typeof Promise && (window.Promise = Office.Promise), 
-    window.OfficeExtension = {
+    "undefined" == typeof CustomFunctionMappings && (window.CustomFunctionMappings = {}), 
+    "undefined" == typeof Promise && (window.Promise = Office.Promise), window.OfficeExtension = {
         Promise: Promise,
         Error: OfficeExtensionBatch.Error,
         ErrorCodes: OfficeExtensionBatch.ErrorCodes
-    }, window.CustomFunctions = window.CustomFunctions || {}, window.CustomFunctions.associate = function(name, func) {
-        CFRuntime.customFunctionProxy.associate(name, func);
+    }, window.CustomFunctions = window.CustomFunctions || {}, window.CustomFunctions.delayInitialization = function() {
+        CustomFunctionMappings.__delay__ = !0;
+    }, window.CustomFunctions.associate = function(name, func) {
+        CFRuntime.customFunctionProxy.associate(name, func), delete CustomFunctionMappings.__delay__;
     }, function() {
         function documentReadyCallback() {
             Office.onReady(function(hostInfo) {
