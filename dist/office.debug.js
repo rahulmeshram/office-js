@@ -1,5 +1,5 @@
 /* Office JavaScript API library */
-/* Version: 16.0.10915.10000 */
+/* Version: 16.0.11105.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -61,6 +61,9 @@ OSF.HostSpecificFileVersionMap = {
         "web": "16.00",
         "win32": "16.01",
         "winrt": "16.00"
+    },
+    "visio": {
+        "win32": "16.00"
     }
 };
 OSF.SupportedLocales = {
@@ -1114,7 +1117,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.10915.10000",
+        FileVersion: "16.0.11105.30000",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
@@ -1181,7 +1184,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         Outlook: "Outlook",
         OneNote: "OneNote",
         Project: "Project",
-        Access: "Access"
+        Access: "Access",
+        Visio: "Visio"
     };
     var _context = {};
     var _settings = {};
@@ -1194,6 +1198,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
     var _isOfficeJsLoaded = false;
     var _officeOnReadyPendingResolves = [];
     var _isOfficeOnReadyCalled = false;
+    var _officeOnReadyHostAndPlatformInfo = { host: null, platform: null };
     var _loadScriptHelper = new ScriptLoading.LoadScriptHelper({
         OfficeJS: OSF.ConstantNames.OfficeJS,
         OfficeDebugJS: OSF.ConstantNames.OfficeDebugJS
@@ -1204,23 +1209,17 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
     var _windowLocationHash = window.location.hash;
     var _windowLocationSearch = window.location.search;
     var _windowName = window.name;
-    var getHostAndPlatform = function (appNumber) {
-        return {
-            host: OfficeExt.HostName.Host.getInstance().getHost(appNumber),
-            platform: OfficeExt.HostName.Host.getInstance().getPlatform(appNumber)
-        };
-    };
     var setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks = function (_a) {
         var host = _a.host, platform = _a.platform;
         _isOfficeJsLoaded = true;
+        _officeOnReadyHostAndPlatformInfo = { host: host, platform: platform };
         while (_officeOnReadyPendingResolves.length > 0) {
-            _officeOnReadyPendingResolves.shift()({ host: host, platform: platform });
+            _officeOnReadyPendingResolves.shift()(_officeOnReadyHostAndPlatformInfo);
         }
     };
-    Microsoft.Office.WebExtension.onReady = function Microsoft_Office_WebExtension_onReady(callback) {
-        _isOfficeOnReadyCalled = true;
+    Microsoft.Office.WebExtension.onReadyInternal = function Microsoft_Office_WebExtension_onReady(callback) {
         if (_isOfficeJsLoaded) {
-            var _a = getHostAndPlatform(1), host = _a.host, platform = _a.platform;
+            var host = _officeOnReadyHostAndPlatformInfo.host, platform = _officeOnReadyHostAndPlatformInfo.platform;
             if (callback) {
                 var result = callback({ host: host, platform: platform });
                 if (result && result.then && typeof result.then === "function") {
@@ -1243,6 +1242,10 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         return new Office.Promise(function (resolve) {
             _officeOnReadyPendingResolves.push(resolve);
         });
+    };
+    Microsoft.Office.WebExtension.onReady = function Microsoft_Office_WebExtension_onReady(callback) {
+        _isOfficeOnReadyCalled = true;
+        return Microsoft.Office.WebExtension.onReadyInternal();
     };
     var getQueryStringValue = function OSF__OfficeAppFactory$getQueryStringValue(paramName) {
         var hostInfoValue;
@@ -1501,7 +1504,11 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                                 throw new Error("Office.js has not fully loaded. Your app must call \"Office.onReady()\" as part of it's loading sequence (or set the \"Office.initialize\" function). If your app has this functionality, try reloading this page.");
                             }
                         }, 400, 50);
-                        setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks(getHostAndPlatform(appContext.get_appName()));
+                        var appNumber = appContext.get_appName();
+                        setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks({
+                            host: OfficeExt.HostName.Host.getInstance().getHost(appNumber),
+                            platform: OfficeExt.HostName.Host.getInstance().getPlatform(appNumber)
+                        });
                     };
                     if (!_loadScriptHelper.isScriptLoading(OSF.ConstantNames.OfficeStringsId)) {
                         loadLocaleStrings(appContext.get_appUILocale());
@@ -1526,7 +1533,10 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                             }
                         }
                         if (isPlainBrowser) {
-                            setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks({ host: null, platform: null });
+                            setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks({
+                                host: null,
+                                platform: null
+                            });
                         }
                     }
                 }

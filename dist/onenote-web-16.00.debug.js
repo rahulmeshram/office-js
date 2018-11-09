@@ -1,7 +1,3 @@
-/* OneNote Web-specific API library */
-/* Version: 16.0.10710.30000 */
-
-/* Office.js Version: 16.0.9220.1000 */ 
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -17,6 +13,13 @@
 *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
 * @version   2.3.0
 */
+
+
+// Sources:
+// osfweb: 16.0\9220.1000
+// runtime: tenantxl_api_RI 16.0.10924.30005
+// core: daddev 16.0\11002.10000
+// host: custom
 
 var __extends=(this && this.__extends) || function (d, b) {
 	for (var p in b) if (b.hasOwnProperty(p)) d[p]=b[p];
@@ -10753,7 +10756,7 @@ var OfficeExtension;
 				var keyvalue=parts[i].split('=');
 				if (keyvalue[0].toLowerCase()===CoreConstants.flags) {
 					var flags=parseInt(keyvalue[1]);
-					flags=flags & 127;
+					flags=flags & 255;
 					return flags;
 				}
 			}
@@ -15566,7 +15569,17 @@ var OfficeFirstPartyAuth;
 							resolve(arg.tokenValue);
 						}
 						else {
-							reject(arg.code);
+							if (OfficeExtension.CoreUtility.isNullOrUndefined(arg.errorInfo)) {
+								reject({ code: arg.code });
+							}
+							else {
+								try {
+									reject(JSON.parse(arg.errorInfo));
+								}
+								catch (e) {
+									reject({ code: arg.code, message: arg.errorInfo });
+								}
+							}
 						}
 					}
 					return null;
@@ -15716,7 +15729,8 @@ var OfficeCore;
 						eventArgsTransformFunc: function (value) {
 							var newArgs={
 								tokenValue: value.tokenValue,
-								code: value.code
+								code: value.code,
+								errorInfo: value.errorInfo
 							};
 							return OfficeExtension.Utility._createPromiseFromResult(newArgs);
 						}
@@ -16181,6 +16195,9 @@ var OfficeCore;
 		ErrorCodes["unsupportedUserIdentity"]="UnsupportedUserIdentity";
 		ErrorCodes["userNotSignedIn"]="UserNotSignedIn";
 	})(ErrorCodes=OfficeCore.ErrorCodes || (OfficeCore.ErrorCodes={}));
+	var Interfaces;
+	(function (Interfaces) {
+	})(Interfaces=OfficeCore.Interfaces || (OfficeCore.Interfaces={}));
 })(OfficeCore || (OfficeCore={}));
 
 var __extends=(this && this.__extends) || (function () {
@@ -16239,7 +16256,18 @@ var OneNote;
 		});
 		Object.defineProperty(Application.prototype, "_navigationPropertyNames", {
 			get: function () {
-				return ["notebooks"];
+				return ["notebooks", "noteTagManager"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(Application.prototype, "noteTagManager", {
+			get: function () {
+				_throwIfApiNotSupported("Application.noteTagManager", _defaultApiSetName, "1.3", _hostName);
+				if (!this._No) {
+					this._No=_createPropertyObject(OneNote.NoteTagManager, this, "NoteTagManager", false, 4);
+				}
+				return this._No;
 			},
 			enumerable: true,
 			configurable: true
@@ -16301,6 +16329,10 @@ var OneNote;
 		Application.prototype.insertHtmlAtCurrentPosition=function (html) {
 			_invokeMethod(this, "InsertHtmlAtCurrentPosition", 0, [html], 0, 0);
 		};
+		Application.prototype.isHighContrast=function () {
+			_throwIfApiNotSupported("Application.isHighContrast", _defaultApiSetName, "1.3", _hostName);
+			return _invokeMethod(this, "IsHighContrast", 1, [], 4, 0);
+		};
 		Application.prototype.isViewingDeletedNotes=function () {
 			_throwIfApiNotSupported("Application.isViewingDeletedNotes", _defaultApiSetName, "1.2", _hostName);
 			return _invokeMethod(this, "IsViewingDeletedNotes", 1, [], 4, 0);
@@ -16337,6 +16369,13 @@ var OneNote;
 		};
 		Application.prototype._GetLoggingInfo=function () {
 			return _invokeMethod(this, "_GetLoggingInfo", 1, [], 4, 0);
+		};
+		Application.prototype._GetMathPaneContent=function () {
+			return _invokeMethod(this, "_GetMathPaneContent", 1, [], 4, 0);
+		};
+		Application.prototype._GetNodeInternalProperties=function (id) {
+			_throwIfApiNotSupported("Application._GetNodeInternalProperties", _defaultApiSetName, "1.3", _hostName);
+			return _invokeMethod(this, "_GetNodeInternalProperties", 1, [id], 4, 0);
 		};
 		Application.prototype._GetObjectByReferenceId=function (referenceId) {
 			return _invokeMethod(this, "_GetObjectByReferenceId", 1, [referenceId], 4, 0);
@@ -16389,7 +16428,7 @@ var OneNote;
 			if (!_isUndefined(obj["_platform"])) {
 				this.__p=obj["_platform"];
 			}
-			_handleNavigationPropertyResults(this, obj, ["notebooks", "Notebooks"]);
+			_handleNavigationPropertyResults(this, obj, ["noteTagManager", "NoteTagManager", "notebooks", "Notebooks"]);
 		};
 		Application.prototype.load=function (option) {
 			return _load(this, option);
@@ -16404,6 +16443,7 @@ var OneNote;
 		Application.prototype.toJSON=function () {
 			return _toJson(this, {}, {
 				"notebooks": this._N,
+				"noteTagManager": this._No,
 			});
 		};
 		Application.prototype.ensureUnchanged=function (data) {
@@ -19081,6 +19121,10 @@ var OneNote;
 		Page.prototype.insertPageAsSibling=function (location, title) {
 			return _createMethodObject(OneNote.Page, this, "InsertPageAsSibling", 0, [location, title], false, true, null, 0);
 		};
+		Page.prototype._GetInternalHierarchy=function () {
+			_throwIfApiNotSupported("Page._GetInternalHierarchy", _defaultApiSetName, "1.3", _hostName);
+			return _invokeMethod(this, "_GetInternalHierarchy", 1, [], 4, 0);
+		};
 		Page.prototype._KeepReference=function () {
 			_invokeMethod(this, "_KeepReference", 1, [], 4, 0);
 		};
@@ -20149,6 +20193,24 @@ var OneNote;
 			enumerable: true,
 			configurable: true
 		});
+		Object.defineProperty(NoteTag.prototype, "_navigationPropertyNames", {
+			get: function () {
+				return ["tagIcon"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTag.prototype, "tagIcon", {
+			get: function () {
+				_throwIfApiNotSupported("NoteTag.tagIcon", _defaultApiSetName, "1.3", _hostName);
+				if (!this._T) {
+					this._T=_createPropertyObject(OneNote.TagIcon, this, "TagIcon", false, 4);
+				}
+				return this._T;
+			},
+			enumerable: true,
+			configurable: true
+		});
 		Object.defineProperty(NoteTag.prototype, "id", {
 			get: function () {
 				_throwIfNotLoaded("id", this._I, _typeNoteTag, this._isNull);
@@ -20167,8 +20229,8 @@ var OneNote;
 		});
 		Object.defineProperty(NoteTag.prototype, "type", {
 			get: function () {
-				_throwIfNotLoaded("type", this._T, _typeNoteTag, this._isNull);
-				return this._T;
+				_throwIfNotLoaded("type", this._Ty, _typeNoteTag, this._isNull);
+				return this._Ty;
 			},
 			enumerable: true,
 			configurable: true
@@ -20189,8 +20251,9 @@ var OneNote;
 				this._S=obj["Status"];
 			}
 			if (!_isUndefined(obj["Type"])) {
-				this._T=obj["Type"];
+				this._Ty=obj["Type"];
 			}
+			_handleNavigationPropertyResults(this, obj, ["tagIcon", "TagIcon"]);
 		};
 		NoteTag.prototype.load=function (option) {
 			return _load(this, option);
@@ -20223,8 +20286,10 @@ var OneNote;
 			return _toJson(this, {
 				"id": this._I,
 				"status": this._S,
-				"type": this._T,
-			}, {});
+				"type": this._Ty,
+			}, {
+				"tagIcon": this._T,
+			});
 		};
 		NoteTag.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
@@ -20233,6 +20298,124 @@ var OneNote;
 		return NoteTag;
 	}(OfficeExtension.ClientObject));
 	OneNote.NoteTag=NoteTag;
+	var _typeNoteTagCollection="NoteTagCollection";
+	var NoteTagCollection=(function (_super) {
+		__extends(NoteTagCollection, _super);
+		function NoteTagCollection() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(NoteTagCollection.prototype, "_className", {
+			get: function () {
+				return "NoteTagCollection";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagCollection.prototype, "_isCollection", {
+			get: function () {
+				return true;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagCollection.prototype, "_scalarPropertyNames", {
+			get: function () {
+				return ["_ReferenceId", "count"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagCollection.prototype, "items", {
+			get: function () {
+				_throwIfNotLoaded("items", this.m__items, _typeNoteTagCollection, this._isNull);
+				return this.m__items;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagCollection.prototype, "count", {
+			get: function () {
+				_throwIfNotLoaded("count", this._C, _typeNoteTagCollection, this._isNull);
+				return this._C;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagCollection.prototype, "_ReferenceId", {
+			get: function () {
+				_throwIfNotLoaded("_ReferenceId", this.__R, _typeNoteTagCollection, this._isNull);
+				return this.__R;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		NoteTagCollection.prototype.getItem=function (index) {
+			return _createIndexerObject(OneNote.NoteTag, this, [index]);
+		};
+		NoteTagCollection.prototype.getItemAt=function (index) {
+			return _createMethodObject(OneNote.NoteTag, this, "GetItemAt", 1, [index], false, false, null, 4);
+		};
+		NoteTagCollection.prototype._KeepReference=function () {
+			_invokeMethod(this, "_KeepReference", 1, [], 4, 0);
+		};
+		NoteTagCollection.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["Count"])) {
+				this._C=obj["Count"];
+			}
+			if (!_isUndefined(obj["_ReferenceId"])) {
+				this.__R=obj["_ReferenceId"];
+			}
+			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
+				this.m__items=[];
+				var _data=obj[OfficeExtension.Constants.items];
+				for (var i=0; i < _data.length; i++) {
+					var _item=_createChildItemObject(OneNote.NoteTag, true, this, _data[i], i);
+					_item._handleResult(_data[i]);
+					this.m__items.push(_item);
+				}
+			}
+		};
+		NoteTagCollection.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		NoteTagCollection.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		NoteTagCollection.prototype._handleIdResult=function (value) {
+			_super.prototype._handleIdResult.call(this, value);
+			if (_isNullOrUndefined(value)) {
+				return;
+			}
+			if (!_isUndefined(value["_ReferenceId"])) {
+				this.__R=value["_ReferenceId"];
+			}
+		};
+		NoteTagCollection.prototype._handleRetrieveResult=function (value, result) {
+			var _this=this;
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(OneNote.NoteTag, true, _this, childItemData, index); });
+		};
+		NoteTagCollection.prototype.track=function () {
+			this.context.trackedObjects.add(this);
+			return this;
+		};
+		NoteTagCollection.prototype.untrack=function () {
+			this.context.trackedObjects.remove(this);
+			return this;
+		};
+		NoteTagCollection.prototype.toJSON=function () {
+			return _toJson(this, {
+				"count": this._C,
+			}, {}, this.m__items);
+		};
+		return NoteTagCollection;
+	}(OfficeExtension.ClientObject));
+	OneNote.NoteTagCollection=NoteTagCollection;
 	var _typeRichText="RichText";
 	var RichText=(function (_super) {
 		__extends(RichText, _super);
@@ -21897,6 +22080,227 @@ var OneNote;
 		return AccessibilityViolationsByEntityCollection;
 	}(OfficeExtension.ClientObject));
 	OneNote.AccessibilityViolationsByEntityCollection=AccessibilityViolationsByEntityCollection;
+	var _typeTagIcon="TagIcon";
+	var TagIcon=(function (_super) {
+		__extends(TagIcon, _super);
+		function TagIcon() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(TagIcon.prototype, "_className", {
+			get: function () {
+				return "TagIcon";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(TagIcon.prototype, "_scalarPropertyNames", {
+			get: function () {
+				return ["name", "type", "bitmaps", "noteTagShape", "_ReferenceId"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(TagIcon.prototype, "bitmaps", {
+			get: function () {
+				_throwIfNotLoaded("bitmaps", this._B, _typeTagIcon, this._isNull);
+				return this._B;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(TagIcon.prototype, "name", {
+			get: function () {
+				_throwIfNotLoaded("name", this._N, _typeTagIcon, this._isNull);
+				return this._N;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(TagIcon.prototype, "noteTagShape", {
+			get: function () {
+				_throwIfNotLoaded("noteTagShape", this._No, _typeTagIcon, this._isNull);
+				return this._No;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(TagIcon.prototype, "type", {
+			get: function () {
+				_throwIfNotLoaded("type", this._T, _typeTagIcon, this._isNull);
+				return this._T;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(TagIcon.prototype, "_ReferenceId", {
+			get: function () {
+				_throwIfNotLoaded("_ReferenceId", this.__R, _typeTagIcon, this._isNull);
+				return this.__R;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		TagIcon.prototype._KeepReference=function () {
+			_invokeMethod(this, "_KeepReference", 1, [], 4, 0);
+		};
+		TagIcon.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["Bitmaps"])) {
+				this._B=obj["Bitmaps"];
+			}
+			if (!_isUndefined(obj["Name"])) {
+				this._N=obj["Name"];
+			}
+			if (!_isUndefined(obj["NoteTagShape"])) {
+				this._No=obj["NoteTagShape"];
+			}
+			if (!_isUndefined(obj["Type"])) {
+				this._T=obj["Type"];
+			}
+			if (!_isUndefined(obj["_ReferenceId"])) {
+				this.__R=obj["_ReferenceId"];
+			}
+		};
+		TagIcon.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		TagIcon.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		TagIcon.prototype._handleIdResult=function (value) {
+			_super.prototype._handleIdResult.call(this, value);
+			if (_isNullOrUndefined(value)) {
+				return;
+			}
+			if (!_isUndefined(value["_ReferenceId"])) {
+				this.__R=value["_ReferenceId"];
+			}
+		};
+		TagIcon.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		TagIcon.prototype.track=function () {
+			this.context.trackedObjects.add(this);
+			return this;
+		};
+		TagIcon.prototype.untrack=function () {
+			this.context.trackedObjects.remove(this);
+			return this;
+		};
+		TagIcon.prototype.toJSON=function () {
+			return _toJson(this, {
+				"bitmaps": this._B,
+				"name": this._N,
+				"noteTagShape": this._No,
+				"type": this._T,
+			}, {});
+		};
+		TagIcon.prototype.ensureUnchanged=function (data) {
+			_invokeEnsureUnchanged(this, data);
+			return;
+		};
+		return TagIcon;
+	}(OfficeExtension.ClientObject));
+	OneNote.TagIcon=TagIcon;
+	var _typeNoteTagManager="NoteTagManager";
+	var NoteTagManager=(function (_super) {
+		__extends(NoteTagManager, _super);
+		function NoteTagManager() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(NoteTagManager.prototype, "_className", {
+			get: function () {
+				return "NoteTagManager";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagManager.prototype, "_scalarPropertyNames", {
+			get: function () {
+				return ["lastModificationResult"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagManager.prototype, "_navigationPropertyNames", {
+			get: function () {
+				return ["customNoteTags"];
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagManager.prototype, "customNoteTags", {
+			get: function () {
+				if (!this._C) {
+					this._C=_createPropertyObject(OneNote.NoteTagCollection, this, "CustomNoteTags", true, 4);
+				}
+				return this._C;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(NoteTagManager.prototype, "lastModificationResult", {
+			get: function () {
+				_throwIfNotLoaded("lastModificationResult", this._L, _typeNoteTagManager, this._isNull);
+				return this._L;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		NoteTagManager.prototype.setCustomTag=function (id, tagName, noteTagShape) {
+			_invokeMethod(this, "SetCustomTag", 1, [id, tagName, noteTagShape], 4, 0);
+		};
+		NoteTagManager.prototype._KeepReference=function () {
+			_invokeMethod(this, "_KeepReference", 1, [], 4, 0);
+		};
+		NoteTagManager.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+			if (!_isUndefined(obj["LastModificationResult"])) {
+				this._L=obj["LastModificationResult"];
+			}
+			_handleNavigationPropertyResults(this, obj, ["customNoteTags", "CustomNoteTags"]);
+		};
+		NoteTagManager.prototype.load=function (option) {
+			return _load(this, option);
+		};
+		NoteTagManager.prototype.retrieve=function (option) {
+			return _retrieve(this, option);
+		};
+		NoteTagManager.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		NoteTagManager.prototype.track=function () {
+			this.context.trackedObjects.add(this);
+			return this;
+		};
+		NoteTagManager.prototype.untrack=function () {
+			this.context.trackedObjects.remove(this);
+			return this;
+		};
+		NoteTagManager.prototype.toJSON=function () {
+			return _toJson(this, {
+				"lastModificationResult": this._L,
+			}, {
+				"customNoteTags": this._C,
+			});
+		};
+		NoteTagManager.prototype.ensureUnchanged=function (data) {
+			_invokeEnsureUnchanged(this, data);
+			return;
+		};
+		return NoteTagManager;
+	}(OfficeExtension.ClientObject));
+	OneNote.NoteTagManager=NoteTagManager;
 	var EntityType;
 	(function (EntityType) {
 		EntityType["notebook"]="Notebook";
@@ -22117,10 +22521,24 @@ var OneNote;
 		AccessibilityViolationLocation["onTable"]="OnTable";
 		AccessibilityViolationLocation["withinParagraph"]="WithinParagraph";
 	})(AccessibilityViolationLocation=OneNote.AccessibilityViolationLocation || (OneNote.AccessibilityViolationLocation={}));
+	var TagIconType;
+	(function (TagIconType) {
+		TagIconType["static"]="Static";
+		TagIconType["interactive"]="Interactive";
+	})(TagIconType=OneNote.TagIconType || (OneNote.TagIconType={}));
+	var TagModificationResult;
+	(function (TagModificationResult) {
+		TagModificationResult["pending"]="Pending";
+		TagModificationResult["success"]="Success";
+		TagModificationResult["fail"]="Fail";
+	})(TagModificationResult=OneNote.TagModificationResult || (OneNote.TagModificationResult={}));
 	var ErrorCodes;
 	(function (ErrorCodes) {
 		ErrorCodes["generalException"]="GeneralException";
 	})(ErrorCodes=OneNote.ErrorCodes || (OneNote.ErrorCodes={}));
+	var Interfaces;
+	(function (Interfaces) {
+	})(Interfaces=OneNote.Interfaces || (OneNote.Interfaces={}));
 })(OneNote || (OneNote={}));
 var OneNote;
 (function (OneNote) {
@@ -22147,5 +22565,4 @@ var OneNote;
 	}
 	OneNote.run=run;
 })(OneNote || (OneNote={}));
-
 
