@@ -1,5 +1,5 @@
 /* Office JavaScript API library - Custom Functions */
-/* Version: 16.0.11102.30000 */
+/* Version: 16.0.11105.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1149,7 +1149,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.11102.30000",
+        FileVersion: "16.0.11105.30000",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
@@ -4793,8 +4793,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         _CustomFunctionMetadata: {}
     };
     var CustomFunctionLoggingSeverity, InvocationContext = function() {
-        function InvocationContext(functionName, setResultHandler) {
-            this._functionName = functionName, this.setResult = setResultHandler;
+        function InvocationContext(functionName, address, setResultHandler) {
+            this._functionName = functionName, this._address = address, this.setResult = setResultHandler;
         }
         return Object.defineProperty(InvocationContext.prototype, "onCanceled", {
             get: function() {
@@ -4808,6 +4808,12 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }), Object.defineProperty(InvocationContext.prototype, "functionName", {
             get: function() {
                 return this._functionName;
+            },
+            enumerable: !0,
+            configurable: !0
+        }), Object.defineProperty(InvocationContext.prototype, "address", {
+            get: function() {
+                return this._address;
             },
             enumerable: !0,
             configurable: !0
@@ -4973,16 +4979,16 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                     return CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionExecutionNotFoundLog, message.functionName), 
                     this_1._setError(message.invocationId, ex, 1), "continue";
                 }
-                if (isCancelable = metadata.options.cancelable, (isStreaming = metadata.options.stream) || isCancelable) {
+                isCancelable = metadata.options.cancelable;
+                var invocationContext = void 0;
+                if ((isStreaming = metadata.options.stream) || isCancelable) {
                     var setResult = void 0;
                     isStreaming && (setResult = function(result) {
                         _this._invocationContextMap[message.invocationId] ? _this._setResult(message.invocationId, result) : CustomFunctionsLogger.logEvent(CustomFunctionProxy.CustomFunctionAlreadyCancelled, message.functionName);
-                    });
-                    var invocationContext;
-                    invocationContext = new InvocationContext(message.functionName, setResult), this_1._invocationContextMap[message.invocationId] = invocationContext, 
-                    message.parameterValues.push(invocationContext);
-                }
-                batchArray.push({
+                    }), invocationContext = new InvocationContext(message.functionName, message.address, setResult), 
+                    this_1._invocationContextMap[message.invocationId] = invocationContext;
+                } else invocationContext = new InvocationContext(message.functionName, message.address);
+                message.parameterValues.push(invocationContext), batchArray.push({
                     call: call,
                     isBatching: !1,
                     isStreaming: isStreaming,

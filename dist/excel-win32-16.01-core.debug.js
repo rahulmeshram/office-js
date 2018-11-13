@@ -1,5 +1,5 @@
 /* Excel specific API library (Core APIs only) */
-/* Version: 16.0.11102.30000 */
+/* Version: 16.0.11105.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1098,7 +1098,8 @@ OSF.AgaveHostAction = {
     "MouseLeave": 20,
     "UpdateTargetUrl": 21,
     "InstallCustomFunctions": 22,
-    "SendTelemetryEvent": 23
+    "SendTelemetryEvent": 23,
+    "UninstallCustomFunctions": 24
 };
 OSF.SharedConstants = {
     "NotificationConversationIdSuffix": '_ntf'
@@ -5293,7 +5294,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.11102.30000";
+        appInfo.hostJSVersion = "16.0.11105.30000";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }
