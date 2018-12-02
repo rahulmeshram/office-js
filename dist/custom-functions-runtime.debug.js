@@ -1,5 +1,5 @@
 /* Office JavaScript API library - Custom Functions */
-/* Version: 16.0.11105.30000 */
+/* Version: 16.0.11124.30003 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1149,7 +1149,7 @@ var Office;
 (function () {
     var previousConstantNames = OSF.ConstantNames || {};
     OSF.ConstantNames = {
-        FileVersion: "16.0.11105.30000",
+        FileVersion: "16.0.11124.30003",
         OfficeJS: "office.js",
         OfficeDebugJS: "office.debug.js",
         DefaultLocale: "en-us",
@@ -1249,8 +1249,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             _officeOnReadyPendingResolves.shift()(_officeOnReadyHostAndPlatformInfo);
         }
     };
-    Microsoft.Office.WebExtension.onReady = function Microsoft_Office_WebExtension_onReady(callback) {
-        _isOfficeOnReadyCalled = true;
+    Microsoft.Office.WebExtension.onReadyInternal = function Microsoft_Office_WebExtension_onReadyInternal(callback) {
         if (_isOfficeJsLoaded) {
             var host = _officeOnReadyHostAndPlatformInfo.host, platform = _officeOnReadyHostAndPlatformInfo.platform;
             if (callback) {
@@ -1275,6 +1274,10 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         return new Office.Promise(function (resolve) {
             _officeOnReadyPendingResolves.push(resolve);
         });
+    };
+    Microsoft.Office.WebExtension.onReady = function Microsoft_Office_WebExtension_onReady(callback) {
+        _isOfficeOnReadyCalled = true;
+        return Microsoft.Office.WebExtension.onReadyInternal(callback);
     };
     var getQueryStringValue = function OSF__OfficeAppFactory$getQueryStringValue(paramName) {
         var hostInfoValue;
@@ -1525,19 +1528,22 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                                     }
                                 }
                                 else {
+                                    if (!Microsoft.Office.WebExtension.initialize) {
+                                        Microsoft.Office.WebExtension.initialize = function () { };
+                                    }
                                     _initializationHelper.prepareRightBeforeWebExtensionInitialize(appContext);
                                 }
                                 _initializationHelper.prepareRightAfterWebExtensionInitialize && _initializationHelper.prepareRightAfterWebExtensionInitialize();
+                                var appNumber = appContext.get_appName();
+                                setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks({
+                                    host: OfficeExt.HostName.Host.getInstance().getHost(appNumber),
+                                    platform: OfficeExt.HostName.Host.getInstance().getPlatform(appNumber)
+                                });
                             }
                             else {
                                 throw new Error("Office.js has not fully loaded. Your app must call \"Office.onReady()\" as part of it's loading sequence (or set the \"Office.initialize\" function). If your app has this functionality, try reloading this page.");
                             }
                         }, 400, 50);
-                        var appNumber = appContext.get_appName();
-                        setOfficeJsAsLoadedAndDispatchPendingOnReadyCallbacks({
-                            host: OfficeExt.HostName.Host.getInstance().getHost(appNumber),
-                            platform: OfficeExt.HostName.Host.getInstance().getPlatform(appNumber)
-                        });
                     };
                     if (!_loadScriptHelper.isScriptLoading(OSF.ConstantNames.OfficeStringsId)) {
                         loadLocaleStrings(appContext.get_appUILocale());
@@ -1802,6 +1808,22 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             var _this = this;
             this.m_bridge = m_bridge, this.m_promiseResolver = {}, this.m_handlers = [], this.m_bridge.onMessageFromHost = function(messageText) {
                 var message = JSON.parse(messageText);
+                if (3 == message.type) {
+                    var genericMessageBody = message.message;
+                    if (genericMessageBody && genericMessageBody.entries) for (var i = 0; i < genericMessageBody.entries.length; i++) {
+                        var entryObjectOrArray = genericMessageBody.entries[i];
+                        if (Array.isArray(entryObjectOrArray)) {
+                            var entry = {
+                                messageCategory: entryObjectOrArray[0],
+                                messageType: entryObjectOrArray[1],
+                                targetId: entryObjectOrArray[2],
+                                message: entryObjectOrArray[3],
+                                id: entryObjectOrArray[4]
+                            };
+                            genericMessageBody.entries[i] = entry;
+                        }
+                    }
+                }
                 _this.dispatchMessage(message);
             };
         }
@@ -4794,7 +4816,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
     };
     var CustomFunctionLoggingSeverity, InvocationContext = function() {
         function InvocationContext(functionName, address, setResultHandler) {
-            this._functionName = functionName, this._address = address, this.setResult = setResultHandler;
+            this._functionName = functionName, _isNullOrUndefined(address) || (this._address = address), 
+            this.setResult = setResultHandler;
         }
         return Object.defineProperty(InvocationContext.prototype, "onCanceled", {
             get: function() {
@@ -4914,10 +4937,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }, CustomFunctionProxy.prototype._handleMessage = function(args) {
             try {
                 OfficeExtension.Utility.log("CustomFunctionProxy._handleMessage"), OfficeExtension.Utility.checkArgumentNull(args, "args");
-                for (var entryArray = args.entries, invocationArray = [], cancellationArray = [], metadataArray = [], i = 0; i < entryArray.length; i++) if (1 === entryArray[i].messageCategory) if (1e3 === entryArray[i].messageType) invocationArray.push(entryArray[i]); else if (1001 === entryArray[i].messageType) cancellationArray.push(entryArray[i]); else {
-                    if (1002 !== entryArray[i].messageType) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "unexpected message type", "CustomFunctionProxy._handleMessage");
-                    metadataArray.push(entryArray[i]);
-                }
+                for (var entryArray = args.entries, invocationArray = [], cancellationArray = [], metadataArray = [], i = 0; i < entryArray.length; i++) 1 === entryArray[i].messageCategory && ("string" == typeof entryArray[i].message && (entryArray[i].message = JSON.parse(entryArray[i].message)), 
+                1e3 === entryArray[i].messageType ? invocationArray.push(entryArray[i]) : 1001 === entryArray[i].messageType ? cancellationArray.push(entryArray[i]) : 1002 === entryArray[i].messageType ? metadataArray.push(entryArray[i]) : OfficeExtension.Utility.log("CustomFunctionProxy._handleMessage unknown message type " + entryArray[i].messageType));
                 if (metadataArray.length > 0 && this._handleMetadataEntries(metadataArray), invocationArray.length > 0) {
                     var batchArray = this._batchInvocationEntries(invocationArray);
                     batchArray.length > 0 && this._invokeRemainingBatchEntries(batchArray, 0);
@@ -4940,9 +4961,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             OfficeExtension.Utility.log(message);
         }, CustomFunctionProxy.prototype._handleMetadataEntries = function(entryArray) {
             for (var i = 0; i < entryArray.length; i++) {
-                var messageJson = entryArray[i].message;
-                if (OfficeExtension.Utility.isNullOrEmptyString(messageJson)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "messageJson", "CustomFunctionProxy._handleMetadataEntries");
-                var message = JSON.parse(messageJson);
+                var message = entryArray[i].message;
                 if (_isNullOrUndefined(message)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "message", "CustomFunctionProxy._handleMetadataEntries");
                 exports.Script._CustomFunctionMetadata[message.functionName] = {
                     options: {
@@ -4953,9 +4972,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             }
         }, CustomFunctionProxy.prototype._handleCancellationEntries = function(entryArray) {
             for (var i = 0; i < entryArray.length; i++) {
-                var messageJson = entryArray[i].message;
-                if (OfficeExtension.Utility.isNullOrEmptyString(messageJson)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "messageJson", "CustomFunctionProxy._handleCancellationEntries");
-                var message = JSON.parse(messageJson);
+                var message = entryArray[i].message;
                 if (_isNullOrUndefined(message)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "message", "CustomFunctionProxy._handleCancellationEntries");
                 var invocationId = message.invocationId, invocationContext = this._invocationContextMap[invocationId];
                 _isNullOrUndefined(invocationContext) || (delete this._invocationContextMap[invocationId], 
@@ -4964,10 +4981,13 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             }
         }, CustomFunctionProxy.prototype._batchInvocationEntries = function(entryArray) {
             for (var _this = this, batchArray = [], _loop_1 = function(i) {
-                var messageJson = entryArray[i].message;
-                if (OfficeExtension.Utility.isNullOrEmptyString(messageJson)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "messageJson", "CustomFunctionProxy._batchInvocationEntries");
-                var message = JSON.parse(messageJson);
-                if (_isNullOrUndefined(message)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "message", "CustomFunctionProxy._batchInvocationEntries");
+                var message, arrayOrObjectMessage = entryArray[i].message;
+                if (message = Array.isArray(arrayOrObjectMessage) ? {
+                    invocationId: arrayOrObjectMessage[0],
+                    functionName: arrayOrObjectMessage[1],
+                    parameterValues: arrayOrObjectMessage[2],
+                    address: arrayOrObjectMessage[3]
+                } : arrayOrObjectMessage, _isNullOrUndefined(message)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "message", "CustomFunctionProxy._batchInvocationEntries");
                 if (_isNullOrUndefined(message.invocationId) || message.invocationId < 0) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "invocationId", "CustomFunctionProxy._batchInvocationEntries");
                 if (_isNullOrUndefined(message.functionName)) throw OfficeExtension.Utility.createRuntimeError(CustomFunctionErrorCode.generalException, "functionName", "CustomFunctionProxy._batchInvocationEntries");
                 var isCancelable, isStreaming, call = null, metadata = exports.Script._CustomFunctionMetadata[message.functionName];
@@ -5062,9 +5082,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                 id: invocationId,
                 value: result
             };
-            "number" == typeof result ? isNaN(result) ? (invocationResult.failed = !0, invocationResult.value = "NaN") : isFinite(result) || (invocationResult.failed = !0, 
-            invocationResult.value = "Infinity", invocationResult.errorCode = 5) : Array.isArray(result) && 0 == result.length && (invocationResult.failed = !0), 
-            this._resultEntryBuffer[invocationId] = {
+            "number" == typeof result && (isNaN(result) ? (invocationResult.failed = !0, invocationResult.value = "NaN") : isFinite(result) || (invocationResult.failed = !0, 
+            invocationResult.value = "Infinity", invocationResult.errorCode = 5)), this._resultEntryBuffer[invocationId] = {
                 timeCreated: Date.now(),
                 result: invocationResult
             }, this._ensureSetResultsTaskIsScheduled();
