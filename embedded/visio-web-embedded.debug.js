@@ -1,6 +1,3 @@
-/* Visio Web-specific API library */
-/* Version: 16.0.10710.30000 */
-
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -17,10 +14,19 @@
 * @version   2.3.0
 */
 
+
+// Sources:
+// osfweb: none
+// runtime: 16.0.11012.30002
+// core: 16.0\11020.10000
+// host: visio 16.0.11022.34950
+
 var __extends=(this && this.__extends) || (function () {
 	var extendStatics=Object.setPrototypeOf ||
 		({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__=b; }) ||
-		function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p]=b[p]; };
+		function (d, b) { for (var p in b)
+			if (b.hasOwnProperty(p))
+				d[p]=b[p]; };
 	return function (d, b) {
 		extendStatics(d, b);
 		function __() { this.constructor=d; }
@@ -1241,7 +1247,7 @@ var OfficeExtension;
 				var keyvalue=parts[i].split('=');
 				if (keyvalue[0].toLowerCase()===CoreConstants.flags) {
 					var flags=parseInt(keyvalue[1]);
-					flags=flags & 127;
+					flags=flags & 255;
 					return flags;
 				}
 			}
@@ -1989,8 +1995,7 @@ var OfficeExtension;
 				.executeAsync(this.m_context._customData, flags, requestMessage)
 				.then(function (response) {
 				_this.processResponse(request, actions, response);
-			})
-				.catch(function (ex) {
+			})["catch"](function (ex) {
 				for (var i=0; i < actions.length; i++) {
 					var action=actions[i];
 					action.reject(ex);
@@ -3287,7 +3292,7 @@ var OfficeExtension;
 				.then(function (response) {
 				_this._lastSyncEnd=typeof performance==='undefined' ? 0 : performance.now();
 				errorFromResponse=_this.processRequestExecutorResponseMessage(req, response);
-				return _this.processPendingEventHandlers(req).catch(function (ex) {
+				return _this.processPendingEventHandlers(req)["catch"](function (ex) {
 					CoreUtility.log('Error in processPendingEventHandlers');
 					CoreUtility.log(JSON.stringify(ex));
 					errorFromProcessEventHandlers=ex;
@@ -3448,8 +3453,7 @@ var OfficeExtension;
 					request=_this.m_pendingRequest;
 					_this.m_pendingRequest=previousRequest;
 					return result;
-				})
-					.catch(function (ex) {
+				})["catch"](function (ex) {
 					_this.m_explicitBatchInProgress=false;
 					request=_this.m_pendingRequest;
 					_this.m_pendingRequest=previousRequest;
@@ -3473,8 +3477,12 @@ var OfficeExtension;
 			});
 		};
 		ClientRequestContext._run=function (ctxInitializer, runBody, numCleanupAttempts, retryDelay, onCleanupSuccess, onCleanupFailure) {
-			if (numCleanupAttempts===void 0) { numCleanupAttempts=3; }
-			if (retryDelay===void 0) { retryDelay=5000; }
+			if (numCleanupAttempts===void 0) {
+				numCleanupAttempts=3;
+			}
+			if (retryDelay===void 0) {
+				retryDelay=5000;
+			}
 			return ClientRequestContext._runCommon('run', null, ctxInitializer, 0, runBody, numCleanupAttempts, retryDelay, null, onCleanupSuccess, onCleanupFailure);
 		};
 		ClientRequestContext.isValidRequestInfo=function (value) {
@@ -3492,18 +3500,30 @@ var OfficeExtension;
 			return typeof value==='object' && value !==null && typeof value._resolveRequestUrlAndHeaderInfo==='function';
 		};
 		ClientRequestContext._runBatch=function (functionName, receivedRunArgs, ctxInitializer, onBeforeRun, numCleanupAttempts, retryDelay, onCleanupSuccess, onCleanupFailure) {
-			if (numCleanupAttempts===void 0) { numCleanupAttempts=3; }
-			if (retryDelay===void 0) { retryDelay=5000; }
+			if (numCleanupAttempts===void 0) {
+				numCleanupAttempts=3;
+			}
+			if (retryDelay===void 0) {
+				retryDelay=5000;
+			}
 			return ClientRequestContext._runBatchCommon(0, functionName, receivedRunArgs, ctxInitializer, numCleanupAttempts, retryDelay, onBeforeRun, onCleanupSuccess, onCleanupFailure);
 		};
 		ClientRequestContext._runExplicitBatch=function (functionName, receivedRunArgs, ctxInitializer, onBeforeRun, numCleanupAttempts, retryDelay, onCleanupSuccess, onCleanupFailure) {
-			if (numCleanupAttempts===void 0) { numCleanupAttempts=3; }
-			if (retryDelay===void 0) { retryDelay=5000; }
+			if (numCleanupAttempts===void 0) {
+				numCleanupAttempts=3;
+			}
+			if (retryDelay===void 0) {
+				retryDelay=5000;
+			}
 			return ClientRequestContext._runBatchCommon(1, functionName, receivedRunArgs, ctxInitializer, numCleanupAttempts, retryDelay, onBeforeRun, onCleanupSuccess, onCleanupFailure);
 		};
 		ClientRequestContext._runBatchCommon=function (batchMode, functionName, receivedRunArgs, ctxInitializer, numCleanupAttempts, retryDelay, onBeforeRun, onCleanupSuccess, onCleanupFailure) {
-			if (numCleanupAttempts===void 0) { numCleanupAttempts=3; }
-			if (retryDelay===void 0) { retryDelay=5000; }
+			if (numCleanupAttempts===void 0) {
+				numCleanupAttempts=3;
+			}
+			if (retryDelay===void 0) {
+				retryDelay=5000;
+			}
 			var ctxRetriever;
 			var batch;
 			var requestInfo=null;
@@ -3571,7 +3591,9 @@ var OfficeExtension;
 			return ClientRequestContext._runCommon(functionName, requestInfo, ctxRetriever, batchMode, batch, numCleanupAttempts, retryDelay, onBeforeRunWithOptions, onCleanupSuccess, onCleanupFailure);
 		};
 		ClientRequestContext.createErrorPromise=function (functionName, code) {
-			if (code===void 0) { code=CoreResourceStrings.invalidArgument; }
+			if (code===void 0) {
+				code=CoreResourceStrings.invalidArgument;
+			}
 			return CoreUtility._createPromiseFromException(Utility.createRuntimeError(code, CoreUtility._getResourceString(code), functionName));
 		};
 		ClientRequestContext._runCommon=function (functionName, requestInfo, ctxRetriever, batchMode, runBody, numCleanupAttempts, retryDelay, onBeforeRun, onCleanupSuccess, onCleanupFailure) {
@@ -3632,8 +3654,7 @@ var OfficeExtension;
 				.then(function (result) {
 				succeeded=true;
 				resultOrError=result;
-			})
-				.catch(function (error) {
+			})["catch"](function (error) {
 				resultOrError=error;
 			})
 				.then(function () {
@@ -3672,8 +3693,7 @@ var OfficeExtension;
 						if (onCleanupSuccess) {
 							onCleanupSuccess(cleanupCounter);
 						}
-					})
-						.catch(function () {
+					})["catch"](function () {
 						if (onCleanupFailure) {
 							onCleanupFailure(cleanupCounter);
 						}
@@ -4038,8 +4058,7 @@ var OfficeExtension;
 				}
 				else if (this.m_registered && handlersResult.length==0) {
 					ret=ret
-						.then(function () { return _this.m_eventInfo.unregisterFunc(_this.m_callback); })
-						.catch(function (ex) {
+						.then(function () { return _this.m_eventInfo.unregisterFunc(_this.m_callback); })["catch"](function (ex) {
 						CoreUtility.log('Error when unregister event: '+JSON.stringify(ex));
 					})
 						.then(function () { return (_this.m_registered=false); });
@@ -4053,8 +4072,7 @@ var OfficeExtension;
 			for (var i=0; i < this.m_handlers.length; i++) {
 				var handler=this.m_handlers[i];
 				var p=CoreUtility._createPromiseFromResult(null)
-					.then(this.createFireOneEventHandlerFunc(handler, args))
-					.catch(function (ex) {
+					.then(this.createFireOneEventHandlerFunc(handler, args))["catch"](function (ex) {
 					CoreUtility.log('Error when invoke handler: '+JSON.stringify(ex));
 				});
 				promises.push(p);
@@ -5648,11 +5666,12 @@ var OfficeExtension;
 		return EmbeddedRequestExecutor;
 	}());
 })(OfficeExtension || (OfficeExtension={}));
-
 var __extends=(this && this.__extends) || (function () {
 	var extendStatics=Object.setPrototypeOf ||
 		({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__=b; }) ||
-		function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p]=b[p]; };
+		function (d, b) { for (var p in b)
+			if (b.hasOwnProperty(p))
+				d[p]=b[p]; };
 	return function (d, b) {
 		extendStatics(d, b);
 		function __() { this.constructor=d; }
@@ -5858,7 +5877,7 @@ var OfficeCore;
 		};
 		ABType.prototype.toJSON=function () {
 			return _toJson(this, {
-				"value": this._V,
+				"value": this._V
 			}, {});
 		};
 		ABType.prototype.ensureUnchanged=function (data) {
@@ -5901,6 +5920,16 @@ var OfficeCore;
 					this.m_roamingSettings=OfficeCore.AuthenticationService.newObject(this.context).roamingSettings;
 				}
 				return this.m_roamingSettings;
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Object.defineProperty(FirstPartyApis.prototype, "tap", {
+			get: function () {
+				if (!this.m_tap) {
+					this.m_tap=OfficeCore.Tap.newObject(this.context);
+				}
+				return this.m_tap;
 			},
 			enumerable: true,
 			configurable: true
@@ -6048,13 +6077,23 @@ var OfficeFirstPartyAuth;
 				var handler=auth.onTokenReceived.add(function (arg) {
 					if (!OfficeExtension.CoreUtility.isNullOrUndefined(arg)) {
 						handler.remove();
-						context.sync().catch(function () {
+						context.sync()["catch"](function () {
 						});
 						if (arg.code==0) {
 							resolve(arg.tokenValue);
 						}
 						else {
-							reject(arg.code);
+							if (OfficeExtension.CoreUtility.isNullOrUndefined(arg.errorInfo)) {
+								reject({ code: arg.code });
+							}
+							else {
+								try {
+									reject(JSON.parse(arg.errorInfo));
+								}
+								catch (e) {
+									reject({ code: arg.code, message: arg.errorInfo });
+								}
+							}
 						}
 					}
 					return null;
@@ -6072,8 +6111,7 @@ var OfficeFirstPartyAuth;
 							resolve(apiResult.value);
 						}
 					});
-				})
-					.catch(function (e) {
+				})["catch"](function (e) {
 					reject(e);
 				});
 			});
@@ -6204,7 +6242,8 @@ var OfficeCore;
 						eventArgsTransformFunc: function (value) {
 							var newArgs={
 								tokenValue: value.tokenValue,
-								code: value.code
+								code: value.code,
+								errorInfo: value.errorInfo
 							};
 							return OfficeExtension.Utility._createPromiseFromResult(newArgs);
 						}
@@ -6309,7 +6348,7 @@ var OfficeCore;
 		RoamingSetting.prototype.toJSON=function () {
 			return _toJson(this, {
 				"id": this._I,
-				"value": this._V,
+				"value": this._V
 			}, {});
 		};
 		RoamingSetting.prototype.ensureUnchanged=function (data) {
@@ -6493,7 +6532,7 @@ var OfficeCore;
 		Comment.prototype.update=function (properties) {
 			this._recursivelyUpdate(properties);
 		};
-		Comment.prototype.delete=function () {
+		Comment.prototype["delete"]=function () {
 			_invokeMethod(this, "Delete", 0, [], 0, 0);
 		};
 		Comment.prototype.getParentOrSelf=function () {
@@ -6570,9 +6609,9 @@ var OfficeCore;
 				"level": this._L,
 				"mentions": this._M,
 				"resolved": this._Re,
-				"text": this._T,
+				"text": this._T
 			}, {
-				"replies": this._R,
+				"replies": this._R
 			});
 		};
 		Comment.prototype.ensureUnchanged=function (data) {
@@ -6655,6 +6694,51 @@ var OfficeCore;
 		CommentTextFormat["markdown"]="Markdown";
 		CommentTextFormat["delta"]="Delta";
 	})(CommentTextFormat=OfficeCore.CommentTextFormat || (OfficeCore.CommentTextFormat={}));
+	var _typeTap="Tap";
+	var Tap=(function (_super) {
+		__extends(Tap, _super);
+		function Tap() {
+			return _super !==null && _super.apply(this, arguments) || this;
+		}
+		Object.defineProperty(Tap.prototype, "_className", {
+			get: function () {
+				return "Tap";
+			},
+			enumerable: true,
+			configurable: true
+		});
+		Tap.prototype.getEnterpriseUserInfo=function () {
+			return _invokeMethod(this, "GetEnterpriseUserInfo", 1, [], 4 | 1, 0);
+		};
+		Tap.prototype.getMruFriendlyPath=function (documentUrl) {
+			return _invokeMethod(this, "GetMruFriendlyPath", 1, [documentUrl], 4 | 1, 0);
+		};
+		Tap.prototype.launchFileUrlInOfficeApp=function (documentUrl, useUniversalAsBackup) {
+			return _invokeMethod(this, "LaunchFileUrlInOfficeApp", 1, [documentUrl, useUniversalAsBackup], 4 | 1, 0);
+		};
+		Tap.prototype.performLocalSearch=function (query, numResultsRequested, supportedFileExtensions, documentUrlToExclude) {
+			return _invokeMethod(this, "PerformLocalSearch", 1, [query, numResultsRequested, supportedFileExtensions, documentUrlToExclude], 4 | 1, 0);
+		};
+		Tap.prototype._handleResult=function (value) {
+			_super.prototype._handleResult.call(this, value);
+			if (_isNullOrUndefined(value))
+				return;
+			var obj=value;
+			_fixObjectPathIfNecessary(this, obj);
+		};
+		Tap.prototype._handleRetrieveResult=function (value, result) {
+			_super.prototype._handleRetrieveResult.call(this, value, result);
+			_processRetrieveResult(this, value, result);
+		};
+		Tap.newObject=function (context) {
+			return _createTopLevelServiceObject(OfficeCore.Tap, context, "Microsoft.TapRichApi.Tap", false, 4);
+		};
+		Tap.prototype.toJSON=function () {
+			return _toJson(this, {}, {});
+		};
+		return Tap;
+	}(OfficeExtension.ClientObject));
+	OfficeCore.Tap=Tap;
 	var ErrorCodes;
 	(function (ErrorCodes) {
 		ErrorCodes["apiNotAvailable"]="ApiNotAvailable";
@@ -6669,22 +6753,24 @@ var OfficeCore;
 		ErrorCodes["unsupportedUserIdentity"]="UnsupportedUserIdentity";
 		ErrorCodes["userNotSignedIn"]="UserNotSignedIn";
 	})(ErrorCodes=OfficeCore.ErrorCodes || (OfficeCore.ErrorCodes={}));
+	var Interfaces;
+	(function (Interfaces) {
+	})(Interfaces=OfficeCore.Interfaces || (OfficeCore.Interfaces={}));
 })(OfficeCore || (OfficeCore={}));
-
 var __extends=(this && this.__extends) || (function () {
 	var extendStatics=Object.setPrototypeOf ||
 		({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__=b; }) ||
-		function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p]=b[p]; };
+		function (d, b) { for (var p in b)
+			if (b.hasOwnProperty(p))
+				d[p]=b[p]; };
 	return function (d, b) {
 		extendStatics(d, b);
 		function __() { this.constructor=d; }
 		d.prototype=b===null ? Object.create(b) : (__.prototype=b.prototype, new __());
 	};
 })();
-
 var Visio;
 (function (Visio) {
-
 	var _hostName="Visio";
 	var _defaultApiSetName="";
 	var _createPropertyObject=OfficeExtension.BatchApiHelper.createPropertyObject;
@@ -6707,9 +6793,7 @@ var Visio;
 	var _handleNavigationPropertyResults=OfficeExtension.Utility._handleNavigationPropertyResults;
 	var _adjustToDateTime=OfficeExtension.Utility.adjustToDateTime;
 	var _processRetrieveResult=OfficeExtension.Utility.processRetrieveResult;
-
 	var _typeApplication="Application";
-
 	var Application=(function (_super) {
 		__extends(Application, _super);
 		function Application() {
@@ -6737,64 +6821,49 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Application.prototype, "showBorders", {
-
 			get: function () {
-
 				_throwIfNotLoaded("showBorders", this._S, _typeApplication, this._isNull);
 				return this._S;
 			},
 			set: function (value) {
-
 				this._S=value;
-				_invokeSetProperty(this, "ShowBorders", value, 0 );
+				_invokeSetProperty(this, "ShowBorders", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Application.prototype, "showToolbars", {
-
 			get: function () {
-
 				_throwIfNotLoaded("showToolbars", this._Sh, _typeApplication, this._isNull);
 				return this._Sh;
 			},
 			set: function (value) {
-
 				this._Sh=value;
-				_invokeSetProperty(this, "ShowToolbars", value, 0 );
+				_invokeSetProperty(this, "ShowToolbars", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Application.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, ["showBorders", "showToolbars"] , [] , []);
+			this._recursivelySet(properties, options, ["showBorders", "showToolbars"], [], []);
 		};
-
 		Application.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		Application.prototype.showToolbar=function (id, show) {
-
-			_invokeMethod(this, "ShowToolbar", 0 , [id, show], 0 , 0 );
+			_invokeMethod(this, "ShowToolbar", 0, [id, show], 0, 0);
 		};
-
 		Application.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["ShowBorders"])) {
 				this._S=obj["ShowBorders"];
-
 			}
 			if (!_isUndefined(obj["ShowToolbars"])) {
 				this._Sh=obj["ShowToolbars"];
-
 			}
 		};
 		Application.prototype.load=function (option) {
@@ -6803,21 +6872,16 @@ var Visio;
 		Application.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Application.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Application.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"showBorders": this._S,
-				"showToolbars": this._Sh,
-			},
-			 {});
+				"showToolbars": this._Sh
+			}, {});
 		};
-
 		Application.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -6825,9 +6889,7 @@ var Visio;
 		return Application;
 	}(OfficeExtension.ClientObject));
 	Visio.Application=Application;
-
 	var _typeDocument="Document";
-
 	var Document=(function (_super) {
 		__extends(Document, _super);
 		function Document() {
@@ -6848,78 +6910,58 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "application", {
-
 			get: function () {
-
 				if (!this._A) {
-					this._A=_createPropertyObject(Visio.Application, this, "Application", false , 4 );
+					this._A=_createPropertyObject(Visio.Application, this, "Application", false, 4);
 				}
-
 				return this._A;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "pages", {
-
 			get: function () {
-
 				if (!this._P) {
-					this._P=_createPropertyObject(Visio.PageCollection, this, "Pages", true , 4 );
+					this._P=_createPropertyObject(Visio.PageCollection, this, "Pages", true, 4);
 				}
-
 				return this._P;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "view", {
-
 			get: function () {
-
 				if (!this._V) {
-					this._V=_createPropertyObject(Visio.DocumentView, this, "View", false , 4 );
+					this._V=_createPropertyObject(Visio.DocumentView, this, "View", false, 4);
 				}
-
 				return this._V;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Document.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, [] , ["view", "application"] , [
+			this._recursivelySet(properties, options, [], ["view", "application"], [
 				"pages"
 			]);
 		};
-
 		Document.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		Document.prototype.getActivePage=function () {
-
-			return _createMethodObject(Visio.Page, this, "GetActivePage", 1 , [], false , false , null , 4 );
+			return _createMethodObject(Visio.Page, this, "GetActivePage", 1, [], false, false, null, 4);
 		};
-
 		Document.prototype.setActivePage=function (PageName) {
-
-			_invokeMethod(this, "SetActivePage", 1 , [PageName], 4 , 0 );
+			_invokeMethod(this, "SetActivePage", 1, [PageName], 4, 0);
 		};
-
 		Document.prototype.startDataRefresh=function () {
-
-			_invokeMethod(this, "StartDataRefresh", 1 , [], 4 , 0 );
+			_invokeMethod(this, "StartDataRefresh", 1, [], 4, 0);
 		};
-
 		Document.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			_handleNavigationPropertyResults(this, obj, ["application", "Application", "pages", "Pages", "view", "View"]);
 		};
 		Document.prototype.load=function (option) {
@@ -6928,25 +6970,15 @@ var Visio;
 		Document.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Document.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Object.defineProperty(Document.prototype, "onDataRefreshComplete", {
-
 			get: function () {
-
 				var _this=this;
-
 				if (!this.m_dataRefreshComplete) {
-
-					this.m_dataRefreshComplete=new OfficeExtension.EventHandlers(
-
-					this.context, this, "DataRefreshComplete",
-
-					{
+					this.m_dataRefreshComplete=new OfficeExtension.EventHandlers(this.context, this, "DataRefreshComplete", {
 						registerFunc: function (handlerCallback) {
 							return _this.context.eventRegistration.register(3, "", handlerCallback);
 						},
@@ -6960,10 +6992,7 @@ var Visio;
 							};
 							return OfficeExtension.Utility._createPromiseFromResult(evt);
 						}
-					}
-
-					);
-
+					});
 				}
 				return this.m_dataRefreshComplete;
 			},
@@ -6971,18 +7000,10 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "onDocumentLoadComplete", {
-
 			get: function () {
-
 				var _this=this;
-
 				if (!this.m_documentLoadComplete) {
-
-					this.m_documentLoadComplete=new OfficeExtension.EventHandlers(
-
-					this.context, this, "DocumentLoadComplete",
-
-					{
+					this.m_documentLoadComplete=new OfficeExtension.EventHandlers(this.context, this, "DocumentLoadComplete", {
 						registerFunc: function (handlerCallback) {
 							return _this.context.eventRegistration.register(7, "", handlerCallback);
 						},
@@ -6995,10 +7016,7 @@ var Visio;
 							};
 							return OfficeExtension.Utility._createPromiseFromResult(evt);
 						}
-					}
-
-					);
-
+					});
 				}
 				return this.m_documentLoadComplete;
 			},
@@ -7006,18 +7024,10 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "onPageLoadComplete", {
-
 			get: function () {
-
 				var _this=this;
-
 				if (!this.m_pageLoadComplete) {
-
-					this.m_pageLoadComplete=new OfficeExtension.EventHandlers(
-
-					this.context, this, "PageLoadComplete",
-
-					{
+					this.m_pageLoadComplete=new OfficeExtension.EventHandlers(this.context, this, "PageLoadComplete", {
 						registerFunc: function (handlerCallback) {
 							return _this.context.eventRegistration.register(1, "", handlerCallback);
 						},
@@ -7027,10 +7037,7 @@ var Visio;
 						eventArgsTransformFunc: function (args) {
 							return OfficeExtension.Utility._createPromiseFromResult(args.ddaBinding.Object);
 						}
-					}
-
-					);
-
+					});
 				}
 				return this.m_pageLoadComplete;
 			},
@@ -7038,18 +7045,10 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "onSelectionChanged", {
-
 			get: function () {
-
 				var _this=this;
-
 				if (!this.m_selectionChanged) {
-
-					this.m_selectionChanged=new OfficeExtension.EventHandlers(
-
-					this.context, this, "SelectionChanged",
-
-					{
+					this.m_selectionChanged=new OfficeExtension.EventHandlers(this.context, this, "SelectionChanged", {
 						registerFunc: function (handlerCallback) {
 							return _this.context.eventRegistration.register(2, "", handlerCallback);
 						},
@@ -7059,10 +7058,7 @@ var Visio;
 						eventArgsTransformFunc: function (args) {
 							return OfficeExtension.Utility._createPromiseFromResult(args.ddaBinding.Object);
 						}
-					}
-
-					);
-
+					});
 				}
 				return this.m_selectionChanged;
 			},
@@ -7070,18 +7066,10 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "onShapeMouseEnter", {
-
 			get: function () {
-
 				var _this=this;
-
 				if (!this.m_shapeMouseEnter) {
-
-					this.m_shapeMouseEnter=new OfficeExtension.EventHandlers(
-
-					this.context, this, "ShapeMouseEnter",
-
-					{
+					this.m_shapeMouseEnter=new OfficeExtension.EventHandlers(this.context, this, "ShapeMouseEnter", {
 						registerFunc: function (handlerCallback) {
 							return _this.context.eventRegistration.register(4, "", handlerCallback);
 						},
@@ -7091,10 +7079,7 @@ var Visio;
 						eventArgsTransformFunc: function (args) {
 							return OfficeExtension.Utility._createPromiseFromResult(args.ddaBinding.Object);
 						}
-					}
-
-					);
-
+					});
 				}
 				return this.m_shapeMouseEnter;
 			},
@@ -7102,18 +7087,10 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Document.prototype, "onShapeMouseLeave", {
-
 			get: function () {
-
 				var _this=this;
-
 				if (!this.m_shapeMouseLeave) {
-
-					this.m_shapeMouseLeave=new OfficeExtension.EventHandlers(
-
-					this.context, this, "ShapeMouseLeave",
-
-					{
+					this.m_shapeMouseLeave=new OfficeExtension.EventHandlers(this.context, this, "ShapeMouseLeave", {
 						registerFunc: function (handlerCallback) {
 							return _this.context.eventRegistration.register(5, "", handlerCallback);
 						},
@@ -7123,10 +7100,7 @@ var Visio;
 						eventArgsTransformFunc: function (args) {
 							return OfficeExtension.Utility._createPromiseFromResult(args.ddaBinding.Object);
 						}
-					}
-
-					);
-
+					});
 				}
 				return this.m_shapeMouseLeave;
 			},
@@ -7134,15 +7108,12 @@ var Visio;
 			configurable: true
 		});
 		Document.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {
+			return _toJson(this, {}, {
 				"application": this._A,
 				"pages": this._P,
-				"view": this._V,
+				"view": this._V
 			});
 		};
-
 		Document.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -7150,9 +7121,7 @@ var Visio;
 		return Document;
 	}(OfficeExtension.ClientObject));
 	Visio.Document=Document;
-
 	var _typeDocumentView="DocumentView";
-
 	var DocumentView=(function (_super) {
 		__extends(DocumentView, _super);
 		function DocumentView() {
@@ -7180,97 +7149,76 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(DocumentView.prototype, "disableHyperlinks", {
-
 			get: function () {
-
 				_throwIfNotLoaded("disableHyperlinks", this._D, _typeDocumentView, this._isNull);
 				return this._D;
 			},
 			set: function (value) {
-
 				this._D=value;
-				_invokeSetProperty(this, "DisableHyperlinks", value, 0 );
+				_invokeSetProperty(this, "DisableHyperlinks", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(DocumentView.prototype, "disablePan", {
-
 			get: function () {
-
 				_throwIfNotLoaded("disablePan", this._Di, _typeDocumentView, this._isNull);
 				return this._Di;
 			},
 			set: function (value) {
-
 				this._Di=value;
-				_invokeSetProperty(this, "DisablePan", value, 0 );
+				_invokeSetProperty(this, "DisablePan", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(DocumentView.prototype, "disableZoom", {
-
 			get: function () {
-
 				_throwIfNotLoaded("disableZoom", this._Dis, _typeDocumentView, this._isNull);
 				return this._Dis;
 			},
 			set: function (value) {
-
 				this._Dis=value;
-				_invokeSetProperty(this, "DisableZoom", value, 0 );
+				_invokeSetProperty(this, "DisableZoom", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(DocumentView.prototype, "hideDiagramBoundary", {
-
 			get: function () {
-
 				_throwIfNotLoaded("hideDiagramBoundary", this._H, _typeDocumentView, this._isNull);
 				return this._H;
 			},
 			set: function (value) {
-
 				this._H=value;
-				_invokeSetProperty(this, "HideDiagramBoundary", value, 0 );
+				_invokeSetProperty(this, "HideDiagramBoundary", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		DocumentView.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, ["disableHyperlinks", "disableZoom", "disablePan", "hideDiagramBoundary"] , [] , []);
+			this._recursivelySet(properties, options, ["disableHyperlinks", "disableZoom", "disablePan", "hideDiagramBoundary"], [], []);
 		};
-
 		DocumentView.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		DocumentView.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["DisableHyperlinks"])) {
 				this._D=obj["DisableHyperlinks"];
-
 			}
 			if (!_isUndefined(obj["DisablePan"])) {
 				this._Di=obj["DisablePan"];
-
 			}
 			if (!_isUndefined(obj["DisableZoom"])) {
 				this._Dis=obj["DisableZoom"];
-
 			}
 			if (!_isUndefined(obj["HideDiagramBoundary"])) {
 				this._H=obj["HideDiagramBoundary"];
-
 			}
 		};
 		DocumentView.prototype.load=function (option) {
@@ -7279,23 +7227,18 @@ var Visio;
 		DocumentView.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		DocumentView.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		DocumentView.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"disableHyperlinks": this._D,
 				"disablePan": this._Di,
 				"disableZoom": this._Dis,
-				"hideDiagramBoundary": this._H,
-			},
-			 {});
+				"hideDiagramBoundary": this._H
+			}, {});
 		};
-
 		DocumentView.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -7303,9 +7246,7 @@ var Visio;
 		return DocumentView;
 	}(OfficeExtension.ClientObject));
 	Visio.DocumentView=DocumentView;
-
 	var _typePage="Page";
-
 	var Page=(function (_super) {
 		__extends(Page, _super);
 		function Page() {
@@ -7333,61 +7274,47 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "allShapes", {
-
 			get: function () {
-
 				if (!this._A) {
-					this._A=_createPropertyObject(Visio.ShapeCollection, this, "AllShapes", true , 4 );
+					this._A=_createPropertyObject(Visio.ShapeCollection, this, "AllShapes", true, 4);
 				}
-
 				return this._A;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "comments", {
-
 			get: function () {
-
 				if (!this._C) {
-					this._C=_createPropertyObject(Visio.CommentCollection, this, "Comments", true , 4 );
+					this._C=_createPropertyObject(Visio.CommentCollection, this, "Comments", true, 4);
 				}
-
 				return this._C;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "shapes", {
-
 			get: function () {
-
 				if (!this._S) {
-					this._S=_createPropertyObject(Visio.ShapeCollection, this, "Shapes", true , 4 );
+					this._S=_createPropertyObject(Visio.ShapeCollection, this, "Shapes", true, 4);
 				}
-
 				return this._S;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "view", {
-
 			get: function () {
-
 				if (!this._V) {
-					this._V=_createPropertyObject(Visio.PageView, this, "View", false , 4 );
+					this._V=_createPropertyObject(Visio.PageView, this, "View", false, 4);
 				}
-
 				return this._V;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "height", {
-
 			get: function () {
-
 				_throwIfNotLoaded("height", this._H, _typePage, this._isNull);
 				return this._H;
 			},
@@ -7395,9 +7322,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "index", {
-
 			get: function () {
-
 				_throwIfNotLoaded("index", this._I, _typePage, this._isNull);
 				return this._I;
 			},
@@ -7405,9 +7330,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "isBackground", {
-
 			get: function () {
-
 				_throwIfNotLoaded("isBackground", this._Is, _typePage, this._isNull);
 				return this._Is;
 			},
@@ -7415,9 +7338,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "name", {
-
 			get: function () {
-
 				_throwIfNotLoaded("name", this._N, _typePage, this._isNull);
 				return this._N;
 			},
@@ -7425,9 +7346,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Page.prototype, "width", {
-
 			get: function () {
-
 				_throwIfNotLoaded("width", this._W, _typePage, this._isNull);
 				return this._W;
 			},
@@ -7435,50 +7354,38 @@ var Visio;
 			configurable: true
 		});
 		Page.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, [] , ["view"] , [
-				"allShapes" ,
-				"comments" ,
+			this._recursivelySet(properties, options, [], ["view"], [
+				"allShapes",
+				"comments",
 				"shapes"
 			]);
 		};
-
 		Page.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		Page.prototype.activate=function () {
-
-			_invokeMethod(this, "Activate", 1 , [], 4 , 0 );
+			_invokeMethod(this, "Activate", 1, [], 4, 0);
 		};
-
 		Page.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Height"])) {
 				this._H=obj["Height"];
-
 			}
 			if (!_isUndefined(obj["Index"])) {
 				this._I=obj["Index"];
-
 			}
 			if (!_isUndefined(obj["IsBackground"])) {
 				this._Is=obj["IsBackground"];
-
 			}
 			if (!_isUndefined(obj["Name"])) {
 				this._N=obj["Name"];
-
 			}
 			if (!_isUndefined(obj["Width"])) {
 				this._W=obj["Width"];
-
 			}
 			_handleNavigationPropertyResults(this, obj, ["allShapes", "AllShapes", "comments", "Comments", "shapes", "Shapes", "view", "View"]);
 		};
@@ -7488,29 +7395,24 @@ var Visio;
 		Page.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Page.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Page.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"height": this._H,
 				"index": this._I,
 				"isBackground": this._Is,
 				"name": this._N,
-				"width": this._W,
-			},
-			 {
+				"width": this._W
+			}, {
 				"allShapes": this._A,
 				"comments": this._C,
 				"shapes": this._S,
-				"view": this._V,
+				"view": this._V
 			});
 		};
-
 		Page.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -7518,9 +7420,7 @@ var Visio;
 		return Page;
 	}(OfficeExtension.ClientObject));
 	Visio.Page=Page;
-
 	var _typePageView="PageView";
-
 	var PageView=(function (_super) {
 		__extends(PageView, _super);
 		function PageView() {
@@ -7548,70 +7448,49 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(PageView.prototype, "zoom", {
-
 			get: function () {
-
 				_throwIfNotLoaded("zoom", this._Z, _typePageView, this._isNull);
 				return this._Z;
 			},
 			set: function (value) {
-
 				this._Z=value;
-				_invokeSetProperty(this, "Zoom", value, 0 );
+				_invokeSetProperty(this, "Zoom", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		PageView.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, ["zoom"] , [] , []);
+			this._recursivelySet(properties, options, ["zoom"], [], []);
 		};
-
 		PageView.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		PageView.prototype.centerViewportOnShape=function (ShapeId) {
-
-			_invokeMethod(this, "CenterViewportOnShape", 1 , [ShapeId], 4 , 0 );
+			_invokeMethod(this, "CenterViewportOnShape", 1, [ShapeId], 4, 0);
 		};
-
 		PageView.prototype.fitToWindow=function () {
-
-			_invokeMethod(this, "FitToWindow", 1 , [], 4 , 0 );
+			_invokeMethod(this, "FitToWindow", 1, [], 4, 0);
 		};
-
 		PageView.prototype.getPosition=function () {
-
-			return _invokeMethod(this, "GetPosition", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetPosition", 1, [], 4, 0);
 		};
-
 		PageView.prototype.getSelection=function () {
-
-			return _createMethodObject(Visio.Selection, this, "GetSelection", 1 , [], false , false , null , 4 );
+			return _createMethodObject(Visio.Selection, this, "GetSelection", 1, [], false, false, null, 4);
 		};
-
 		PageView.prototype.isShapeInViewport=function (Shape) {
-
-			return _invokeMethod(this, "IsShapeInViewport", 1 , [Shape], 4 , 0 );
+			return _invokeMethod(this, "IsShapeInViewport", 1, [Shape], 4, 0);
 		};
-
 		PageView.prototype.setPosition=function (Position) {
-
-			_invokeMethod(this, "SetPosition", 1 , [Position], 4 , 0 );
+			_invokeMethod(this, "SetPosition", 1, [Position], 4, 0);
 		};
-
 		PageView.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Zoom"])) {
 				this._Z=obj["Zoom"];
-
 			}
 		};
 		PageView.prototype.load=function (option) {
@@ -7620,20 +7499,15 @@ var Visio;
 		PageView.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		PageView.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		PageView.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
-				"zoom": this._Z,
-			},
-			 {});
+			return _toJson(this, {
+				"zoom": this._Z
+			}, {});
 		};
-
 		PageView.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -7641,9 +7515,7 @@ var Visio;
 		return PageView;
 	}(OfficeExtension.ClientObject));
 	Visio.PageView=PageView;
-
 	var _typePageCollection="PageCollection";
-
 	var PageCollection=(function (_super) {
 		__extends(PageCollection, _super);
 		function PageCollection() {
@@ -7664,33 +7536,25 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(PageCollection.prototype, "items", {
-
 			get: function () {
-
 				_throwIfNotLoaded("items", this.m__items, _typePageCollection, this._isNull);
 				return this.m__items;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		PageCollection.prototype.getCount=function () {
-
-			return _invokeMethod(this, "GetCount", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetCount", 1, [], 4, 0);
 		};
-
 		PageCollection.prototype.getItem=function (key) {
-
 			return _createIndexerObject(Visio.Page, this, [key]);
 		};
-
 		PageCollection.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
 				this.m__items=[];
 				var _data=obj[OfficeExtension.Constants.items];
@@ -7707,24 +7571,18 @@ var Visio;
 		PageCollection.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		PageCollection.prototype._handleRetrieveResult=function (value, result) {
 			var _this=this;
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Visio.Page, true, _this, childItemData, index); });
 		};
 		PageCollection.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {}, this.m__items);
+			return _toJson(this, {}, {}, this.m__items);
 		};
 		return PageCollection;
 	}(OfficeExtension.ClientObject));
 	Visio.PageCollection=PageCollection;
-
 	var _typeShapeCollection="ShapeCollection";
-
 	var ShapeCollection=(function (_super) {
 		__extends(ShapeCollection, _super);
 		function ShapeCollection() {
@@ -7745,33 +7603,25 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeCollection.prototype, "items", {
-
 			get: function () {
-
 				_throwIfNotLoaded("items", this.m__items, _typeShapeCollection, this._isNull);
 				return this.m__items;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		ShapeCollection.prototype.getCount=function () {
-
-			return _invokeMethod(this, "GetCount", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetCount", 1, [], 4, 0);
 		};
-
 		ShapeCollection.prototype.getItem=function (key) {
-
 			return _createIndexerObject(Visio.Shape, this, [key]);
 		};
-
 		ShapeCollection.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
 				this.m__items=[];
 				var _data=obj[OfficeExtension.Constants.items];
@@ -7788,24 +7638,18 @@ var Visio;
 		ShapeCollection.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		ShapeCollection.prototype._handleRetrieveResult=function (value, result) {
 			var _this=this;
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Visio.Shape, true, _this, childItemData, index); });
 		};
 		ShapeCollection.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {}, this.m__items);
+			return _toJson(this, {}, {}, this.m__items);
 		};
 		return ShapeCollection;
 	}(OfficeExtension.ClientObject));
 	Visio.ShapeCollection=ShapeCollection;
-
 	var _typeShape="Shape";
-
 	var Shape=(function (_super) {
 		__extends(Shape, _super);
 		function Shape() {
@@ -7840,74 +7684,57 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "comments", {
-
 			get: function () {
-
 				if (!this._C) {
-					this._C=_createPropertyObject(Visio.CommentCollection, this, "Comments", true , 4 );
+					this._C=_createPropertyObject(Visio.CommentCollection, this, "Comments", true, 4);
 				}
-
 				return this._C;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "hyperlinks", {
-
 			get: function () {
-
 				if (!this._H) {
-					this._H=_createPropertyObject(Visio.HyperlinkCollection, this, "Hyperlinks", true , 4 );
+					this._H=_createPropertyObject(Visio.HyperlinkCollection, this, "Hyperlinks", true, 4);
 				}
-
 				return this._H;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "shapeDataItems", {
-
 			get: function () {
-
 				if (!this._Sh) {
-					this._Sh=_createPropertyObject(Visio.ShapeDataItemCollection, this, "ShapeDataItems", true , 4 );
+					this._Sh=_createPropertyObject(Visio.ShapeDataItemCollection, this, "ShapeDataItems", true, 4);
 				}
-
 				return this._Sh;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "subShapes", {
-
 			get: function () {
-
 				if (!this._Su) {
-					this._Su=_createPropertyObject(Visio.ShapeCollection, this, "SubShapes", true , 4 );
+					this._Su=_createPropertyObject(Visio.ShapeCollection, this, "SubShapes", true, 4);
 				}
-
 				return this._Su;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "view", {
-
 			get: function () {
-
 				if (!this._V) {
-					this._V=_createPropertyObject(Visio.ShapeView, this, "View", false , 4 );
+					this._V=_createPropertyObject(Visio.ShapeView, this, "View", false, 4);
 				}
-
 				return this._V;
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "id", {
-
 			get: function () {
-
 				_throwIfNotLoaded("id", this._I, _typeShape, this._isNull);
 				return this._I;
 			},
@@ -7915,9 +7742,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "name", {
-
 			get: function () {
-
 				_throwIfNotLoaded("name", this._N, _typeShape, this._isNull);
 				return this._N;
 			},
@@ -7925,24 +7750,19 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "select", {
-
 			get: function () {
-
 				_throwIfNotLoaded("select", this._S, _typeShape, this._isNull);
 				return this._S;
 			},
 			set: function (value) {
-
 				this._S=value;
-				_invokeSetProperty(this, "Select", value, 0 );
+				_invokeSetProperty(this, "Select", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Shape.prototype, "text", {
-
 			get: function () {
-
 				_throwIfNotLoaded("text", this._T, _typeShape, this._isNull);
 				return this._T;
 			},
@@ -7950,47 +7770,36 @@ var Visio;
 			configurable: true
 		});
 		Shape.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, ["select"] , ["view"] , [
-				"comments" ,
-				"hyperlinks" ,
-				"shapeDataItems" ,
+			this._recursivelySet(properties, options, ["select"], ["view"], [
+				"comments",
+				"hyperlinks",
+				"shapeDataItems",
 				"subShapes"
 			]);
 		};
-
 		Shape.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		Shape.prototype.getBounds=function () {
-
-			return _invokeMethod(this, "GetBounds", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetBounds", 1, [], 4, 0);
 		};
-
 		Shape.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Id"])) {
 				this._I=obj["Id"];
-
 			}
 			if (!_isUndefined(obj["Name"])) {
 				this._N=obj["Name"];
-
 			}
 			if (!_isUndefined(obj["Select"])) {
 				this._S=obj["Select"];
-
 			}
 			if (!_isUndefined(obj["Text"])) {
 				this._T=obj["Text"];
-
 			}
 			_handleNavigationPropertyResults(this, obj, ["comments", "Comments", "hyperlinks", "Hyperlinks", "shapeDataItems", "ShapeDataItems", "subShapes", "SubShapes", "view", "View"]);
 		};
@@ -8000,40 +7809,33 @@ var Visio;
 		Shape.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Shape.prototype._handleIdResult=function (value) {
 			_super.prototype._handleIdResult.call(this, value);
 			if (_isNullOrUndefined(value)) {
 				return;
 			}
 			if (!_isUndefined(value["Id"])) {
-
 				this._I=value["Id"];
 			}
 		};
-
 		Shape.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Shape.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"id": this._I,
 				"name": this._N,
 				"select": this._S,
-				"text": this._T,
-			},
-			 {
+				"text": this._T
+			}, {
 				"comments": this._C,
 				"hyperlinks": this._H,
 				"shapeDataItems": this._Sh,
 				"subShapes": this._Su,
-				"view": this._V,
+				"view": this._V
 			});
 		};
-
 		Shape.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -8041,9 +7843,7 @@ var Visio;
 		return Shape;
 	}(OfficeExtension.ClientObject));
 	Visio.Shape=Shape;
-
 	var _typeShapeView="ShapeView";
-
 	var ShapeView=(function (_super) {
 		__extends(ShapeView, _super);
 		function ShapeView() {
@@ -8071,50 +7871,37 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeView.prototype, "highlight", {
-
 			get: function () {
-
 				_throwIfNotLoaded("highlight", this._H, _typeShapeView, this._isNull);
 				return this._H;
 			},
 			set: function (value) {
-
 				this._H=value;
-				_invokeSetProperty(this, "Highlight", value, 0 );
+				_invokeSetProperty(this, "Highlight", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		ShapeView.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, ["highlight"] , [] , []);
+			this._recursivelySet(properties, options, ["highlight"], [], []);
 		};
-
 		ShapeView.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		ShapeView.prototype.addOverlay=function (OverlayType, Content, OverlayHorizontalAlignment, OverlayVerticalAlignment, Width, Height) {
-
-			return _invokeMethod(this, "AddOverlay", 1 , [OverlayType, Content, OverlayHorizontalAlignment, OverlayVerticalAlignment, Width, Height], 4 , 0 );
+			return _invokeMethod(this, "AddOverlay", 1, [OverlayType, Content, OverlayHorizontalAlignment, OverlayVerticalAlignment, Width, Height], 4, 0);
 		};
-
 		ShapeView.prototype.removeOverlay=function (OverlayId) {
-
-			_invokeMethod(this, "RemoveOverlay", 1 , [OverlayId], 4 , 0 );
+			_invokeMethod(this, "RemoveOverlay", 1, [OverlayId], 4, 0);
 		};
-
 		ShapeView.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Highlight"])) {
 				this._H=obj["Highlight"];
-
 			}
 		};
 		ShapeView.prototype.load=function (option) {
@@ -8123,20 +7910,15 @@ var Visio;
 		ShapeView.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		ShapeView.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		ShapeView.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
-				"highlight": this._H,
-			},
-			 {});
+			return _toJson(this, {
+				"highlight": this._H
+			}, {});
 		};
-
 		ShapeView.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -8144,9 +7926,7 @@ var Visio;
 		return ShapeView;
 	}(OfficeExtension.ClientObject));
 	Visio.ShapeView=ShapeView;
-
 	var _typeShapeDataItemCollection="ShapeDataItemCollection";
-
 	var ShapeDataItemCollection=(function (_super) {
 		__extends(ShapeDataItemCollection, _super);
 		function ShapeDataItemCollection() {
@@ -8167,33 +7947,25 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeDataItemCollection.prototype, "items", {
-
 			get: function () {
-
 				_throwIfNotLoaded("items", this.m__items, _typeShapeDataItemCollection, this._isNull);
 				return this.m__items;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		ShapeDataItemCollection.prototype.getCount=function () {
-
-			return _invokeMethod(this, "GetCount", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetCount", 1, [], 4, 0);
 		};
-
 		ShapeDataItemCollection.prototype.getItem=function (key) {
-
 			return _createIndexerObject(Visio.ShapeDataItem, this, [key]);
 		};
-
 		ShapeDataItemCollection.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
 				this.m__items=[];
 				var _data=obj[OfficeExtension.Constants.items];
@@ -8210,24 +7982,18 @@ var Visio;
 		ShapeDataItemCollection.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		ShapeDataItemCollection.prototype._handleRetrieveResult=function (value, result) {
 			var _this=this;
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Visio.ShapeDataItem, true, _this, childItemData, index); });
 		};
 		ShapeDataItemCollection.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {}, this.m__items);
+			return _toJson(this, {}, {}, this.m__items);
 		};
 		return ShapeDataItemCollection;
 	}(OfficeExtension.ClientObject));
 	Visio.ShapeDataItemCollection=ShapeDataItemCollection;
-
 	var _typeShapeDataItem="ShapeDataItem";
-
 	var ShapeDataItem=(function (_super) {
 		__extends(ShapeDataItem, _super);
 		function ShapeDataItem() {
@@ -8248,9 +8014,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeDataItem.prototype, "format", {
-
 			get: function () {
-
 				_throwIfNotLoaded("format", this._F, _typeShapeDataItem, this._isNull);
 				return this._F;
 			},
@@ -8258,9 +8022,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeDataItem.prototype, "formattedValue", {
-
 			get: function () {
-
 				_throwIfNotLoaded("formattedValue", this._Fo, _typeShapeDataItem, this._isNull);
 				return this._Fo;
 			},
@@ -8268,9 +8030,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeDataItem.prototype, "label", {
-
 			get: function () {
-
 				_throwIfNotLoaded("label", this._L, _typeShapeDataItem, this._isNull);
 				return this._L;
 			},
@@ -8278,38 +8038,30 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(ShapeDataItem.prototype, "value", {
-
 			get: function () {
-
 				_throwIfNotLoaded("value", this._V, _typeShapeDataItem, this._isNull);
 				return this._V;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		ShapeDataItem.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Format"])) {
 				this._F=obj["Format"];
-
 			}
 			if (!_isUndefined(obj["FormattedValue"])) {
 				this._Fo=obj["FormattedValue"];
-
 			}
 			if (!_isUndefined(obj["Label"])) {
 				this._L=obj["Label"];
-
 			}
 			if (!_isUndefined(obj["Value"])) {
 				this._V=obj["Value"];
-
 			}
 		};
 		ShapeDataItem.prototype.load=function (option) {
@@ -8318,23 +8070,18 @@ var Visio;
 		ShapeDataItem.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		ShapeDataItem.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		ShapeDataItem.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"format": this._F,
 				"formattedValue": this._Fo,
 				"label": this._L,
-				"value": this._V,
-			},
-			 {});
+				"value": this._V
+			}, {});
 		};
-
 		ShapeDataItem.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -8342,9 +8089,7 @@ var Visio;
 		return ShapeDataItem;
 	}(OfficeExtension.ClientObject));
 	Visio.ShapeDataItem=ShapeDataItem;
-
 	var _typeHyperlinkCollection="HyperlinkCollection";
-
 	var HyperlinkCollection=(function (_super) {
 		__extends(HyperlinkCollection, _super);
 		function HyperlinkCollection() {
@@ -8365,33 +8110,25 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(HyperlinkCollection.prototype, "items", {
-
 			get: function () {
-
 				_throwIfNotLoaded("items", this.m__items, _typeHyperlinkCollection, this._isNull);
 				return this.m__items;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		HyperlinkCollection.prototype.getCount=function () {
-
-			return _invokeMethod(this, "GetCount", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetCount", 1, [], 4, 0);
 		};
-
 		HyperlinkCollection.prototype.getItem=function (Key) {
-
 			return _createIndexerObject(Visio.Hyperlink, this, [Key]);
 		};
-
 		HyperlinkCollection.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
 				this.m__items=[];
 				var _data=obj[OfficeExtension.Constants.items];
@@ -8408,24 +8145,18 @@ var Visio;
 		HyperlinkCollection.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		HyperlinkCollection.prototype._handleRetrieveResult=function (value, result) {
 			var _this=this;
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Visio.Hyperlink, true, _this, childItemData, index); });
 		};
 		HyperlinkCollection.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {}, this.m__items);
+			return _toJson(this, {}, {}, this.m__items);
 		};
 		return HyperlinkCollection;
 	}(OfficeExtension.ClientObject));
 	Visio.HyperlinkCollection=HyperlinkCollection;
-
 	var _typeHyperlink="Hyperlink";
-
 	var Hyperlink=(function (_super) {
 		__extends(Hyperlink, _super);
 		function Hyperlink() {
@@ -8446,9 +8177,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Hyperlink.prototype, "address", {
-
 			get: function () {
-
 				_throwIfNotLoaded("address", this._A, _typeHyperlink, this._isNull);
 				return this._A;
 			},
@@ -8456,9 +8185,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Hyperlink.prototype, "description", {
-
 			get: function () {
-
 				_throwIfNotLoaded("description", this._D, _typeHyperlink, this._isNull);
 				return this._D;
 			},
@@ -8466,9 +8193,7 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Hyperlink.prototype, "extraInfo", {
-
 			get: function () {
-
 				_throwIfNotLoaded("extraInfo", this._E, _typeHyperlink, this._isNull);
 				return this._E;
 			},
@@ -8476,38 +8201,30 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Hyperlink.prototype, "subAddress", {
-
 			get: function () {
-
 				_throwIfNotLoaded("subAddress", this._S, _typeHyperlink, this._isNull);
 				return this._S;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		Hyperlink.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Address"])) {
 				this._A=obj["Address"];
-
 			}
 			if (!_isUndefined(obj["Description"])) {
 				this._D=obj["Description"];
-
 			}
 			if (!_isUndefined(obj["ExtraInfo"])) {
 				this._E=obj["ExtraInfo"];
-
 			}
 			if (!_isUndefined(obj["SubAddress"])) {
 				this._S=obj["SubAddress"];
-
 			}
 		};
 		Hyperlink.prototype.load=function (option) {
@@ -8516,23 +8233,18 @@ var Visio;
 		Hyperlink.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Hyperlink.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Hyperlink.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"address": this._A,
 				"description": this._D,
 				"extraInfo": this._E,
-				"subAddress": this._S,
-			},
-			 {});
+				"subAddress": this._S
+			}, {});
 		};
-
 		Hyperlink.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -8540,9 +8252,7 @@ var Visio;
 		return Hyperlink;
 	}(OfficeExtension.ClientObject));
 	Visio.Hyperlink=Hyperlink;
-
 	var _typeCommentCollection="CommentCollection";
-
 	var CommentCollection=(function (_super) {
 		__extends(CommentCollection, _super);
 		function CommentCollection() {
@@ -8563,33 +8273,25 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(CommentCollection.prototype, "items", {
-
 			get: function () {
-
 				_throwIfNotLoaded("items", this.m__items, _typeCommentCollection, this._isNull);
 				return this.m__items;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		CommentCollection.prototype.getCount=function () {
-
-			return _invokeMethod(this, "GetCount", 1 , [], 4 , 0 );
+			return _invokeMethod(this, "GetCount", 1, [], 4, 0);
 		};
-
 		CommentCollection.prototype.getItem=function (key) {
-
 			return _createIndexerObject(Visio.Comment, this, [key]);
 		};
-
 		CommentCollection.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isNullOrUndefined(obj[OfficeExtension.Constants.items])) {
 				this.m__items=[];
 				var _data=obj[OfficeExtension.Constants.items];
@@ -8606,24 +8308,18 @@ var Visio;
 		CommentCollection.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		CommentCollection.prototype._handleRetrieveResult=function (value, result) {
 			var _this=this;
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result, function (childItemData, index) { return _createChildItemObject(Visio.Comment, true, _this, childItemData, index); });
 		};
 		CommentCollection.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {}, this.m__items);
+			return _toJson(this, {}, {}, this.m__items);
 		};
 		return CommentCollection;
 	}(OfficeExtension.ClientObject));
 	Visio.CommentCollection=CommentCollection;
-
 	var _typeComment="Comment";
-
 	var Comment=(function (_super) {
 		__extends(Comment, _super);
 		function Comment() {
@@ -8651,78 +8347,61 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Comment.prototype, "author", {
-
 			get: function () {
-
 				_throwIfNotLoaded("author", this._A, _typeComment, this._isNull);
 				return this._A;
 			},
 			set: function (value) {
-
 				this._A=value;
-				_invokeSetProperty(this, "Author", value, 0 );
+				_invokeSetProperty(this, "Author", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Comment.prototype, "date", {
-
 			get: function () {
-
 				_throwIfNotLoaded("date", this._D, _typeComment, this._isNull);
 				return this._D;
 			},
 			set: function (value) {
-
 				this._D=value;
-				_invokeSetProperty(this, "Date", value, 0 );
+				_invokeSetProperty(this, "Date", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Object.defineProperty(Comment.prototype, "text", {
-
 			get: function () {
-
 				_throwIfNotLoaded("text", this._T, _typeComment, this._isNull);
 				return this._T;
 			},
 			set: function (value) {
-
 				this._T=value;
-				_invokeSetProperty(this, "Text", value, 0 );
+				_invokeSetProperty(this, "Text", value, 0);
 			},
 			enumerable: true,
 			configurable: true
 		});
 		Comment.prototype.set=function (properties, options) {
-
-			this._recursivelySet(properties, options, ["author", "text", "date"] , [] , []);
+			this._recursivelySet(properties, options, ["author", "text", "date"], [], []);
 		};
-
 		Comment.prototype.update=function (properties) {
-
 			this._recursivelyUpdate(properties);
 		};
-
 		Comment.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			if (!_isUndefined(obj["Author"])) {
 				this._A=obj["Author"];
-
 			}
 			if (!_isUndefined(obj["Date"])) {
 				this._D=obj["Date"];
-
 			}
 			if (!_isUndefined(obj["Text"])) {
 				this._T=obj["Text"];
-
 			}
 		};
 		Comment.prototype.load=function (option) {
@@ -8731,22 +8410,17 @@ var Visio;
 		Comment.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Comment.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Comment.prototype.toJSON=function () {
-			return _toJson(this,
-			 {
+			return _toJson(this, {
 				"author": this._A,
 				"date": this._D,
-				"text": this._T,
-			},
-			 {});
+				"text": this._T
+			}, {});
 		};
-
 		Comment.prototype.ensureUnchanged=function (data) {
 			_invokeEnsureUnchanged(this, data);
 			return;
@@ -8754,9 +8428,7 @@ var Visio;
 		return Comment;
 	}(OfficeExtension.ClientObject));
 	Visio.Comment=Comment;
-
 	var _typeSelection="Selection";
-
 	var Selection=(function (_super) {
 		__extends(Selection, _super);
 		function Selection() {
@@ -8777,26 +8449,21 @@ var Visio;
 			configurable: true
 		});
 		Object.defineProperty(Selection.prototype, "shapes", {
-
 			get: function () {
-
 				if (!this._S) {
-					this._S=_createPropertyObject(Visio.ShapeCollection, this, "Shapes", true , 4 );
+					this._S=_createPropertyObject(Visio.ShapeCollection, this, "Shapes", true, 4);
 				}
-
 				return this._S;
 			},
 			enumerable: true,
 			configurable: true
 		});
-
 		Selection.prototype._handleResult=function (value) {
 			_super.prototype._handleResult.call(this, value);
 			if (_isNullOrUndefined(value))
 				return;
 			var obj=value;
 			_fixObjectPathIfNecessary(this, obj);
-
 			_handleNavigationPropertyResults(this, obj, ["shapes", "Shapes"]);
 		};
 		Selection.prototype.load=function (option) {
@@ -8805,61 +8472,41 @@ var Visio;
 		Selection.prototype.retrieve=function (option) {
 			return _retrieve(this, option);
 		};
-
 		Selection.prototype._handleRetrieveResult=function (value, result) {
 			_super.prototype._handleRetrieveResult.call(this, value, result);
-
 			_processRetrieveResult(this, value, result);
 		};
 		Selection.prototype.toJSON=function () {
-			return _toJson(this,
-			 {},
-			 {
-				"shapes": this._S,
+			return _toJson(this, {}, {
+				"shapes": this._S
 			});
 		};
 		return Selection;
 	}(OfficeExtension.ClientObject));
 	Visio.Selection=Selection;
-
 	var OverlayHorizontalAlignment;
 	(function (OverlayHorizontalAlignment) {
-
 		OverlayHorizontalAlignment["left"]="Left";
-
 		OverlayHorizontalAlignment["center"]="Center";
-
 		OverlayHorizontalAlignment["right"]="Right";
 	})(OverlayHorizontalAlignment=Visio.OverlayHorizontalAlignment || (Visio.OverlayHorizontalAlignment={}));
-
 	var OverlayVerticalAlignment;
 	(function (OverlayVerticalAlignment) {
-
 		OverlayVerticalAlignment["top"]="Top";
-
 		OverlayVerticalAlignment["middle"]="Middle";
-
 		OverlayVerticalAlignment["bottom"]="Bottom";
 	})(OverlayVerticalAlignment=Visio.OverlayVerticalAlignment || (Visio.OverlayVerticalAlignment={}));
-
 	var OverlayType;
 	(function (OverlayType) {
-
 		OverlayType["text"]="Text";
-
 		OverlayType["image"]="Image";
 	})(OverlayType=Visio.OverlayType || (Visio.OverlayType={}));
-
 	var ToolBarType;
 	(function (ToolBarType) {
-
 		ToolBarType["commandBar"]="CommandBar";
-
 		ToolBarType["pageNavigationBar"]="PageNavigationBar";
-
 		ToolBarType["statusBar"]="StatusBar";
 	})(ToolBarType=Visio.ToolBarType || (Visio.ToolBarType={}));
-
 	var ErrorCodes;
 	(function (ErrorCodes) {
 		ErrorCodes["accessDenied"]="AccessDenied";
@@ -8868,10 +8515,8 @@ var Visio;
 		ErrorCodes["itemNotFound"]="ItemNotFound";
 		ErrorCodes["notImplemented"]="NotImplemented";
 		ErrorCodes["unsupportedOperation"]="UnsupportedOperation";
-
 	})(ErrorCodes=Visio.ErrorCodes || (Visio.ErrorCodes={}));
 })(Visio || (Visio={}));
-
 Object.defineProperty(OfficeExtension.SessionBase, "_overrideSession", {
 	get: function () {
 		if (this._overrideSessionInternal) {
@@ -8888,10 +8533,8 @@ Object.defineProperty(OfficeExtension.SessionBase, "_overrideSession", {
 	enumerable: true,
 	configurable: true
 });
-
 var Visio;
 (function (Visio) {
-
 	var RequestContext=(function (_super) {
 		__extends(RequestContext, _super);
 		function RequestContext(url) {
@@ -8918,7 +8561,5 @@ var Visio;
 	}
 	Visio.run=run;
 })(Visio || (Visio={}));
-
 OfficeExtension.Utility._doApiNotSupportedCheck=true;
-
 

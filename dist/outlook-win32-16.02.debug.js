@@ -1,5 +1,5 @@
 /* Outlook rich client specific API library */
-/* Version: 16.0.10821.10000 */
+/* Version: 16.0.11013.10000 */
 /*
     Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1156,7 +1156,8 @@ OSF.AppName = {
     VisioWebApp: 8388610,
     OneNoteIOS: 8388611,
     WordAndroid: 8388613,
-    PowerpointAndroid: 8388614
+    PowerpointAndroid: 8388614,
+    Visio: 8388615
 };
 OSF.InternalPerfMarker = {
     DataCoercionBegin: "Agave.HostCall.CoerceDataStart",
@@ -6254,21 +6255,303 @@ var Logger;
         OSF.Logger = Logger;
     Logger.ulsEndpoint = creatULSEndpoint()
 })(Logger || (Logger = {}));
+var CDN_PATH_OTELJS = "telemetry/oteljs.js";
+var CDN_PATH_OTELJS_AGAVE = "telemetry/oteljs_agave.js";
 var OSFAriaLogger;
 (function(OSFAriaLogger)
 {
+    var TelemetryEventAppActivated = {
+            name: "AppActivated",
+            enabled: true,
+            critical: true,
+            points: [{
+                    name: "Browser",
+                    type: "string"
+                },{
+                    name: "Message",
+                    type: "string"
+                },{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "AppId",
+                    type: "string"
+                },{
+                    name: "AssetId",
+                    type: "string"
+                },{
+                    name: "AppURL",
+                    type: "string"
+                },{
+                    name: "UserId",
+                    type: "string"
+                },{
+                    name: "ClientId",
+                    type: "string"
+                },{
+                    name: "Host",
+                    type: "string"
+                },{
+                    name: "HostVersion",
+                    type: "string"
+                },{
+                    name: "CorrelationId",
+                    type: "string"
+                },{
+                    name: "AppSizeWidth",
+                    type: "int64"
+                },{
+                    name: "AppSizeHeight",
+                    type: "int64"
+                },{
+                    name: "AppInstanceId",
+                    type: "string"
+                },{
+                    name: "DocUrl",
+                    type: "string"
+                },{
+                    name: "OfficeJSVersion",
+                    type: "string"
+                },{
+                    name: "HostJSVersion",
+                    type: "string"
+                },{
+                    name: "WacHostEnvironment",
+                    type: "string"
+                },{
+                    name: "IsFromWacAutomation",
+                    type: "string"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventScriptLoad = {
+            name: "ScriptLoad",
+            enabled: true,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "ScriptId",
+                    type: "string"
+                },{
+                    name: "StartTime",
+                    type: "double"
+                },{
+                    name: "ResponseTime",
+                    type: "double"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventApiUsage = {
+            name: "APIUsage",
+            enabled: false,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "APIType",
+                    type: "string"
+                },{
+                    name: "APIID",
+                    type: "int64"
+                },{
+                    name: "Parameters",
+                    type: "string"
+                },{
+                    name: "ResponseTime",
+                    type: "int64"
+                },{
+                    name: "ErrorType",
+                    type: "int64"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventAppInitialization = {
+            name: "AppInitialization",
+            enabled: true,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "SuccessCode",
+                    type: "int64"
+                },{
+                    name: "Message",
+                    type: "string"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEventAppClosed = {
+            name: "AppClosed",
+            enabled: true,
+            critical: false,
+            points: [{
+                    name: "SessionId",
+                    type: "string"
+                },{
+                    name: "FocusTime",
+                    type: "int64"
+                },{
+                    name: "AppSizeFinalWidth",
+                    type: "int64"
+                },{
+                    name: "AppSizeFinalHeight",
+                    type: "int64"
+                },{
+                    name: "OpenTime",
+                    type: "int64"
+                },{
+                    name: "Date",
+                    type: "string"
+                },]
+        };
+    var TelemetryEvents = [TelemetryEventAppActivated,TelemetryEventScriptLoad,TelemetryEventApiUsage,TelemetryEventAppInitialization,TelemetryEventAppClosed,];
+    function createDataField(value, point)
+    {
+        var key = point.name;
+        var type = point.type;
+        var field = undefined;
+        switch(type)
+        {
+            case"string":
+                field = oteljs.makeStringDataField(key,value);
+                break;
+            case"double":
+                if(typeof value === "string")
+                    value = parseFloat(value);
+                field = oteljs.makeDoubleDataField(key,value);
+                break;
+            case"int64":
+                if(typeof value === "string")
+                    value = parseInt(value);
+                field = oteljs.makeInt64DataField(key,value);
+                break;
+            case"boolean":
+                if(typeof value === "string")
+                    value = value === "true";
+                field = oteljs.makeBooleanDataField(key,value);
+                break
+        }
+        return field
+    }
+    function getEventDefinition(eventName)
+    {
+        for(var _i = 0; _i < TelemetryEvents.length; _i++)
+        {
+            var event_1 = TelemetryEvents[_i];
+            if(event_1.name === eventName)
+                return event_1
+        }
+        return undefined
+    }
+    function eventEnabled(eventName)
+    {
+        var eventDefinition = getEventDefinition(eventName);
+        if(eventDefinition === undefined)
+            return false;
+        return eventDefinition.enabled
+    }
+    function generateTelemetryEvent(eventName, telemetryData)
+    {
+        var eventDefinition = getEventDefinition(eventName);
+        if(eventDefinition === undefined)
+            return undefined;
+        var dataFields = [];
+        for(var _i = 0, _a = eventDefinition.points; _i < _a.length; _i++)
+        {
+            var point = _a[_i];
+            var key = point.name;
+            var value = telemetryData[key];
+            if(value === undefined)
+                continue;
+            var field = createDataField(value,point);
+            if(field !== undefined)
+                dataFields.push(field)
+        }
+        var flags = {};
+        if(eventDefinition.critical)
+            flags = {samplingPolicy: oteljs.SamplingPolicy.CriticalBusinessImpact};
+        var eventNameFull = "Office.Extensibility.OfficeJs." + eventName + "X";
+        var event = {
+                eventName: eventNameFull,
+                dataFields: dataFields,
+                eventFlags: flags
+            };
+        return event
+    }
     var AriaLogger = function()
         {
             function AriaLogger(){}
             AriaLogger.prototype.getAriaCDNLocation = function()
             {
-                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "/ariatelemetry/aria-web-telemetry.js"
+                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + "ariatelemetry/aria-web-telemetry.js"
             };
             AriaLogger.getInstance = function()
             {
                 if(AriaLogger.AriaLoggerObj === undefined)
                     AriaLogger.AriaLoggerObj = new AriaLogger;
                 return AriaLogger.AriaLoggerObj
+            };
+            AriaLogger.getOtelCDNLocation = function()
+            {
+                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + CDN_PATH_OTELJS
+            };
+            AriaLogger.getOtelSinkCDNLocation = function()
+            {
+                return OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + CDN_PATH_OTELJS_AGAVE
+            };
+            AriaLogger.getTelemetryLogger = function()
+            {
+                if(AriaLogger.otelTelemetryLogger === undefined)
+                {
+                    var logger = new oteljs.TelemetryLogger;
+                    var sink = new oteljs_agave.AgaveSink;
+                    logger.addSink(sink);
+                    var namespace = "Office.Extensibility.OfficeJs";
+                    var ariaTenantToken = "db334b301e7b474db5e0f02f07c51a47-a1b5bc36-1bbe-482f-a64a-c2d9cb606706-7439";
+                    var nexusTenantToken = 1775;
+                    logger.setTenantToken(namespace,ariaTenantToken,nexusTenantToken);
+                    AriaLogger.otelTelemetryLogger = logger
+                }
+                return AriaLogger.otelTelemetryLogger
+            };
+            AriaLogger.sendOtelTelemetryEventCallback = function(eventName, telemetryData)
+            {
+                var event = generateTelemetryEvent(eventName,telemetryData);
+                if(event === undefined)
+                    return;
+                var time = new Date;
+                event.dataFields.push(oteljs.makeStringDataField("Date",time.toISOString()));
+                try
+                {
+                    var logger = AriaLogger.getTelemetryLogger();
+                    logger.sendTelemetryEvent(event)
+                }
+                catch(e){}
+            };
+            AriaLogger.sendOtelTelemetryEvent = function(eventName, telemetryData)
+            {
+                var timeoutAfterOneSecond = 1e3;
+                var afterLoadOtelSink = function()
+                    {
+                        AriaLogger.sendOtelTelemetryEventCallback(eventName,telemetryData)
+                    };
+                var afterLoadOtel = function()
+                    {
+                        OSF.OUtil.loadScript(AriaLogger.getOtelSinkCDNLocation(),afterLoadOtelSink,timeoutAfterOneSecond)
+                    };
+                OSF.OUtil.loadScript(AriaLogger.getOtelCDNLocation(),afterLoadOtel,timeoutAfterOneSecond)
             };
             AriaLogger.prototype.isIUsageData = function(arg)
             {
@@ -6296,7 +6579,9 @@ var OSFAriaLogger;
                         this.ALogger.logEvent(eventProperties)
                     }
                     catch(e){}
-                },startAfterMs)
+                },startAfterMs);
+                /* if(eventEnabled(tableName))
+                    AriaLogger.sendOtelTelemetryEvent(tableName,telemetryData) */
             };
             AriaLogger.prototype.logData = function(data)
             {
@@ -6456,7 +6741,7 @@ var OSFAppTelemetry;
             appInfo.appInstanceId = appInfo.appInstanceId.replace(/[{}]/g,"").toLowerCase();
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.10821.10000";
+        appInfo.hostJSVersion = "16.0.11013.10000";
         if(context._wacHostEnvironment)
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         if(context._isFromWacAutomation !== undefined && context._isFromWacAutomation !== null)
@@ -7454,6 +7739,10 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         WestPacificStandardTime: "West Pacific Standard Time",
         YakutskStandardTime: "Yakutsk Standard Time"
     };
+    Microsoft.Office.WebExtension.MailboxEnums.LocationType = {
+        Custom: "custom",
+        Room: "room"
+    };
     Type.registerNamespace("OSF.DDA");
     var OSF = window["OSF"] || {};
     OSF.DDA = OSF.DDA || {};
@@ -8053,6 +8342,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
                 case 107:
                 case 108:
                 case 149:
+                case 154:
                     break;
                 case 12:
                     optionalParameters["isRest"] = data["isRest"];
@@ -8147,6 +8437,8 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
                 case 151:
                 case 152:
                 case 153:
+                case 155:
+                case 156:
                     optionalParameters = data;
                     break;
                 default:
@@ -8960,6 +9252,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
     };
     $h.AppointmentCompose = function(data)
     {
+        this.$$d__getEnhancedLocation$p$2 = Function.createDelegate(this,this._getEnhancedLocation$p$2);
         this.$$d__getOrganizer$p$2 = Function.createDelegate(this,this._getOrganizer$p$2);
         this.$$d__getSeriesId$p$2 = Function.createDelegate(this,this._getSeriesId$p$2);
         this.$$d__getRecurrence$p$2 = Function.createDelegate(this,this._getRecurrence$p$2);
@@ -8976,7 +9269,8 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         $h.InitialData._defineReadOnlyProperty$i(this,"location",this.$$d__getLocation$p$2);
         $h.InitialData._defineReadOnlyProperty$i(this,"recurrence",this.$$d__getRecurrence$p$2);
         $h.InitialData._defineReadOnlyProperty$i(this,"seriesId",this.$$d__getSeriesId$p$2);
-        $h.InitialData._defineReadOnlyProperty$i(this,"organizer",this.$$d__getOrganizer$p$2)
+        $h.InitialData._defineReadOnlyProperty$i(this,"organizer",this.$$d__getOrganizer$p$2);
+        $h.InitialData._defineReadOnlyProperty$i(this,"enhancedLocation",this.$$d__getEnhancedLocation$p$2)
     };
     $h.AppointmentCompose.prototype = {
         _requiredAttendees$p$2: null,
@@ -8984,6 +9278,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         _start$p$2: null,
         _end$p$2: null,
         _location$p$2: null,
+        _enhancedLocation$p$2: null,
         _recurrence$p$2: null,
         _organizer$p$2: null,
         getItemType: function()
@@ -9025,6 +9320,13 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
                 this._location$p$2 = new $h.ComposeLocation;
             return this._location$p$2
         },
+        _getEnhancedLocation$p$2: function()
+        {
+            this._data$p$0._throwOnRestrictedPermissionLevel$i$0();
+            if(!this._enhancedLocation$p$2)
+                this._enhancedLocation$p$2 = new window["$h"]["EnhancedLocation"](true);
+            return this._enhancedLocation$p$2
+        },
         _getRecurrence$p$2: function()
         {
             this._data$p$0._throwOnRestrictedPermissionLevel$i$0();
@@ -9065,7 +9367,8 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
             $h.InitialData._defineReadOnlyProperty$i(this,"contentType",this.$$d__getContentType$p$0);
         $h.InitialData._defineReadOnlyProperty$i(this,"size",this.$$d__getSize$p$0);
         $h.InitialData._defineReadOnlyProperty$i(this,"attachmentType",this.$$d__getAttachmentType$p$0);
-        $h.InitialData._defineReadOnlyProperty$i(this,"isInline",this.$$d__getIsInline$p$0);
+        if("isInline" in this._data$p$0)
+            $h.InitialData._defineReadOnlyProperty$i(this,"isInline",this.$$d__getIsInline$p$0);
         if("url" in this._data$p$0)
             $h.InitialData._defineReadOnlyProperty$i(this,"url",this.$$d__getUrl$p$0)
     };
@@ -9186,7 +9489,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
             var args = [];
             for(var $$pai_7 = 1; $$pai_7 < arguments["length"]; ++$$pai_7)
                 args[$$pai_7 - 1] = arguments[$$pai_7];
-            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(2,"internetHeaders.getAsync");
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(2,"internetHeaders.setAsync");
             var parameters = $h.CommonParameters.parse(args,false);
             if($h.ScriptHelpers.isNullOrUndefined(internetHeadersNameValuePairs))
                 throw Error.argument("internetHeaders");
@@ -9208,7 +9511,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
             var args = [];
             for(var $$pai_3 = 1; $$pai_3 < arguments["length"]; ++$$pai_3)
                 args[$$pai_3 - 1] = arguments[$$pai_3];
-            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(2,"internetHeaders.getAsync");
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(2,"internetHeaders.removeAsync");
             var parameters = $h.CommonParameters.parse(args,false);
             this.validateInternetHeaderArray(internetHeadersNames);
             window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._standardInvokeHostMethod$i$0(153,{internetHeaderKeys: internetHeadersNames},null,parameters._asyncContext$p$0,parameters._callback$p$0)
@@ -10119,6 +10422,85 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
             result["recipientType"] = this._getRecipientType$p$0();
         return result
     };
+    window["$h"]["EnhancedLocation"] = $h.EnhancedLocation = function(supportsWriteMethods)
+    {
+        this.$$d_getAsyncApi = Function.createDelegate(this,this.getAsyncApi);
+        this.$$d_removeAsyncApi = Function.createDelegate(this,this.removeAsyncApi);
+        this.$$d_addAsyncApi = Function.createDelegate(this,this.addAsyncApi);
+        var currentInstance = this;
+        if(supportsWriteMethods)
+        {
+            currentInstance["addAsync"] = this.$$d_addAsyncApi;
+            currentInstance["removeAsync"] = this.$$d_removeAsyncApi
+        }
+        currentInstance["getAsync"] = this.$$d_getAsyncApi
+    };
+    $h.EnhancedLocation.prototype = {
+        getAsyncApi: function()
+        {
+            var args = [];
+            for(var $$pai_2 = 0; $$pai_2 < arguments["length"]; ++$$pai_2)
+                args[$$pai_2] = arguments[$$pai_2];
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(1,"enhancedLocation.getAsync");
+            var parameters = $h.CommonParameters.parse(args,true);
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._standardInvokeHostMethod$i$0(154,null,null,parameters._asyncContext$p$0,parameters._callback$p$0)
+        },
+        addAsyncApi: function(locationIdentifiersArray)
+        {
+            var args = [];
+            for(var $$pai_3 = 1; $$pai_3 < arguments["length"]; ++$$pai_3)
+                args[$$pai_3 - 1] = arguments[$$pai_3];
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(2,"enhancedLocation.addAsync");
+            var parameters = $h.CommonParameters.parse(args,false);
+            this._validateLocationIdentifiers$p$0(locationIdentifiersArray);
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._standardInvokeHostMethod$i$0(155,{enhancedLocations: locationIdentifiersArray},null,parameters._asyncContext$p$0,parameters._callback$p$0)
+        },
+        removeAsyncApi: function(locationIdentifiersArray)
+        {
+            var args = [];
+            for(var $$pai_3 = 1; $$pai_3 < arguments["length"]; ++$$pai_3)
+                args[$$pai_3 - 1] = arguments[$$pai_3];
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._throwOnMethodCallForInsufficientPermission$i$0(2,"enhancedLocation.removeAsync");
+            var parameters = $h.CommonParameters.parse(args,false);
+            this._validateLocationIdentifiers$p$0(locationIdentifiersArray);
+            window["OSF"]["DDA"]["OutlookAppOm"]._instance$p._standardInvokeHostMethod$i$0(156,{enhancedLocations: locationIdentifiersArray},null,parameters._asyncContext$p$0,parameters._callback$p$0)
+        },
+        _validateLocationIdentifiers$p$0: function(locationIdentifier)
+        {
+            if($h.ScriptHelpers.isNullOrUndefined(locationIdentifier))
+                throw Error.argument("locationIdentifier");
+            if(!Array["isInstanceOfType"](locationIdentifier))
+                throw Error.argumentType("locationIdentifier",Object["getType"](locationIdentifier),Array);
+            if(!locationIdentifier["length"])
+                throw Error.argument("locationIdentifier");
+            for(var $$arr_1 = locationIdentifier, $$len_2 = $$arr_1.length, $$idx_3 = 0; $$idx_3 < $$len_2; ++$$idx_3)
+            {
+                var locationIdentifiersDictionary = $$arr_1[$$idx_3];
+                this._validateLocationIdentifierDictionary$p$0(locationIdentifiersDictionary);
+                var locationIdentifierType = locationIdentifiersDictionary["type"];
+                if(locationIdentifierType === window["Microsoft"]["Office"]["WebExtension"]["MailboxEnums"]["LocationType"]["Room"] || locationIdentifierType === window["Microsoft"]["Office"]["WebExtension"]["MailboxEnums"]["LocationType"]["Custom"])
+                    this._validateIdParameter$p$0(locationIdentifiersDictionary["id"],locationIdentifierType);
+                else
+                    throw Error.argument("type");
+            }
+        },
+        _validateIdParameter$p$0: function(id, type)
+        {
+            if(!$h.ScriptHelpers.isNonEmptyString(id))
+                throw Error.argument("id");
+            if(type === window["Microsoft"]["Office"]["WebExtension"]["MailboxEnums"]["LocationType"]["Room"])
+                if(id.length > 571)
+                    throw Error.argument("id");
+        },
+        _validateLocationIdentifierDictionary$p$0: function(dict)
+        {
+            if($h.ScriptHelpers.isNullOrUndefined(dict))
+                throw Error.argument("locationIdentifier");
+            var keys = Object["keys"](dict);
+            if(keys["length"] < 2)
+                throw Error.argument("locationIdentifier");
+        }
+    };
     $h.Entities = function(data, filteredEntitiesData, timeSent, permissionLevel)
     {
         this.$$d__createMeetingSuggestion$p$0 = Function.createDelegate(this,this._createMeetingSuggestion$p$0);
@@ -10595,6 +10977,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         return this._durationMinutes$p$0
     };
     $h.ReplyConstants = function(){};
+    $h.EmailAddressConstants = function(){};
     $h.AsyncConstants = function(){};
     $h.ApiTelemetryCode = function(){};
     window["Office"]["cast"]["item"] = Office.cast.item = function(){};
@@ -10771,6 +11154,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
     };
     $h.MeetingRequest = function(data)
     {
+        this.$$d__getEnhancedLocation$p$3 = Function.createDelegate(this,this._getEnhancedLocation$p$3);
         this.$$d__getSeriesId$p$3 = Function.createDelegate(this,this._getSeriesId$p$3);
         this.$$d__getRecurrence$p$3 = Function.createDelegate(this,this._getRecurrence$p$3);
         this.$$d__getRequiredAttendees$p$3 = Function.createDelegate(this,this._getRequiredAttendees$p$3);
@@ -10785,9 +11169,11 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         $h.InitialData._defineReadOnlyProperty$i(this,"optionalAttendees",this.$$d__getOptionalAttendees$p$3);
         $h.InitialData._defineReadOnlyProperty$i(this,"requiredAttendees",this.$$d__getRequiredAttendees$p$3);
         $h.InitialData._defineReadOnlyProperty$i(this,"recurrence",this.$$d__getRecurrence$p$3);
-        $h.InitialData._defineReadOnlyProperty$i(this,"seriesId",this.$$d__getSeriesId$p$3)
+        $h.InitialData._defineReadOnlyProperty$i(this,"seriesId",this.$$d__getSeriesId$p$3);
+        $h.InitialData._defineReadOnlyProperty$i(this,"enhancedLocation",this.$$d__getEnhancedLocation$p$3)
     };
     $h.MeetingRequest.prototype = {
+        _enhancedLocation$p$3: null,
         _getStart$p$3: function()
         {
             return this._data$p$0.get__start$i$0()
@@ -10817,6 +11203,13 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         _getSeriesId$p$3: function()
         {
             return this._data$p$0.get__seriesId$i$0()
+        },
+        _getEnhancedLocation$p$3: function()
+        {
+            this._data$p$0._throwOnRestrictedPermissionLevel$i$0();
+            if(!this._enhancedLocation$p$3)
+                this._enhancedLocation$p$3 = new window["$h"]["EnhancedLocation"](false);
+            return this._enhancedLocation$p$3
         }
     };
     $h.MeetingSuggestion = function(data, dateTimeSent)
@@ -11792,6 +12185,9 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
         getInternetHeadersAsync: 151,
         setInternetHeadersAsync: 152,
         removeInternetHeadersAsync: 153,
+        getEnhancedLocationsAsync: 154,
+        addEnhancedLocationsAsync: 155,
+        removeEnhancedLocationsAsync: 156,
         trackCtq: 400,
         recordTrace: 401,
         recordDataPoint: 402,
@@ -12433,6 +12829,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
     $h.CustomProperties["registerClass"]("$h.CustomProperties");
     $h.Diagnostics["registerClass"]("$h.Diagnostics");
     $h.EmailAddressDetails["registerClass"]("$h.EmailAddressDetails");
+    window["$h"]["EnhancedLocation"]["registerClass"]("$h.EnhancedLocation");
     $h.Entities["registerClass"]("$h.Entities");
     window["Microsoft"]["Office"]["WebExtension"]["SeriesTime"]["registerClass"]("Microsoft.Office.WebExtension.SeriesTime");
     $h.Message["registerClass"]("$h.Message",$h.Item);
@@ -12493,7 +12890,6 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
     $h.Body.coercionTypeParameterName = "coercionType";
     window["$h"]["InternetHeaders"].internetHeadersLimit = 998;
     $h.ComposeRecipient.displayNameLengthLimit = 255;
-    $h.ComposeRecipient.maxSmtpLength = 571;
     $h.ComposeRecipient.recipientsLimit = 100;
     $h.ComposeRecipient.totalRecipientsLimit = 500;
     $h.ComposeRecipient.addressParameterName = "address";
@@ -12538,6 +12934,7 @@ OSF.InitializationHelper.prototype.loadAppSpecificScriptAndCreateOM = function O
     window["Microsoft"]["Office"]["WebExtension"]["SeriesTime"].startTimeMinKey = "startTimeMin";
     window["Microsoft"]["Office"]["WebExtension"]["SeriesTime"].durationMinKey = "durationMin";
     $h.ReplyConstants.htmlBodyKeyName = "htmlBody";
+    $h.EmailAddressConstants.maxSmtpLength = 571;
     $h.AsyncConstants.optionsKeyName = "options";
     $h.AsyncConstants.callbackKeyName = "callback";
     $h.AsyncConstants.asyncResultKeyName = "asyncResult";
