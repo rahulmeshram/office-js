@@ -1,4 +1,9 @@
+version: 1.1.11-adhoc.45
 tag: adhoc
+githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.11-adhoc.45
+githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.11-adhoc.45
+deployedAt: 2018-12-07 6:39 am UTC  (2018-12-06 10:39 pm Pacific Time)
+
 history:
     adhocBranchName: __adhoc--beta--local--2018-12-06--10.35pm
     commitMessage: __adhoc--beta--local--2018-12-06--10.35pm
@@ -27,3 +32,11 @@ history:
             message: >-
                 [BEGIN PUBLISH UPDATES] --
                 __adhoc--beta--local--2018-12-06--10.35pm
+
+
+unpkgUrls: |-
+    this specific build number:
+        https://unpkg.com/@microsoft/office-js@1.1.11-adhoc.45/dist/office.js
+        https://unpkg.com/@microsoft/office-js@1.1.11-adhoc.45/dist/office.d.ts
+
+buildLog: https://travis-ci.org/OfficeDev/office-js/builds/464810847
