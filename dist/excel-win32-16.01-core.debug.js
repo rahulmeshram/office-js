@@ -1,5 +1,5 @@
 /* Excel specific API library (Core APIs only) */
-/* Version: 16.0.10915.30001 */
+/* Version: 16.0.11229.30008 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -1062,7 +1062,9 @@ OSF.AppName = {
     VisioWebApp: 8388610,
     OneNoteIOS: 8388611,
     WordAndroid: 8388613,
-    PowerpointAndroid: 8388614
+    PowerpointAndroid: 8388614,
+    Visio: 8388615,
+    OneNoteAndroid: 4194305
 };
 OSF.InternalPerfMarker = {
     DataCoercionBegin: "Agave.HostCall.CoerceDataStart",
@@ -1097,7 +1099,8 @@ OSF.AgaveHostAction = {
     "MouseLeave": 20,
     "UpdateTargetUrl": 21,
     "InstallCustomFunctions": 22,
-    "SendTelemetryEvent": 23
+    "SendTelemetryEvent": 23,
+    "UninstallCustomFunctions": 24
 };
 OSF.SharedConstants = {
     "NotificationConversationIdSuffix": '_ntf'
@@ -1380,6 +1383,7 @@ OSF.DDA.EventDispId = {
     dispidOlkAppointmentTimeChangedEvent: 48,
     dispidOlkRecurrenceChangedEvent: 49,
     dispidOlkAttachmentsChangedEvent: 50,
+    dispidOlkEnhancedLocationsChangedEvent: 51,
     dispidTaskSelectionChangedEvent: 56,
     dispidResourceSelectionChangedEvent: 57,
     dispidViewSelectionChangedEvent: 58,
@@ -1468,6 +1472,7 @@ OSF.DDA.ErrorCodeManager = (function () {
             ooeInvalidOrTimedOutSession: 5012,
             ooeInvalidApiArguments: 5013,
             ooeOperationCancelled: 5014,
+            ooeWorkbookHidden: 5015,
             ooeTooManyIncompleteRequests: 5100,
             ooeRequestTokenUnavailable: 5101,
             ooeActivityLimitReached: 5102,
@@ -1577,6 +1582,7 @@ OSF.DDA.ErrorCodeManager = (function () {
             _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeRequestTokenUnavailable] = { name: stringNS.L_APICallFailed, message: stringNS.L_RequestTokenUnavailable };
             _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeActivityLimitReached] = { name: stringNS.L_APICallFailed, message: stringNS.L_ActivityLimitReached };
             _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeInvalidApiArguments] = { name: stringNS.L_APICallFailed, message: stringNS.L_InvalidApiArgumentsMessage };
+            _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeWorkbookHidden] = { name: stringNS.L_APICallFailed, message: stringNS.L_WorkbookHiddenMessage };
             _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeCustomXmlNodeNotFound] = { name: stringNS.L_InvalidNode, message: stringNS.L_CustomXmlNodeNotFound };
             _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeCustomXmlError] = { name: stringNS.L_CustomXmlError, message: stringNS.L_CustomXmlError };
             _errorMappings[OSF.DDA.ErrorCodeManager.errorCodes.ooeCustomXmlExceedQuota] = { name: stringNS.L_CustomXmlExceedQuotaName, message: stringNS.L_CustomXmlExceedQuotaMessage };
@@ -1667,6 +1673,7 @@ var OfficeExt;
                     return false;
                 };
                 this._getVersion = function (version) {
+                    version = version + "";
                     var temp = version.split(".");
                     var major = 0;
                     var minor = 0;
@@ -1803,7 +1810,6 @@ var OfficeExt;
                     "documentevents": 1.1,
                     "file": 1.1,
                     "pdffile": 1.1,
-                    "powerpointapi": 1.1,
                     "selection": 1.1,
                     "settings": 1.1,
                     "textcoercion": 1.1
@@ -2226,6 +2232,9 @@ OSF.DDA.Context = function OSF_DDA_Context(officeAppContext, document, license, 
         },
         "platform": {
             value: OfficeExt.HostName.Host.getInstance().getPlatform()
+        },
+        "isDialog": {
+            value: OSF._OfficeAppFactory.getHostInfo().isDialog
         },
         "diagnostics": {
             value: OfficeExt.HostName.Host.getInstance().getDiagnostics(officeAppContext.get_hostFullVersion())
@@ -3107,6 +3116,7 @@ OSF.DDA.DispIdHost.Facade = function OSF_DDA_DispIdHost_Facade(getDelegateMethod
         "AppointmentTimeChanged": did.dispidOlkAppointmentTimeChangedEvent,
         "RecurrenceChanged": did.dispidOlkRecurrenceChangedEvent,
         "AttachmentsChanged": did.dispidOlkAttachmentsChangedEvent,
+        "EnhancedLocationsChanged": did.dispidOlkEnhancedLocationsChangedEvent,
         "TaskSelectionChanged": did.dispidTaskSelectionChangedEvent,
         "ResourceSelectionChanged": did.dispidResourceSelectionChangedEvent,
         "ViewSelectionChanged": did.dispidViewSelectionChangedEvent,
@@ -4920,8 +4930,138 @@ var Logger;
     }
     Logger.ulsEndpoint = creatULSEndpoint();
 })(Logger || (Logger = {}));
+var CDN_PATH_OTELJS = 'telemetry/oteljs.js';
+var CDN_PATH_OTELJS_AGAVE = 'telemetry/oteljs_agave.js';
 var OSFAriaLogger;
 (function (OSFAriaLogger) {
+    var DataPointOfficeJsSessionId = {
+        name: "SessionId", type: "string", rename: "OfficeJsSessionId"
+    };
+    var TelemetryEventAppActivated = { name: "AppActivated", enabled: true, critical: true, points: [
+            DataPointOfficeJsSessionId,
+            { name: "Browser", type: "string" },
+            { name: "Message", type: "string" },
+            { name: "AppId", type: "string" },
+            { name: "AssetId", type: "string" },
+            { name: "AppURL", type: "string" },
+            { name: "UserId", type: "string" },
+            { name: "ClientId", type: "string", rename: "BrowserToken" },
+            { name: "Host", type: "string" },
+            { name: "HostVersion", type: "string" },
+            { name: "CorrelationId", type: "string", rename: "HostSessionId" },
+            { name: "AppSizeWidth", type: "int64" },
+            { name: "AppSizeHeight", type: "int64" },
+            { name: "AppInstanceId", type: "string" },
+            { name: "DocUrl", type: "string" },
+            { name: "OfficeJSVersion", type: "string" },
+            { name: "HostJSVersion", type: "string" },
+            { name: "WacHostEnvironment", type: "string" },
+            { name: "IsFromWacAutomation", type: "string" },
+        ] };
+    var TelemetryEventScriptLoad = { name: "ScriptLoad", enabled: true, critical: false, points: [
+            DataPointOfficeJsSessionId,
+            { name: "ScriptId", type: "string" },
+            { name: "StartTime", type: "double" },
+            { name: "ResponseTime", type: "double" },
+        ] };
+    var TelemetryEventApiUsage = { name: "APIUsage", enabled: false, critical: false, points: [
+            DataPointOfficeJsSessionId,
+            { name: "APIType", type: "string" },
+            { name: "APIID", type: "int64" },
+            { name: "Parameters", type: "string" },
+            { name: "ResponseTime", type: "int64" },
+            { name: "ErrorType", type: "int64" },
+        ] };
+    var TelemetryEventAppInitialization = { name: "AppInitialization", enabled: true, critical: false, points: [
+            DataPointOfficeJsSessionId,
+            { name: "SuccessCode", type: "int64" },
+            { name: "Message", type: "string" },
+        ] };
+    var TelemetryEventAppClosed = { name: "AppClosed", enabled: true, critical: false, points: [
+            DataPointOfficeJsSessionId,
+            { name: "FocusTime", type: "int64" },
+            { name: "AppSizeFinalWidth", type: "int64" },
+            { name: "AppSizeFinalHeight", type: "int64" },
+            { name: "OpenTime", type: "int64" },
+        ] };
+    var TelemetryEvents = [
+        TelemetryEventAppActivated,
+        TelemetryEventScriptLoad,
+        TelemetryEventApiUsage,
+        TelemetryEventAppInitialization,
+        TelemetryEventAppClosed,
+    ];
+    function createDataField(value, point) {
+        var key = point.rename === undefined ? point.name : point.rename;
+        var type = point.type;
+        var field = undefined;
+        switch (type) {
+            case "string":
+                field = oteljs.makeStringDataField(key, value);
+                break;
+            case "double":
+                if (typeof value === "string") {
+                    value = parseFloat(value);
+                }
+                field = oteljs.makeDoubleDataField(key, value);
+                break;
+            case "int64":
+                if (typeof value === "string") {
+                    value = parseInt(value);
+                }
+                field = oteljs.makeInt64DataField(key, value);
+                break;
+            case "boolean":
+                if (typeof value === "string") {
+                    value = value === "true";
+                }
+                field = oteljs.makeBooleanDataField(key, value);
+                break;
+        }
+        return field;
+    }
+    function getEventDefinition(eventName) {
+        for (var _i = 0; _i < TelemetryEvents.length; _i++) {
+            var event_1 = TelemetryEvents[_i];
+            if (event_1.name === eventName) {
+                return event_1;
+            }
+        }
+        return undefined;
+    }
+    function eventEnabled(eventName) {
+        var eventDefinition = getEventDefinition(eventName);
+        if (eventDefinition === undefined) {
+            return false;
+        }
+        return eventDefinition.enabled;
+    }
+    function generateTelemetryEvent(eventName, telemetryData) {
+        var eventDefinition = getEventDefinition(eventName);
+        if (eventDefinition === undefined) {
+            return undefined;
+        }
+        var dataFields = [];
+        for (var _i = 0, _a = eventDefinition.points; _i < _a.length; _i++) {
+            var point = _a[_i];
+            var key = point.name;
+            var value = telemetryData[key];
+            if (value === undefined) {
+                continue;
+            }
+            var field = createDataField(value, point);
+            if (field !== undefined) {
+                dataFields.push(field);
+            }
+        }
+        var flags = {};
+        if (eventDefinition.critical) {
+            flags = { samplingPolicy: oteljs.SamplingPolicy.CriticalBusinessImpact };
+        }
+        var eventNameFull = "Office.Extensibility.OfficeJs." + eventName + "X";
+        var event = { eventName: eventNameFull, dataFields: dataFields, eventFlags: flags };
+        return event;
+    }
     var AriaLogger = (function () {
         function AriaLogger() {
         }
@@ -4933,6 +5073,71 @@ var OSFAriaLogger;
                 AriaLogger.AriaLoggerObj = new AriaLogger();
             }
             return AriaLogger.AriaLoggerObj;
+        };
+        AriaLogger.getOtelCDNLocation = function () {
+            return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + CDN_PATH_OTELJS);
+        };
+        AriaLogger.getOtelSinkCDNLocation = function () {
+            return (OSF._OfficeAppFactory.getLoadScriptHelper().getOfficeJsBasePath() + CDN_PATH_OTELJS_AGAVE);
+        };
+        AriaLogger.setInfo = function (info) {
+            AriaLogger.appInfo = info;
+        };
+        AriaLogger.getTelemetryLogger = function () {
+            if (AriaLogger.otelTelemetryLogger === undefined) {
+                var contract = {
+                    assetId: AriaLogger.appInfo.assetId,
+                    browserToken: AriaLogger.appInfo.clientId,
+                    hostJsVersion: AriaLogger.appInfo.hostJSVersion,
+                    id: AriaLogger.appInfo.appId,
+                    instanceId: AriaLogger.appInfo.appInstanceId,
+                    name: AriaLogger.appInfo.name,
+                    officeJsVersion: AriaLogger.appInfo.officeJSVersion,
+                    osfRuntimeVersion: OSF.ConstantNames.FileVersion,
+                    sessionId: AriaLogger.appInfo.sessionId,
+                    url: AriaLogger.appInfo.appURL
+                };
+                var fields = oteljs.Contracts.Office.System.SDX.getFields("SDX", contract);
+                var host = OSF._OfficeAppFactory.getHostInfo()["hostType"];
+                var flavor = OSF._OfficeAppFactory.getHostInfo()["hostPlatform"];
+                var version = AriaLogger.appInfo.hostVersion;
+                var context = {
+                    'App.Name': host,
+                    'App.Platform': flavor,
+                    'App.Version': version
+                };
+                var sink = oteljs_agave.AgaveSink.createInstance(context);
+                var namespace = "Office.Extensibility.OfficeJs";
+                var ariaTenantToken = 'db334b301e7b474db5e0f02f07c51a47-a1b5bc36-1bbe-482f-a64a-c2d9cb606706-7439';
+                var nexusTenantToken = 1755;
+                var logger = new oteljs.TelemetryLogger(undefined, fields);
+                logger.addSink(sink);
+                logger.setTenantToken(namespace, ariaTenantToken, nexusTenantToken);
+                AriaLogger.otelTelemetryLogger = logger;
+            }
+            return AriaLogger.otelTelemetryLogger;
+        };
+        AriaLogger.sendOtelTelemetryEventCallback = function (eventName, telemetryData) {
+            var event = generateTelemetryEvent(eventName, telemetryData);
+            if (event === undefined) {
+                return;
+            }
+            try {
+                var logger = AriaLogger.getTelemetryLogger();
+                logger.sendTelemetryEvent(event);
+            }
+            catch (e) {
+            }
+        };
+        AriaLogger.sendOtelTelemetryEvent = function (eventName, telemetryData) {
+            var timeoutAfterOneSecond = 1000;
+            var afterLoadOtelSink = function () {
+                Microsoft.Office.WebExtension.onReadyInternal().then(function () { return AriaLogger.sendOtelTelemetryEventCallback(eventName, telemetryData); });
+            };
+            var afterLoadOtel = function () {
+                OSF.OUtil.loadScript(AriaLogger.getOtelSinkCDNLocation(), afterLoadOtelSink, timeoutAfterOneSecond);
+            };
+            OSF.OUtil.loadScript(AriaLogger.getOtelCDNLocation(), afterLoadOtel, timeoutAfterOneSecond);
         };
         AriaLogger.prototype.isIUsageData = function (arg) {
             return arg["Fields"] !== undefined;
@@ -4959,6 +5164,9 @@ var OSFAriaLogger;
                 catch (e) {
                 }
             }, startAfterMs);
+            if (AriaLogger.EnableSendingTelemetryWithOTel && eventEnabled(tableName)) {
+                AriaLogger.sendOtelTelemetryEvent(tableName, telemetryData);
+            }
         };
         AriaLogger.prototype.logData = function (data) {
             if (this.isIUsageData(data)) {
@@ -4968,6 +5176,7 @@ var OSFAriaLogger;
                 this.loadAriaScriptAndLog(data["Table"], data);
             }
         };
+        AriaLogger.EnableSendingTelemetryWithOTel = false;
         return AriaLogger;
     })();
     OSFAriaLogger.AriaLogger = AriaLogger;
@@ -4986,6 +5195,7 @@ var OSFAppTelemetry;
         }
         return AppInfo;
     })();
+    OSFAppTelemetry.AppInfo = AppInfo;
     var Event = (function () {
         function Event(name, handler) {
             this.name = name;
@@ -5090,6 +5300,85 @@ var OSFAppTelemetry;
         }
         return (input || "");
     }
+    var UrlFilter = (function () {
+        function UrlFilter() {
+        }
+        UrlFilter.hashString = function (s) {
+            var hash = 0;
+            if (s.length === 0) {
+                return hash;
+            }
+            for (var i = 0; i < s.length; i++) {
+                var c = s.charCodeAt(i);
+                hash = ((hash << 5) - hash) + c;
+                hash |= 0;
+            }
+            return hash;
+        };
+        ;
+        UrlFilter.stringToHash = function (s) {
+            var hash = UrlFilter.hashString(s);
+            var stringHash = hash.toString();
+            if (hash < 0) {
+                stringHash = "1" + stringHash.substring(1);
+            }
+            else {
+                stringHash = "0" + stringHash;
+            }
+            return stringHash;
+        };
+        UrlFilter.startsWith = function (s, prefix) {
+            return s.indexOf(prefix) == -0;
+        };
+        UrlFilter.isFileUrl = function (url) {
+            return UrlFilter.startsWith(url.toLowerCase(), "file:");
+        };
+        UrlFilter.removeHttpPrefix = function (url) {
+            var prefix = "";
+            if (UrlFilter.startsWith(url.toLowerCase(), UrlFilter.httpsPrefix)) {
+                prefix = UrlFilter.httpsPrefix;
+            }
+            else if (UrlFilter.startsWith(url.toLowerCase(), UrlFilter.httpPrefix)) {
+                prefix = UrlFilter.httpPrefix;
+            }
+            var clean = url.slice(prefix.length);
+            return clean;
+        };
+        UrlFilter.getUrlDomain = function (url) {
+            var domain = UrlFilter.removeHttpPrefix(url);
+            domain = domain.split("/")[0];
+            domain = domain.split(":")[0];
+            return domain;
+        };
+        UrlFilter.isIp4Address = function (domain) {
+            var ipv4Regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return ipv4Regex.test(domain);
+        };
+        UrlFilter.filter = function (url) {
+            if (UrlFilter.isFileUrl(url)) {
+                var hash = UrlFilter.stringToHash(url);
+                return "file://" + hash;
+            }
+            var domain = UrlFilter.getUrlDomain(url);
+            if (UrlFilter.isIp4Address(domain)) {
+                var hash = UrlFilter.stringToHash(url);
+                if (UrlFilter.startsWith(domain, "10.")) {
+                    return "IP10Range_" + hash;
+                }
+                else if (UrlFilter.startsWith(domain, "192.")) {
+                    return "IP192Range_" + hash;
+                }
+                else if (UrlFilter.startsWith(domain, "127.")) {
+                    return "IP127Range_" + hash;
+                }
+                return "IPOther_" + hash;
+            }
+            return domain;
+        };
+        UrlFilter.httpPrefix = "http://";
+        UrlFilter.httpsPrefix = "https://";
+        return UrlFilter;
+    })();
     function initialize(context) {
         if (!OSFAppTelemetry.enableTelemetry) {
             return;
@@ -5115,7 +5404,7 @@ var OSFAppTelemetry;
         }
         appInfo.message = context.get_hostCustomMessage();
         appInfo.officeJSVersion = OSF.ConstantNames.FileVersion;
-        appInfo.hostJSVersion = "16.0.10915.30001";
+        appInfo.hostJSVersion = "16.0.11229.30008";
         if (context._wacHostEnvironment) {
             appInfo.wacHostEnvironment = context._wacHostEnvironment;
         }
@@ -5128,7 +5417,7 @@ var OSFAppTelemetry;
         if (url) {
             url = url.split("?")[0].split("#")[0];
         }
-        appInfo.appURL = url;
+        appInfo.appURL = UrlFilter.filter(url);
         (function getUserIdAndAssetIdFromToken(token, appInfo) {
             var xmlContent;
             var parser;
@@ -5157,6 +5446,9 @@ var OSFAppTelemetry;
                 parser = null;
             }
         })(context.get_eToken(), appInfo);
+        appInfo.sessionId = sessionId;
+        appInfo.name = context.get_addinName();
+        OSFAriaLogger.AriaLogger.setInfo(appInfo);
         (function handleLifecycle() {
             var startTime = new Date();
             var lastFocus = null;
@@ -5680,6 +5972,14 @@ OSF.DDA.OMFactory.manufactureEventArgs = function OSF_DDA_OMFactory$manufactureE
                 throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType, OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType, eventType));
             }
             break;
+        case Microsoft.Office.WebExtension.EventType.EnhancedLocationsChanged:
+            if (OSF._OfficeAppFactory.getHostInfo()["hostType"] == "outlook") {
+                args = new OSF.DDA.OlkEnhancedLocationsChangedEventArgs(eventProperties);
+            }
+            else {
+                throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType, OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType, eventType));
+            }
+            break;
         default:
             throw OsfMsAjaxFactory.msAjaxError.argument(Microsoft.Office.WebExtension.Parameters.EventType, OSF.OUtil.formatString(Strings.OfficeOM.L_NotSupportedEventType, eventType));
     }
@@ -6074,7 +6374,7 @@ OSF.DDA.SafeArray.Delegate.ParameterMap.define({
                     var key = _a[0], value = _a[1];
                     return map[key] = value, value;
                 }), keys.map(function(key) {
-                    return [ key, map[key] ];
+                    return [ key, map[key] ? map[key] : null ];
                 });
             }, callback);
         },
