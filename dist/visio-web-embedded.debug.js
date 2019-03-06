@@ -8840,5 +8840,4 @@ var Visio;
 	}
 	Visio.run=run;
 })(Visio || (Visio={}));
-OfficeExtension.Utility._doApiNotSupportedCheck=true;
 
