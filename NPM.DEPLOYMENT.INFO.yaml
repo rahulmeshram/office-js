@@ -1,4 +1,9 @@
+version: 1.1.11-operational.12
 tag: operational
+githubReleaseUrl: https://github.com/OfficeDev/office-js/releases/tag/v1.1.11-operational.12
+githubViewUrl: https://github.com/OfficeDev/office-js/tree/v1.1.11-operational.12
+deployedAt: 2019-03-28 12:52 am UTC  (2019-03-27 5:52 pm Pacific Time)
+
 history:
     adhocBranchName: __adhoc--operational--current--local--2019-03-27--4.06pm
     commitMessage: __adhoc--operational--current--local--2019-03-27--4.06pm
@@ -31,3 +36,14 @@ history:
             message: >-
                 [BEGIN PUBLISH UPDATES] --
                 __adhoc--operational--current--local--2019-03-27--4.06pm
+
+
+unpkgUrls: |-
+    this specific build number:
+        https://unpkg.com/@microsoft/office-js@1.1.11-operational.12/dist/office.js
+        https://unpkg.com/@microsoft/office-js@1.1.11-operational.12/dist/office.d.ts
+    builds using this same tag ("operational"):
+        https://unpkg.com/@microsoft/office-js@operational/dist/office.js
+        https://unpkg.com/@microsoft/office-js@operational/dist/office.d.ts
+
+buildLog: https://travis-ci.org/OfficeDev/office-js/builds/512270511
