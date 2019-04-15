@@ -1,10 +1,10 @@
 language: node_js
 
 git:
-  depth: 4
+  depth: 3
 
 node_js:
-- 10.10.0
+- 6.9.4
 
 before_install:
 - cd deployment.script
