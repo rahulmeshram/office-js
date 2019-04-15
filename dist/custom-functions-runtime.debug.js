@@ -1214,13 +1214,12 @@ var OTel;
                 browserToken: info.clientId,
                 instanceId: info.appInstanceId,
                 name: info.name,
-                osfRuntimeVersion: OSF.ConstantNames.FileVersion,
                 sessionId: info.sessionId
             };
             var fields = oteljs.Contracts.Office.System.SDX.getFields("SDX", contract);
             var host = OTelLogger.getHost();
             var flavor = OTelLogger.getFlavor();
-            var version = info.hostVersion;
+            var version = (flavor === "Web" && info.hostVersion.slice(0, 2) === "0.") ? "16.0.0.0" : info.hostVersion;
             var context = {
                 'App.Name': host,
                 'App.Platform': flavor,
@@ -2175,7 +2174,14 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }, CoreUtility.isNullOrEmptyString = function(value) {
             return null === value || (void 0 === value || 0 == value.length);
         }, CoreUtility.isPlainJsonObject = function(value) {
-            return !CoreUtility.isNullOrUndefined(value) && ("object" == typeof value && Object.getPrototypeOf(value) === Object.getPrototypeOf({}));
+            if (CoreUtility.isNullOrUndefined(value)) return !1;
+            if ("object" != typeof value) return !1;
+            if ("[object Object]" !== Object.prototype.toString.apply(value)) return !1;
+            var prototype = value;
+            do {
+                prototype = Object.getPrototypeOf(prototype);
+            } while (null !== prototype && null !== Object.getPrototypeOf(prototype));
+            return Object.getPrototypeOf(value) === prototype;
         }, CoreUtility.trim = function(str) {
             return str.replace(new RegExp("^\\s+|\\s+$", "g"), "");
         }, CoreUtility.caseInsensitiveCompareString = function(str1, str2) {
@@ -2252,7 +2258,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                 var keyvalue = parts[i].split("=");
                 if (keyvalue[0].toLowerCase() === CoreConstants.flags) {
                     var flags = parseInt(keyvalue[1]);
-                    return flags &= 255;
+                    return flags &= 511;
                 }
             }
             return -1;
@@ -2762,7 +2768,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }, ClientRequestBase.prototype.ensureInstantiateObjectPaths = function(objectPaths) {
             if (objectPaths) for (var i = 0; i < objectPaths.length; i++) this.ensureInstantiateObjectPath(objectPaths[i]);
         }, ClientRequestBase.prototype.addReferencedObjectPath = function(objectPath) {
-            if (!this.m_referencedObjectPaths[objectPath.objectPathInfo.Id]) {
+            if (objectPath && !this.m_referencedObjectPaths[objectPath.objectPathInfo.Id]) {
                 if (!objectPath.isValid) throw new Core._Internal.RuntimeError({
                     code: Core.CoreErrorCodes.invalidObjectPath,
                     message: Core.CoreUtility._getResourceString(Core.CoreResourceStrings.invalidObjectPath, CommonUtility.getObjectPathExpression(objectPath)),
@@ -2780,16 +2786,17 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
             this.m_actionResultHandler[action.actionInfo.Id] = resultHandler;
         }, ClientRequestBase.prototype.aggregrateRequestFlags = function(requestFlags, operationType, flags) {
             return 0 === operationType && (requestFlags |= 1, 0 == (2 & flags) && (requestFlags &= -17), 
-            requestFlags &= -5), 1 & flags && (requestFlags |= 2), 0 == (4 & flags) && (requestFlags &= -5), 
-            requestFlags;
+            0 == (8 & flags) && (requestFlags &= -257), requestFlags &= -5), 1 & flags && (requestFlags |= 2), 
+            0 == (4 & flags) && (requestFlags &= -5), requestFlags;
         }, ClientRequestBase.prototype.finallyNormalizeFlags = function(requestFlags) {
-            return 0 == (1 & requestFlags) && (requestFlags &= -17), exports._internalConfig.enableConcurrentFlag || (requestFlags &= -5), 
+            return 0 == (1 & requestFlags) && (requestFlags &= -17, requestFlags &= -257), exports._internalConfig.enableConcurrentFlag || (requestFlags &= -5), 
             exports._internalConfig.enableUndoableFlag || (requestFlags &= -17), CommonUtility.isSetSupported("RichApiRuntimeFlag", "1.1") || (requestFlags &= -5, 
-            requestFlags &= -17), "number" == typeof this.m_flagsForTesting && (requestFlags = this.m_flagsForTesting), 
+            requestFlags &= -17), CommonUtility.isSetSupported("RichApiRuntimeFlag", "1.2") || (requestFlags &= -257), 
+            "number" == typeof this.m_flagsForTesting && (requestFlags = this.m_flagsForTesting), 
             requestFlags;
         }, ClientRequestBase.prototype.buildRequestMessageBodyAndRequestFlags = function() {
             exports._internalConfig.enableEarlyDispose && ClientRequestBase._calculateLastUsedObjectPathIds(this.m_actions);
-            var requestFlags = 20, objectPaths = {};
+            var requestFlags = 276, objectPaths = {};
             for (var i in this.m_referencedObjectPaths) requestFlags = this.aggregrateRequestFlags(requestFlags, this.m_referencedObjectPaths[i].operationType, this.m_referencedObjectPaths[i].flags), 
             objectPaths[i] = this.m_referencedObjectPaths[i].objectPathInfo;
             for (var actions = [], hasKeepReference = !1, index = 0; index < this.m_actions.length; index++) {
@@ -3242,7 +3249,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         CustomFunctionMappings.__delay__ = !0;
     }, window.CustomFunctions.associate = function(name, func) {
         CFRuntime.associate.apply(null, arguments), delete CustomFunctionMappings.__delay__;
-    }, function() {
+    }, window.CustomFunctions.setCustomFunctionInvoker = CFRuntime.setCustomFunctionInvoker, 
+    function() {
         function documentReadyCallback() {
             Office.onReady(function(hostInfo) {
                 hostInfo.host === Office.HostType.Excel ? function initializeCustomFunctionsOrDelay() {
@@ -5077,6 +5085,8 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                 this._customFunctionAssociateMappings[nameUpperCase] && consoleWarn(CustomFunctionProxy.CustomFunctionDuplicatedName.Message + name_1), 
                 this._customFunctionAssociateMappings[nameUpperCase] = func;
             } else consoleWarn(CustomFunctionProxy.CustomFunctionInvalidArg.Message + "associate");
+        }, CustomFunctionProxy.prototype.setCustomFunctionInvoker = function(invoker) {
+            this._invoker = invoker;
         }, CustomFunctionProxy.prototype._initFromHostBridge = function(hostBridge) {
             var _this = this;
             this._initSettings(), hostBridge.addHostMessageHandler(function(bridgeMessage) {
@@ -5149,6 +5159,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                     this_1._setError(message.invocationId, "N/A", 1), "continue";
                     isCancelable = metadata.options.cancelable, isStreaming = metadata.options.stream;
                 }
+                if (this_1._invoker) return this_1._invokeFunctionUsingInvoker(message), "continue";
                 try {
                     call = this_1._getFunction(message.functionName);
                 } catch (ex) {
@@ -5173,6 +5184,19 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
                 });
             }, this_1 = this, i = 0; i < entryArray.length; i++) _loop_1(i);
             return batchArray;
+        }, CustomFunctionProxy.prototype._invokeFunctionUsingInvoker = function(message) {
+            var _this = this, isCancelable = 0 != (1 & message.flags), isStreaming = 0 != (2 & message.flags), invocationId = message.invocationId, setResult = void 0;
+            if (isStreaming) setResult = function(result) {
+                _this._invocationContextMap[invocationId] && _this._setResult(invocationId, result);
+            }; else {
+                var setResultCalled_1 = !1;
+                setResult = function(result) {
+                    setResultCalled_1 || _this._setResult(invocationId, result), setResultCalled_1 = !0;
+                };
+            }
+            var invocationContext = new InvocationContext(message.functionName, message.address, setResult);
+            (isStreaming || isCancelable) && (this._invocationContextMap[invocationId] = invocationContext), 
+            this._invoker.invoke(message.functionName, message.parameterValues, invocationContext);
         }, CustomFunctionProxy.prototype._ensureCustomFunctionMappingsUpperCase = function() {
             if (_isNullOrUndefined(this._customFunctionMappingsUpperCase)) {
                 if (this._customFunctionMappingsUpperCase = {}, "object" == typeof CustomFunctionMappings) for (var key in OfficeExtension.CoreUtility.log("CustomFunctionMappings.Keys=" + JSON.stringify(Object.keys(CustomFunctionMappings))), 
@@ -5318,6 +5342,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
     }();
     exports.CustomFunctionProxy = CustomFunctionProxy, exports.customFunctionProxy = new CustomFunctionProxy(), 
     exports.associate = exports.customFunctionProxy.associate.bind(exports.customFunctionProxy), 
+    exports.setCustomFunctionInvoker = exports.customFunctionProxy.setCustomFunctionInvoker.bind(exports.customFunctionProxy), 
     Core.HostBridge.onInited(function(hostBridge) {
         exports.customFunctionProxy._initFromHostBridge(hostBridge);
     });
@@ -5362,7 +5387,7 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }, CustomFunctions.prototype._SetInvocationResult = function(invocationId, result) {
             _invokeMethod(this, "_SetInvocationResult", 0, [ invocationId, result ], 2, 0);
         }, CustomFunctions.prototype._SetOsfControlContainerReadyForCustomFunctions = function() {
-            _invokeMethod(this, "_SetOsfControlContainerReadyForCustomFunctions", 0, [], 2, 0);
+            _invokeMethod(this, "_SetOsfControlContainerReadyForCustomFunctions", 0, [], 10, 0);
         }, CustomFunctions.prototype._handleResult = function(value) {
             (_super.prototype._handleResult.call(this, value), _isNullOrUndefined(value)) || _fixObjectPathIfNecessary(this, value);
         }, CustomFunctions.prototype._handleRetrieveResult = function(value, result) {
@@ -5448,7 +5473,23 @@ OSF._OfficeAppFactory = (function OSF__OfficeAppFactory() {
         }(),
         displayWebDialog: wrapMethod(function(impl) {
             return impl.displayWebDialog;
-        })
+        }),
+        storage: function() {
+            return {
+                getItem: wrapStorageMethod("getItem"),
+                setItem: wrapStorageMethod("setItem"),
+                removeItem: wrapStorageMethod("removeItem"),
+                getKeys: wrapStorageMethod("getKeys"),
+                setItems: wrapStorageMethod("setItems"),
+                removeItems: wrapStorageMethod("removeItems"),
+                getItems: wrapStorageMethod("getItems")
+            };
+            function wrapStorageMethod(methodName) {
+                return wrapMethod(function(impl) {
+                    return impl.storage[methodName];
+                });
+            }
+        }()
     };
 }, function(module, exports) {
     !function(self) {
