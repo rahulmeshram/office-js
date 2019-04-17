@@ -1,4 +1,4 @@
-/* Version: 16.0.11423.10000 */
+/* Version: 16.0.11304.30000 */
 /*
 	Copyright (c) Microsoft Corporation.  All rights reserved.
 */
@@ -3256,6 +3256,23 @@ OfficeCore.__proto__ = null;
 
 var Excel;
 (function (Excel) {
+	var Interfaces;
+	(function (Interfaces) {
+		var AgaveVisualUpdateEventArgs = (function() {
+			function AgaveVisualUpdateEventArgs() {
+				/// <summary> Update for an AgaveVisual, contains a JSON payload with data and/or properties updates [Api set: ExcelApi 99.9] </summary>
+				/// <field name="payload" type="String">JSON payload with data and/or properties updates [Api set: ExcelApi 99.9]</field>
+				/// <field name="type" type="String">Gets the type of the event. See Excel.EventType for details. [Api set: ExcelApi 99.9]</field>
+			}
+			return AgaveVisualUpdateEventArgs;
+		})();
+		Interfaces.AgaveVisualUpdateEventArgs.__proto__ = null;
+		Interfaces.AgaveVisualUpdateEventArgs = AgaveVisualUpdateEventArgs;
+	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
 	/// <summary> Aggregation Function for the Data Pivot Field. [Api set: ExcelApi 1.8] </summary>
 	var AggregationFunction = {
 		__proto__: null,
@@ -3402,10 +3419,10 @@ var Excel;
 	var AutoFilter = (function(_super) {
 		__extends(AutoFilter, _super);
 		function AutoFilter() {
-			/// <summary> Represents the AutoFilter object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+			/// <summary> Represents the AutoFilter object.               AutoFilter turns the values in Excel column into specific filters based on the cell contents. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
 			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
 			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
-			/// <field name="criteria" type="Array" elementType="Excel.Interfaces.FilterCriteria">Array that holds all filter criterias in an autofiltered range. Read-Only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="criteria" type="Array" elementType="Excel.Interfaces.FilterCriteria">An array that holds all the filter criteria in the autofiltered range. Read-Only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="enabled" type="Boolean">Indicates if the AutoFilter is enabled or not. Read-Only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="isDataFiltered" type="Boolean">Indicates if the AutoFilter has filter criteria. Read-Only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 		}
@@ -3419,16 +3436,16 @@ var Excel;
 		}
 		AutoFilter.prototype.apply = function(range, columnIndex, criteria) {
 			/// <summary>
-			/// Applies AutoFilter on a range and filters the column if column index and filter criteria are specified. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// Applies the AutoFilter to a range. This filters the column if column index and filter criteria are specified. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
-			/// <param name="range" >The range where the AutoFilter will apply on.</param>
-			/// <param name="columnIndex" type="Number" optional="true">The column index which the AutoFilter will apply on, start from 0.</param>
+			/// <param name="range" >The range over which the AutoFilter will apply on.</param>
+			/// <param name="columnIndex" type="Number" optional="true">The zero-based column index to which the AutoFilter is applied.</param>
 			/// <param name="criteria" type="Excel.Interfaces.FilterCriteria" optional="true">The filter criteria.</param>
 			/// <returns ></returns>
 		}
 		AutoFilter.prototype.clearCriteria = function() {
 			/// <summary>
-			/// Clears the criteria if AutoFilter has filters [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// Clears the filter criteria of the AutoFilter. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
 			/// <returns ></returns>
 		}
@@ -3440,7 +3457,7 @@ var Excel;
 		}
 		AutoFilter.prototype.getRangeOrNullObject = function() {
 			/// <summary>
-			/// If there is Range object associated with the AutoFilter, this method returns it.              Otherwise, this method returns a null object. [Api set: ExcelApi BETA (PREVIEW ONLY)]
+			/// Returns the Range object that represents the range to which the AutoFilter applies.              If there is no Range object associated with the AutoFilter, this method returns a null object. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
 			/// <returns type="Excel.Range"></returns>
 		}
@@ -3695,6 +3712,23 @@ var Excel;
 
 var Excel;
 (function (Excel) {
+	/// <summary> [Api set: ExcelApi 99.9] </summary>
+	var BoolMetaPropertyType = {
+		__proto__: null,
+		"writeOnly": "writeOnly",
+		"readOnly": "readOnly",
+		"hideUI": "hideUI",
+		"nextPropOnSameLine": "nextPropOnSameLine",
+		"hideLabel": "hideLabel",
+		"showResetUI": "showResetUI",
+		"hasOwnExpandableSection": "hasOwnExpandableSection",
+		"untransferable": "untransferable",
+	}
+	Excel.BoolMetaPropertyType = BoolMetaPropertyType;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
 	/// <summary> [Api set: ExcelApi 1.1] </summary>
 	var BorderIndex = {
 		__proto__: null,
@@ -3843,11 +3877,11 @@ var Excel;
 	(function (Interfaces) {
 		var CellBorder = (function() {
 			function CellBorder() {
-				/// <summary> Represents the returned single border properties of getCell/Row/ColumnProperties or border property input parameter of setCell/Row/ColumnProperties. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="color" > [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="style" type="String"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="tintAndShade" type="Number"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="weight" type="String"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Represents the properties of a single border returned by `getCellProperties`, `getRowProperties`, and `getColumnProperties` or the border property input parameter of `setCellProperties`, `setRowProperties`, and `setColumnProperties`. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="color" >Represents the `color` property of a single border. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="style" type="String">Represents the `style` property of a single border. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="tintAndShade" type="Number">Represents the `tintAndShade` property of a single border. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="weight" type="String">Represents the `weight` property of a single border. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellBorder;
 		})();
@@ -3862,15 +3896,15 @@ var Excel;
 	(function (Interfaces) {
 		var CellBorderCollection = (function() {
 			function CellBorderCollection() {
-				/// <summary> Represents the returned format.borders properties of getCell/Row/ColumnProperties or format.borders input parameter of setCell/Row/ColumnProperties. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="bottom" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="diagonalDown" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="diagonalUp" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="horizontal" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="left" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="right" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="top" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="vertical" type="Excel.Interfaces.CellBorder"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Represents the `format.borders` properties of `getCellProperties`, `getRowProperties`, and `getColumnProperties` or the `format.borders` input parameter of `setCellProperties`, `setRowProperties`, and `setColumnProperties`. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="bottom" type="Excel.Interfaces.CellBorder">Represents the `format.borders.bottom` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="diagonalDown" type="Excel.Interfaces.CellBorder">Represents the `format.borders.diagonalDown` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="diagonalUp" type="Excel.Interfaces.CellBorder">Represents the `format.borders.diagonalUp` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="horizontal" type="Excel.Interfaces.CellBorder">Represents the `format.borders.horizontal` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="left" type="Excel.Interfaces.CellBorder">Represents the `format.borders.left` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="right" type="Excel.Interfaces.CellBorder">Represents the `format.borders.right` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="top" type="Excel.Interfaces.CellBorder">Represents the `format.borders.top` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="vertical" type="Excel.Interfaces.CellBorder">Represents the `format.borders.vertical` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellBorderCollection;
 		})();
@@ -3885,11 +3919,11 @@ var Excel;
 	(function (Interfaces) {
 		var CellPropertiesBorderLoadOptions = (function() {
 			function CellPropertiesBorderLoadOptions() {
-				/// <summary> Represents which properties to load on the format.borders object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="color" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="style" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="tintAndShade" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="weight" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Specifies which properties to load on the `format.borders` object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="color" type="Boolean">Specifies whether to load on the `color` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="style" type="Boolean">Specifies whether to load on the `style` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="tintAndShade" type="Boolean">Specifies whether to load on the `tintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="weight" type="Boolean">Specifies whether to load on the `weight` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellPropertiesBorderLoadOptions;
 		})();
@@ -3904,12 +3938,12 @@ var Excel;
 	(function (Interfaces) {
 		var CellPropertiesFill = (function() {
 			function CellPropertiesFill() {
-				/// <summary> Represents the returned format.fill properties of getCell/Row/ColumnProperties or format.fill input parameter of setCell/Row/ColumnProperties. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="color" > [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="pattern" type="String"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="patternColor" > [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="patternTintAndShade" type="Number"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="tintAndShade" type="Number"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Represents the `format.fill` properties of `getCellProperties`, `getRowProperties`, and `getColumnProperties` or the `format.fill` input parameter of `setCellProperties`, `setRowProperties`, and `setColumnProperties`. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="color" >Represents the `format.fill.color` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="pattern" type="String">Represents the `format.fill.pattern` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="patternColor" >Represents the `format.fill.patternColor` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="patternTintAndShade" type="Number">Represents the `format.fill.patternTintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="tintAndShade" type="Number">Represents the `format.fill.tintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellPropertiesFill;
 		})();
@@ -3924,12 +3958,12 @@ var Excel;
 	(function (Interfaces) {
 		var CellPropertiesFillLoadOptions = (function() {
 			function CellPropertiesFillLoadOptions() {
-				/// <summary> Represents which properties to load on the format.fill object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="color" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="pattern" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="patternColor" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="patternTintAndShade" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="tintAndShade" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Specifies which properties to load on the `format.fill` object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="color" type="Boolean">Specifies whether to load on the `color` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="pattern" type="Boolean">Specifies whether to load on the `pattern` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="patternColor" type="Boolean">Specifies whether to load on the `patternColor` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="patternTintAndShade" type="Boolean">Specifies whether to load on the `patternTintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="tintAndShade" type="Boolean">Specifies whether to load on the `tintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellPropertiesFillLoadOptions;
 		})();
@@ -3944,17 +3978,17 @@ var Excel;
 	(function (Interfaces) {
 		var CellPropertiesFont = (function() {
 			function CellPropertiesFont() {
-				/// <summary> Represents the returned format.font properties of getCell/Row/ColumnProperties or format.font input parameter of setCell/Row/ColumnProperties. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="bold" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="color" > [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="italic" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="name" > [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="size" type="Number"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="strikethrough" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="subscript" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="superscript" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="tintAndShade" type="Number"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="underline" type="String"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Represents the `format.font` properties of `getCellProperties`, `getRowProperties`, and `getColumnProperties` or the `format.font` input parameter of `setCellProperties`, `setRowProperties`, and `setColumnProperties`. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="bold" type="Boolean">Represents the `format.font.bold` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="color" >Represents the `format.font.color` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="italic" type="Boolean">Represents the `format.font.italic` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="name" >Represents the `format.font.name` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="size" type="Number">Represents the `format.font.size` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="strikethrough" type="Boolean">Represents the `format.font.strikethrough` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="subscript" type="Boolean">Represents the `format.font.subscript` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="superscript" type="Boolean">Represents the `format.font.superscript` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="tintAndShade" type="Number">Represents the `format.font.tintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="underline" type="String">Represents the `format.font.underline` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellPropertiesFont;
 		})();
@@ -3969,17 +4003,17 @@ var Excel;
 	(function (Interfaces) {
 		var CellPropertiesFontLoadOptions = (function() {
 			function CellPropertiesFontLoadOptions() {
-				/// <summary> Represents which properties to load on the format.font object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="bold" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="color" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="italic" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="name" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="size" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="strikethrough" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="subscript" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="superscript" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="tintAndShade" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="underline" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Specifies which properties to load on the `format.font` object. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="bold" type="Boolean">Specifies whether to load on the `bold` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="color" type="Boolean">Specifies whether to load on the `color` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="italic" type="Boolean">Specifies whether to load on the `italic` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="name" type="Boolean">Specifies whether to load on the `name` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="size" type="Boolean">Specifies whether to load on the `size` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="strikethrough" type="Boolean">Specifies whether to load on the `strikethrough` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="subscript" type="Boolean">Specifies whether to load on the `subscript` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="superscript" type="Boolean">Specifies whether to load on the `superscript` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="tintAndShade" type="Boolean">Specifies whether to load on the `tintAndShade` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="underline" type="Boolean">Specifies whether to load on the `underline` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellPropertiesFontLoadOptions;
 		})();
@@ -3994,9 +4028,9 @@ var Excel;
 	(function (Interfaces) {
 		var CellPropertiesProtection = (function() {
 			function CellPropertiesProtection() {
-				/// <summary> Represents the returned format.protection properties of getCell/Row/ColumnProperties or format.protection input parameter of setCell/Row/ColumnProperties. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
-				/// <field name="formulaHidden" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
-				/// <field name="locked" type="Boolean"> [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <summary> Represents the `format.protection` properties of `getCellProperties`, `getRowProperties`, and `getColumnProperties` or the `format.protection` input parameter of `setCellProperties`, `setRowProperties`, and `setColumnProperties`. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="formulaHidden" type="Boolean">Represents the `format.protection.formulaHidden` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="locked" type="Boolean">Represents the `format.protection.locked` property. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			}
 			return CellPropertiesProtection;
 		})();
@@ -8604,6 +8638,87 @@ var Excel;
 
 var Excel;
 (function (Excel) {
+	var DataControllerClient = (function(_super) {
+		__extends(DataControllerClient, _super);
+		function DataControllerClient() {
+			/// <summary> Represents how the Visual is setup to use the data source. [Api set: ExcelApi 99.9] </summary>
+			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
+			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
+		}
+
+		DataControllerClient.prototype.load = function(option) {
+			/// <summary>
+			/// Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+			/// </summary>
+			/// <param name="option" type="string | string[] | OfficeExtension.LoadOption"/>
+			/// <returns type="Excel.DataControllerClient"/>
+		}
+		DataControllerClient.prototype.addField = function(wellId, fieldId, position) {
+			/// <summary>
+			/// Add a field to well. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="wellId" type="Number">The id of the well that the field will be added to.</param>
+			/// <param name="fieldId" type="Number">The id of the field to add to the well.</param>
+			/// <param name="position" type="Number">The position in the well where the field should be added.</param>
+			/// <returns ></returns>
+		}
+		DataControllerClient.prototype.getAssociatedFields = function(wellId) {
+			/// <summary>
+			/// Gets an array of JSON objects representing the fields associated with the specified wellId.              The the objects in the array have an id(number) and name(string). [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="wellId" type="Number">The id of the well to get the associated fields for.</param>
+			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = '';
+			return result;
+		}
+		DataControllerClient.prototype.getAvailableFields = function(wellId) {
+			/// <summary>
+			/// Gets an array of JSON objects representing the fields that may be associated with wellId.              The the objects in the array have an id(number) and name(string). [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="wellId" type="Number">The id of the well to get the available fields for.</param>
+			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = '';
+			return result;
+		}
+		DataControllerClient.prototype.getWells = function() {
+			/// <summary>
+			/// Gets an array of JSON objects representing this visual&apos;s wells.              The the objects in the array have an id(number) and name(string). [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = '';
+			return result;
+		}
+		DataControllerClient.prototype.moveField = function(wellId, fromPosition, toPosition) {
+			/// <summary>
+			/// Move a field from one position to another in a well. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="wellId" type="Number">The id of the well to be moved.</param>
+			/// <param name="fromPosition" type="Number">The position in the well of the field to be moved.</param>
+			/// <param name="toPosition" type="Number">The new position for the field</param>
+			/// <returns ></returns>
+		}
+		DataControllerClient.prototype.removeField = function(wellId, position) {
+			/// <summary>
+			/// Remove a field from a well. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="wellId" type="Number">The id of the well that will have a field removed.</param>
+			/// <param name="position" type="Number">The position in the well of the field that should be removed</param>
+			/// <returns ></returns>
+		}
+
+		return DataControllerClient;
+	})(OfficeExtension.ClientObject);
+	Excel.DataControllerClient = DataControllerClient;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
 	var DataPivotHierarchy = (function(_super) {
 		__extends(DataPivotHierarchy, _super);
 		function DataPivotHierarchy() {
@@ -9086,6 +9201,8 @@ var Excel;
 		"worksheetFormatChanged": "worksheetFormatChanged",
 		"wacoperationEvent": "wacoperationEvent",
 		"ribbonCommandExecuted": "ribbonCommandExecuted",
+		"worksheetRowSorted": "worksheetRowSorted",
+		"worksheetColumnSorted": "worksheetColumnSorted",
 	}
 	Excel.EventType = EventType;
 })(Excel || (Excel = {__proto__: null}));
@@ -14669,7 +14786,8 @@ var Excel;
 			/// <summary>
 			/// Returns a 2D array, encapsulating the data for each cell&apos;s font, fill, borders, alignment, and other properties. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
-			/// <returns type="OfficeExtension.ClientResult&lt;Excel.CellPropertiesInternal[][]&gt;"></returns>
+			/// <param name="cellPropertiesLoadOptions" type="Excel.Interfaces.CellPropertiesLoadOptionsInternal">An object that represents which cell properties to load.</param>
+			/// <returns type="OfficeExtension.ClientResult&lt;Excel.CellPropertiesInternal[][]&gt;">A 2D array where each item represents the requested properties of the corresponding cell.</returns>
 			var result = new OfficeExtension.ClientResult();
 			result.__proto__ = null;
 			result.value = [];
@@ -14686,7 +14804,8 @@ var Excel;
 			/// <summary>
 			/// Returns a single-dimensional array, encapsulating the data for each column&apos;s font, fill, borders, alignment, and other properties.  For properties that are not consistent across each cell within a given column, null will be returned. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
-			/// <returns type="OfficeExtension.ClientResult&lt;Excel.CellPropertiesInternal[]&gt;"></returns>
+			/// <param name="columnPropertiesLoadOptions" type="Excel.Interfaces.CellPropertiesLoadOptionsInternal">An object that represents which column properties to load.</param>
+			/// <returns type="OfficeExtension.ClientResult&lt;Excel.CellPropertiesInternal[]&gt;">An array where each item represents the requested properties of the corresponding column.</returns>
 			var result = new OfficeExtension.ClientResult();
 			result.__proto__ = null;
 			result.value = [];
@@ -14787,7 +14906,8 @@ var Excel;
 			/// <summary>
 			/// Returns a single-dimensional array, encapsulating the data for each row&apos;s font, fill, borders, alignment, and other properties.  For properties that are not consistent across each cell within a given row, null will be returned. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
-			/// <returns type="OfficeExtension.ClientResult&lt;Excel.CellPropertiesInternal[]&gt;"></returns>
+			/// <param name="rowPropertiesLoadOptions" type="Excel.Interfaces.CellPropertiesLoadOptionsInternal">An object that represents which row properties to load.</param>
+			/// <returns type="OfficeExtension.ClientResult&lt;Excel.CellPropertiesInternal[]&gt;">An array where each item represents the requested properties of the corresponding row.</returns>
 			var result = new OfficeExtension.ClientResult();
 			result.__proto__ = null;
 			result.value = [];
@@ -14925,12 +15045,14 @@ var Excel;
 			/// <summary>
 			/// Updates the range based on a 2D array of cell properties , encapsulating things like font, fill, borders, alignment, and so forth. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
+			/// <param name="cellPropertiesData" type="Array" elementType="Array">A 2D array that represents which properties to set in each cell.</param>
 			/// <returns ></returns>
 		}
 		Range.prototype.setColumnProperties = function(columnPropertiesData) {
 			/// <summary>
 			/// Updates the range based on a single-dimensional array of column properties, encapsulating things like font, fill, borders, alignment, and so forth. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
+			/// <param name="columnPropertiesData" type="Array" elementType="Excel.Interfaces.CellPropertiesInternal">An array that represents which properties to set in each column.</param>
 			/// <returns ></returns>
 		}
 		Range.prototype.setDirty = function() {
@@ -14943,6 +15065,7 @@ var Excel;
 			/// <summary>
 			/// Updates the range based on a single-dimensional array of row properties, encapsulating things like font, fill, borders, alignment, and so forth. [Api set: ExcelApi BETA (PREVIEW ONLY)]
 			/// </summary>
+			/// <param name="rowPropertiesData" type="Array" elementType="Excel.Interfaces.CellPropertiesInternal">An array that represents which properties to set in each row.</param>
 			/// <returns ></returns>
 		}
 		Range.prototype.showCard = function() {
@@ -16821,14 +16944,21 @@ var Excel;
 			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
 			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
 			/// <field name="caption" type="String">Represents the caption of slicer. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="columnCount" type="Number">Represents the number of columns in the specified slicer. The default value is 1.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi 99.9]</field>
+			/// <field name="columnWidth" type="Number">Represents the column width of the slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi 99.9]</field>
+			/// <field name="disableMoveResizeUI" type="Boolean">Represents the property whether the specified slicer can be moved or resized.              True if the slicer cannot be moved or resized; otherwise False. The default value is False. [Api set: ExcelApi 99.9]</field>
+			/// <field name="displayHeader" type="Boolean">Represents the property whether the header that displays the slicer Caption is visible.              True if the header is visible; otherwise False. The default value is True. [Api set: ExcelApi 99.9]</field>
 			/// <field name="height" type="Number">Represents the height, in points, of the slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="id" type="String">Represents the unique id of slicer. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="isFilterCleared" type="Boolean">True if all filters currently applied on the slicer is cleared. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="left" type="Number">Represents the distance, in points, from the left side of the slicer to the left of the worksheet.              Throws an invalid argument exception when set with negative value as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="name" type="String">Represents the name of slicer. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="nameInFormula" type="String">Represents the name used in the formula. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="rowHeight" type="Number">Represents the row height of the specified slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi 99.9]</field>
 			/// <field name="slicerItems" type="Excel.SlicerItemCollection">Represents the collection of SlicerItems that are part of the slicer. Read-only. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="sortBy" type="String">Represents the sort order of the items in the slicer. Possible values are: DataSourceOrder, Ascending, Descending. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="sortUsingCustomLists" type="Boolean">True if items in the specified slicer will be sorted by the custom lists. [Api set: ExcelApi 99.9]</field>
+			/// <field name="sourceFieldName" type="String">Represents the name of the source field. Read-only. [Api set: ExcelApi 99.9]</field>
 			/// <field name="style" type="String">Constant value that represents the Slicer style. Possible values are: SlicerStyleLight1 thru SlicerStyleLight6, TableStyleOther1 thru TableStyleOther2, SlicerStyleDark1 thru SlicerStyleDark6. A custom user-defined style present in the workbook can also be specified. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="top" type="Number">Represents the distance, in points, from the top edge of the slicer to the top of the worksheet.              Throws an invalid argument exception when set with negative value as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="width" type="Number">Represents the width, in points, of the slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
@@ -18646,6 +18776,423 @@ var Excel;
 
 var Excel;
 (function (Excel) {
+	var Visual = (function(_super) {
+		__extends(Visual, _super);
+		function Visual() {
+			/// <summary> Represents a visual object in a workbook. [Api set: ExcelApi 99.9] </summary>
+			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
+			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
+			/// <field name="id" type="String">The unique id of this visual instance. [Api set: ExcelApi 99.9]</field>
+			/// <field name="properties" type="Excel.VisualPropertyCollection">Gets all properties of the visual. Read-only. [Api set: ExcelApi 99.9]</field>
+			/// <field name="onChangeNotification" type="OfficeExtension.EventHandlers">Occurs when there is a visual change event. [Api set: ExcelApi 99.9]</field>
+		}
+
+		Visual.prototype.load = function(option) {
+			/// <summary>
+			/// Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+			/// </summary>
+			/// <param name="option" type="string | string[] | OfficeExtension.LoadOption"/>
+			/// <returns type="Excel.Visual"/>
+		}
+		Visual.prototype.changeDataSource = function(dataSourceType, dataSourceContent) {
+			/// <summary>
+			/// Change the data source of the visual. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="dataSourceType" type="String">The data source type of visual. e.g. xlFormula</param>
+			/// <param name="dataSourceContent" type="String">The data source content. e.g. Sheet1!$C$5:$D$7</param>
+			/// <returns ></returns>
+		}
+		Visual.prototype.delete = function() {
+			/// <summary>
+			/// Delete the visual. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns ></returns>
+		}
+		Visual.prototype.getChildProperties = function(parentPropId) {
+			/// <summary>
+			/// Get the child properties of the specific parent property Id. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="parentPropId" type="String" optional="true">Parent property Id. Omitting this parameter will return the root-level properties.</param>
+			/// <returns type="Excel.VisualPropertyCollection"></returns>
+		}
+		Visual.prototype.getDataControllerClient = function() {
+			/// <summary>
+			/// Get the DataControllerClient for the visual [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="Excel.DataControllerClient"></returns>
+		}
+		Visual.prototype.getDataSource = function() {
+			/// <summary>
+			/// Gets a string representing the visual&apos;s current data source. e.g. Sheet1!$C$5:$D$7 [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = '';
+			return result;
+		}
+		Visual.prototype.getElementChildProperties = function(elementId, index) {
+			/// <summary>
+			/// Get the child properties of the specific parent linked to cookie. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="elementId" type="Number">ID of chart element.</param>
+			/// <param name="index" type="Number">Index of chart element (if present). Parameter is omitted whenever element is not a Series, Legend or Trendline point.</param>
+			/// <returns type="Excel.VisualPropertyCollection"></returns>
+		}
+		Visual.prototype.getProperty = function(propName) {
+			/// <summary>
+			/// GetProperty [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;any&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = null;
+			return result;
+		}
+		Visual.prototype.setProperty = function(propName, value) {
+			/// <summary>
+			/// SetProperty [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns ></returns>
+		}
+		Visual.prototype.setPropertyToDefault = function(propName) {
+			/// <summary>
+			/// Returns true when the property&apos;s value is currently the default [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns ></returns>
+		}
+		Visual.prototype.onChangeNotification = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.VisualChangeEventArgs)">Handler for the event. EventArgs: Event for BI Visual change notification. </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.VisualChangeEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.VisualChangeEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
+
+		return Visual;
+	})(OfficeExtension.ClientObject);
+	Excel.Visual = Visual;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> [Api set: ExcelApi 99.9] </summary>
+	var VisualCategory = {
+		__proto__: null,
+		"column": "column",
+		"bar": "bar",
+		"line": "line",
+		"area": "area",
+		"pie": "pie",
+		"donut": "donut",
+		"scatter": "scatter",
+		"bubble": "bubble",
+		"statistical": "statistical",
+		"stock": "stock",
+		"combo": "combo",
+		"hierarchy": "hierarchy",
+		"surface": "surface",
+		"map": "map",
+		"funnel": "funnel",
+		"radar": "radar",
+		"waterfall": "waterfall",
+		"threeD": "threeD",
+		"other": "other",
+	}
+	Excel.VisualCategory = VisualCategory;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var Interfaces;
+	(function (Interfaces) {
+		var VisualChangeEventArgs = (function() {
+			function VisualChangeEventArgs() {
+				/// <summary> Event for BI Visual change notification. [Api set: ExcelApi 99.9] </summary>
+				/// <field name="changeType" type="String">Gets the visual change notification type of this event. [Api set: ExcelApi 99.9]</field>
+				/// <field name="payload" type="String">Payload of this event. The payload encodes the extra information              for this event, which should be mutually understood by both sides              of the communication. [Api set: ExcelApi 99.9]</field>
+				/// <field name="targetId" type="String">Id of the target object that receives this event. [Api set: ExcelApi 99.9]</field>
+				/// <field name="type" type="String">Type of the event. See Excel.EventType for details. [Api set: ExcelApi 99.9]</field>
+			}
+			return VisualChangeEventArgs;
+		})();
+		Interfaces.VisualChangeEventArgs.__proto__ = null;
+		Interfaces.VisualChangeEventArgs = VisualChangeEventArgs;
+	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> [Api set: ExcelApi 99.9] </summary>
+	var VisualChangeType = {
+		__proto__: null,
+		"dataChange": "dataChange",
+		"propertyChange": "propertyChange",
+		"genericChange": "genericChange",
+		"selectionChange": "selectionChange",
+	}
+	Excel.VisualChangeType = VisualChangeType;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var VisualCollection = (function(_super) {
+		__extends(VisualCollection, _super);
+		function VisualCollection() {
+			/// <summary> A collection of all the visuals on a worksheet. [Api set: ExcelApi 99.9] </summary>
+			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
+			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
+			/// <field name="onAgaveVisualUpdate" type="OfficeExtension.EventHandlers">Data and properties updates for agave visuals              AgaveVisuals will be registered to this event on bootstrap, other types of visuals do not use this [Api set: ExcelApi 99.9]</field>
+			/// <field name="onSelectionChanged" type="OfficeExtension.EventHandlers">Occurs when a selection is changed. [Api set: ExcelApi 99.9]</field>
+			/// <field name="items" type="Array" elementType="Excel.Visual">Gets the loaded child items in this collection.</field>
+		}
+
+		VisualCollection.prototype.load = function(option) {
+			/// <summary>
+			/// Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+			/// </summary>
+			/// <param name="option" type="string | string[] | OfficeExtension.LoadOption"/>
+			/// <returns type="Excel.VisualCollection"/>
+		}
+		VisualCollection.prototype.add = function(visualDefinitionGuid, dataSourceType, dataSourceContent) {
+			/// <summary>
+			/// Creates a new visual. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="visualDefinitionGuid" type="String">The guid of a VisualDefinition, not the id for an instance of a Visual.</param>
+			/// <param name="dataSourceType" type="String" optional="true">The data source type of visual. e.g. xlFormula</param>
+			/// <param name="dataSourceContent" type="String" optional="true">The data source content</param>
+			/// <returns type="Excel.Visual"></returns>
+		}
+		VisualCollection.prototype.getCount = function() {
+			/// <summary>
+			/// Returns the number of visuals in the worksheet. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;number&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = 0;
+			return result;
+		}
+		VisualCollection.prototype.getDefinitions = function() {
+			/// <summary>
+			/// Gets all visual definitions. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;Excel.VisualDefinition[]&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = [];
+			return result;
+		}
+		VisualCollection.prototype.getPreview = function(visualDefinitionGuid, width, height, dpi) {
+			/// <summary>
+			/// Get the preview of a visual. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="visualDefinitionGuid" type="String">The guid of a VisualDefinition, not the id for an instance of a Visual.</param>
+			/// <param name="width" type="Number">The width of the preview.</param>
+			/// <param name="height" type="Number">The height of the preview.</param>
+			/// <param name="dpi" type="Number">The dpi setting.</param>
+			/// <returns type="OfficeExtension.ClientResult&lt;string&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = '';
+			return result;
+		}
+		VisualCollection.prototype.getSelectedOrNullObject = function() {
+			/// <summary>
+			/// Gets the selected Visual if and only if one Visual is selected.              If no Visual is selected, the return object&apos;s isNull property will be true. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="Excel.Visual"></returns>
+		}
+		VisualCollection.prototype.onAgaveVisualUpdate = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.AgaveVisualUpdateEventArgs)">Handler for the event. EventArgs: Update for an AgaveVisual, contains a JSON payload with data and/or properties updates </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.AgaveVisualUpdateEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.AgaveVisualUpdateEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
+		VisualCollection.prototype.onSelectionChanged = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.VisualSelectionChangedEventArgs)">Handler for the event. EventArgs: Provides information about the visual that raised the SelectionChanged event. </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.VisualSelectionChangedEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.VisualSelectionChangedEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
+
+		return VisualCollection;
+	})(OfficeExtension.ClientObject);
+	Excel.VisualCollection = VisualCollection;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var Interfaces;
+	(function (Interfaces) {
+		var VisualDefinition = (function() {
+			function VisualDefinition() {
+				/// <summary> Represents a visual definition [Api set: ExcelApi 99.9] </summary>
+				/// <field name="category" type="String">Represents the category of a visual definition. [Api set: ExcelApi 99.9]</field>
+				/// <field name="categoryRank" type="Number">Represents the category rank of a visual definition. [Api set: ExcelApi 99.9]</field>
+				/// <field name="description" type="String">Represents the decription of a visual definition. [Api set: ExcelApi 99.9]</field>
+				/// <field name="id" type="String">Represents the id of a visual definition. [Api set: ExcelApi 99.9]</field>
+				/// <field name="title" type="String">Represents the title of a visual definition. [Api set: ExcelApi 99.9]</field>
+			}
+			return VisualDefinition;
+		})();
+		Interfaces.VisualDefinition.__proto__ = null;
+		Interfaces.VisualDefinition = VisualDefinition;
+	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var VisualProperty = (function(_super) {
+		__extends(VisualProperty, _super);
+		function VisualProperty() {
+			/// <summary> This object represents the attributes for a property. [Api set: ExcelApi 99.9] </summary>
+			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
+			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
+			/// <field name="hasDefault" type="Boolean">Returns true when a default value for this property exists [Api set: ExcelApi 99.9]</field>
+			/// <field name="hideUI" type="Boolean">Returns true if the property should hide in UI [Api set: ExcelApi 99.9]</field>
+			/// <field name="id" type="String">Returns the property Id. [Api set: ExcelApi 99.9]</field>
+			/// <field name="isDefault" type="Boolean">Returns true when the property&apos;s value is currently the default [Api set: ExcelApi 99.9]</field>
+			/// <field name="localizedName" type="String">Returns the property localized name. [Api set: ExcelApi 99.9]</field>
+			/// <field name="localizedOptions" type="Array" elementType="String">Returns the localized property options for IEnumProperty only. If property type isn&apos;t enum, it returns null. [Api set: ExcelApi 99.9]</field>
+			/// <field name="max" type="Number">Returns max value of the property. Only valid for INumericProperty properties. Returns null if it&apos;s invalid. [Api set: ExcelApi 99.9]</field>
+			/// <field name="min" type="Number">Returns min value of the property. Only valid for INumericProperty properties. Returns null if it&apos;s invalid. [Api set: ExcelApi 99.9]</field>
+			/// <field name="options" type="Array" elementType="String">Returns the property options for IEnumProperty only. If property type isn&apos;t enum, it returns null. [Api set: ExcelApi 99.9]</field>
+			/// <field name="stepSize" type="Number">Returns step size of the property. Only valid for INumericProperty properties. Returns null if it&apos;s invalid. [Api set: ExcelApi 99.9]</field>
+			/// <field name="type" type="String">Returns the property type. [Api set: ExcelApi 99.9]</field>
+			/// <field name="value" >Returns the property value. [Api set: ExcelApi 99.9]</field>
+		}
+
+		VisualProperty.prototype.load = function(option) {
+			/// <summary>
+			/// Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+			/// </summary>
+			/// <param name="option" type="string | string[] | OfficeExtension.LoadOption"/>
+			/// <returns type="Excel.VisualProperty"/>
+		}
+		VisualProperty.prototype.getBoolMetaProperty = function(metaProp) {
+			/// <summary>
+			/// Returns true if the visual property&apos;s boolean meta-propterty is set.              The type of meta property [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;boolean&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = false;
+			return result;
+		}
+
+		return VisualProperty;
+	})(OfficeExtension.ClientObject);
+	Excel.VisualProperty = VisualProperty;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var VisualPropertyCollection = (function(_super) {
+		__extends(VisualPropertyCollection, _super);
+		function VisualPropertyCollection() {
+			/// <summary> Represents a collection of visual object properties. [Api set: ExcelApi 99.9] </summary>
+			/// <field name="context" type="Excel.RequestContext">The request context associated with this object.</field>
+			/// <field name="isNull" type="Boolean">Returns a boolean value for whether the corresponding object is null. You must call "context.sync()" before reading the isNull property.</field>
+			/// <field name="items" type="Array" elementType="Excel.VisualProperty">Gets the loaded child items in this collection.</field>
+		}
+
+		VisualPropertyCollection.prototype.load = function(option) {
+			/// <summary>
+			/// Queues up a command to load the specified properties of the object. You must call "context.sync()" before reading the properties.
+			/// </summary>
+			/// <param name="option" type="string | string[] | OfficeExtension.LoadOption"/>
+			/// <returns type="Excel.VisualPropertyCollection"/>
+		}
+		VisualPropertyCollection.prototype.getCount = function() {
+			/// <summary>
+			/// Returns the number of properties in the collection. [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <returns type="OfficeExtension.ClientResult&lt;number&gt;"></returns>
+			var result = new OfficeExtension.ClientResult();
+			result.__proto__ = null;
+			result.value = 0;
+			return result;
+		}
+		VisualPropertyCollection.prototype.getItem = function(index) {
+			/// <summary>
+			/// Returns a property at given index [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="index" type="Number">Represents the index in property array.</param>
+			/// <returns type="Excel.VisualProperty"></returns>
+		}
+		VisualPropertyCollection.prototype.getItemAt = function(index) {
+			/// <summary>
+			/// Returns a property at given index [Api set: ExcelApi 99.9]
+			/// </summary>
+			/// <param name="index" type="Number">Represents the index in property array.</param>
+			/// <returns type="Excel.VisualProperty"></returns>
+		}
+
+		return VisualPropertyCollection;
+	})(OfficeExtension.ClientObject);
+	Excel.VisualPropertyCollection = VisualPropertyCollection;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	/// <summary> [Api set: ExcelApi 99.9] </summary>
+	var VisualPropertyType = {
+		__proto__: null,
+		"object": "object",
+		"collection": "collection",
+		"string": "string",
+		"double": "double",
+		"int": "int",
+		"bool": "bool",
+		"enum": "enum",
+		"color": "color",
+	}
+	Excel.VisualPropertyType = VisualPropertyType;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var Interfaces;
+	(function (Interfaces) {
+		var VisualSelectionChangedEventArgs = (function() {
+			function VisualSelectionChangedEventArgs() {
+				/// <summary> Provides information about the visual that raised the SelectionChanged event. [Api set: ExcelApi 99.9] </summary>
+				/// <field name="type" type="String">Gets the type of the event. See Excel.EventType for details. [Api set: ExcelApi 99.9]</field>
+				/// <field name="worksheetId" type="String">Gets the id of the worksheet in which the visual is activated. [Api set: ExcelApi 99.9]</field>
+			}
+			return VisualSelectionChangedEventArgs;
+		})();
+		Interfaces.VisualSelectionChangedEventArgs.__proto__ = null;
+		Interfaces.VisualSelectionChangedEventArgs = VisualSelectionChangedEventArgs;
+	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
 	var Workbook = (function(_super) {
 		__extends(Workbook, _super);
 		function Workbook() {
@@ -18914,12 +19461,15 @@ var Excel;
 			/// <field name="tables" type="Excel.TableCollection">Collection of tables that are part of the worksheet. Read-only. [Api set: ExcelApi 1.1]</field>
 			/// <field name="verticalPageBreaks" type="Excel.PageBreakCollection">Gets the vertical page break collection for the worksheet. This collection only contains manual page breaks. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="visibility" type="String">The Visibility of the worksheet. [Api set: ExcelApi 1.1 for reading visibility; 1.2 for setting it.]</field>
+			/// <field name="visuals" type="Excel.VisualCollection">Returns collection of visuals that are part of the worksheet. [Api set: ExcelApi 99.9]</field>
 			/// <field name="onActivated" type="OfficeExtension.EventHandlers">Occurs when the worksheet is activated. [Api set: ExcelApi 1.7]</field>
 			/// <field name="onCalculated" type="OfficeExtension.EventHandlers">Occurs when the worksheet is calculated. [Api set: ExcelApi 1.8]</field>
 			/// <field name="onChanged" type="OfficeExtension.EventHandlers">Occurs when data changed on a specific worksheet. [Api set: ExcelApi 1.7]</field>
+			/// <field name="onColumnSorted" type="OfficeExtension.EventHandlers">Occurs when sorting on columns. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onDeactivated" type="OfficeExtension.EventHandlers">Occurs when the worksheet is deactivated. [Api set: ExcelApi 1.7]</field>
 			/// <field name="onFiltered" type="OfficeExtension.EventHandlers">Occurs when filter is applied on a specific worksheet. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onFormatChanged" type="OfficeExtension.EventHandlers">Occurs when format changed on a specific worksheet. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="onRowSorted" type="OfficeExtension.EventHandlers">Occurs when sorting on rows. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onSelectionChanged" type="OfficeExtension.EventHandlers">Occurs when the selection changes on a specific worksheet. [Api set: ExcelApi 1.7]</field>
 		}
 
@@ -19117,6 +19667,20 @@ var Excel;
 				return;
 			}
 		};
+		Worksheet.prototype.onColumnSorted = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetColumnSortedEventArgs)">Handler for the event. EventArgs: Provides information about the worksheet that raised the ColumnSorted event. </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.WorksheetColumnSortedEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetColumnSortedEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
 		Worksheet.prototype.onDeactivated = {
 			__proto__: null,
 			add: function (handler) {
@@ -19156,6 +19720,20 @@ var Excel;
 			},
 			remove: function (handler) {
 				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetFormatChangedEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
+		Worksheet.prototype.onRowSorted = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetRowSortedEventArgs)">Handler for the event. EventArgs: Provides information about the worksheet that raised the RowSorted event. </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.WorksheetRowSortedEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetRowSortedEventArgs)">Handler for the event.</param>
 				return;
 			}
 		};
@@ -19264,10 +19842,12 @@ var Excel;
 			/// <field name="onAdded" type="OfficeExtension.EventHandlers">Occurs when a new worksheet is added to the workbook. [Api set: ExcelApi 1.7]</field>
 			/// <field name="onCalculated" type="OfficeExtension.EventHandlers">Occurs when any worksheet in the workbook is calculated. [Api set: ExcelApi 1.8]</field>
 			/// <field name="onChanged" type="OfficeExtension.EventHandlers">Occurs when any worksheet in the workbook is changed. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="onColumnSorted" type="OfficeExtension.EventHandlers">Occurs when sorting on columns. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onDeactivated" type="OfficeExtension.EventHandlers">Occurs when any worksheet in the workbook is deactivated. [Api set: ExcelApi 1.7]</field>
 			/// <field name="onDeleted" type="OfficeExtension.EventHandlers">Occurs when a worksheet is deleted from the workbook. [Api set: ExcelApi 1.7]</field>
 			/// <field name="onFiltered" type="OfficeExtension.EventHandlers">Occurs when any worksheet&apos;s filter is applied in the workbook. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onFormatChanged" type="OfficeExtension.EventHandlers">Occurs when any worksheet in the workbook has format changed. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			/// <field name="onRowSorted" type="OfficeExtension.EventHandlers">Occurs when sorting on rows. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="onSelectionChanged" type="OfficeExtension.EventHandlers">Occurs when the selection changes on any worksheet. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 			/// <field name="items" type="Array" elementType="Excel.Worksheet">Gets the loaded child items in this collection.</field>
 		}
@@ -19401,6 +19981,20 @@ var Excel;
 				return;
 			}
 		};
+		WorksheetCollection.prototype.onColumnSorted = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetColumnSortedEventArgs)">Handler for the event. EventArgs: Provides information about the worksheet that raised the ColumnSorted event. </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.WorksheetColumnSortedEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetColumnSortedEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
 		WorksheetCollection.prototype.onDeactivated = {
 			__proto__: null,
 			add: function (handler) {
@@ -19457,6 +20051,20 @@ var Excel;
 				return;
 			}
 		};
+		WorksheetCollection.prototype.onRowSorted = {
+			__proto__: null,
+			add: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetRowSortedEventArgs)">Handler for the event. EventArgs: Provides information about the worksheet that raised the RowSorted event. </param>
+				/// <returns type="OfficeExtension.EventHandlerResult"></returns>
+				var eventInfo = new Excel.Interfaces.WorksheetRowSortedEventArgs();
+				eventInfo.__proto__ = null;
+				handler(eventInfo);
+			},
+			remove: function (handler) {
+				/// <param name="handler" type="function(eventArgs: Excel.Interfaces.WorksheetRowSortedEventArgs)">Handler for the event.</param>
+				return;
+			}
+		};
 		WorksheetCollection.prototype.onSelectionChanged = {
 			__proto__: null,
 			add: function (handler) {
@@ -19475,6 +20083,25 @@ var Excel;
 		return WorksheetCollection;
 	})(OfficeExtension.ClientObject);
 	Excel.WorksheetCollection = WorksheetCollection;
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var Interfaces;
+	(function (Interfaces) {
+		var WorksheetColumnSortedEventArgs = (function() {
+			function WorksheetColumnSortedEventArgs() {
+				/// <summary> Provides information about the worksheet that raised the ColumnSorted event. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="address" type="String">Gets the range address that represents the sorted areas of a specific worksheet. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="source" type="String">Gets the source of the event. See Excel.EventSource for details. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="type" type="String">Gets the type of the event. See Excel.EventType for details. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="worksheetId" type="String">Gets the id of the worksheet in which the sorting happened. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			}
+			return WorksheetColumnSortedEventArgs;
+		})();
+		Interfaces.WorksheetColumnSortedEventArgs.__proto__ = null;
+		Interfaces.WorksheetColumnSortedEventArgs = WorksheetColumnSortedEventArgs;
+	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
 })(Excel || (Excel = {__proto__: null}));
 
 var Excel;
@@ -19690,6 +20317,25 @@ var Excel;
 		})();
 		Interfaces.WorksheetProtectionOptions.__proto__ = null;
 		Interfaces.WorksheetProtectionOptions = WorksheetProtectionOptions;
+	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
+})(Excel || (Excel = {__proto__: null}));
+
+var Excel;
+(function (Excel) {
+	var Interfaces;
+	(function (Interfaces) {
+		var WorksheetRowSortedEventArgs = (function() {
+			function WorksheetRowSortedEventArgs() {
+				/// <summary> Provides information about the worksheet that raised the RowSorted event. [Api set: ExcelApi BETA (PREVIEW ONLY)] </summary>
+				/// <field name="address" type="String">Gets the range address that represents the sorted areas of a specific worksheet. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="source" type="String">Gets the source of the event. See Excel.EventSource for details. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="type" type="String">Gets the type of the event. See Excel.EventType for details. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+				/// <field name="worksheetId" type="String">Gets the id of the worksheet in which the sorting happened. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
+			}
+			return WorksheetRowSortedEventArgs;
+		})();
+		Interfaces.WorksheetRowSortedEventArgs.__proto__ = null;
+		Interfaces.WorksheetRowSortedEventArgs = WorksheetRowSortedEventArgs;
 	})(Interfaces = Excel.Interfaces || (Excel.Interfaces = { __proto__: null}));
 })(Excel || (Excel = {__proto__: null}));
 
@@ -21822,11 +22468,17 @@ var Excel;
 				/// <summary>An interface for updating data on the Slicer object, for use in "slicer.set({ ... })".</summary>
 				/// <field name="worksheet" type="Excel.Interfaces.WorksheetUpdateData">Represents the worksheet containing the slicer. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>
 				/// <field name="caption" type="String">Represents the caption of slicer. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
+				/// <field name="columnCount" type="Number">Represents the number of columns in the specified slicer. The default value is 1.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi 99.9]</field>;
+				/// <field name="columnWidth" type="Number">Represents the column width of the slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi 99.9]</field>;
+				/// <field name="disableMoveResizeUI" type="Boolean">Represents the property whether the specified slicer can be moved or resized.              True if the slicer cannot be moved or resized; otherwise False. The default value is False. [Api set: ExcelApi 99.9]</field>;
+				/// <field name="displayHeader" type="Boolean">Represents the property whether the header that displays the slicer Caption is visible.              True if the header is visible; otherwise False. The default value is True. [Api set: ExcelApi 99.9]</field>;
 				/// <field name="height" type="Number">Represents the height, in points, of the slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="left" type="Number">Represents the distance, in points, from the left side of the slicer to the left of the worksheet.              Throws an invalid argument exception when set with negative value as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="name" type="String">Represents the name of slicer. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="nameInFormula" type="String">Represents the name used in the formula. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
+				/// <field name="rowHeight" type="Number">Represents the row height of the specified slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi 99.9]</field>;
 				/// <field name="sortBy" type="String">Represents the sort order of the items in the slicer. Possible values are: DataSourceOrder, Ascending, Descending. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
+				/// <field name="sortUsingCustomLists" type="Boolean">True if items in the specified slicer will be sorted by the custom lists. [Api set: ExcelApi 99.9]</field>;
 				/// <field name="style" type="String">Constant value that represents the Slicer style. Possible values are: SlicerStyleLight1 thru SlicerStyleLight6, TableStyleOther1 thru TableStyleOther2, SlicerStyleDark1 thru SlicerStyleDark6. A custom user-defined style present in the workbook can also be specified. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="top" type="Number">Represents the distance, in points, from the top edge of the slicer to the top of the worksheet.              Throws an invalid argument exception when set with negative value as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
 				/// <field name="width" type="Number">Represents the width, in points, of the slicer.              Throws an invalid argument exception when set with negative value or zero as input. [Api set: ExcelApi BETA (PREVIEW ONLY)]</field>;
