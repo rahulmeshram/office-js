@@ -1110,7 +1110,7 @@ OSF.DialogMessageType = {
     DialogParentMessageReceived: 1,
     DialogClosed: 12006
 };
-OSF.OfficeAppContext = function OSF_OfficeAppContext(id, appName, appVersion, appUILocale, dataLocale, docUrl, clientMode, settings, reason, osfControlType, eToken, correlationId, appInstanceId, touchEnabled, commerceAllowed, appMinorVersion, requirementMatrix, hostCustomMessage, hostFullVersion, clientWindowHeight, clientWindowWidth, addinName, appDomains, dialogRequirementMatrix) {
+OSF.OfficeAppContext = function OSF_OfficeAppContext(id, appName, appVersion, appUILocale, dataLocale, docUrl, clientMode, settings, reason, osfControlType, eToken, correlationId, appInstanceId, touchEnabled, commerceAllowed, appMinorVersion, requirementMatrix, hostCustomMessage, hostFullVersion, clientWindowHeight, clientWindowWidth, addinName, appDomains, dialogRequirementMatrix, featureGates) {
     this._id = id;
     this._appName = appName;
     this._appVersion = appVersion;
@@ -1136,6 +1136,7 @@ OSF.OfficeAppContext = function OSF_OfficeAppContext(id, appName, appVersion, ap
     this._addinName = addinName;
     this._appDomains = appDomains;
     this._dialogRequirementMatrix = dialogRequirementMatrix;
+    this._featureGates = featureGates;
     this.get_id = function get_id() { return this._id; };
     this.get_appName = function get_appName() { return this._appName; };
     this.get_appVersion = function get_appVersion() { return this._appVersion; };
@@ -1162,6 +1163,7 @@ OSF.OfficeAppContext = function OSF_OfficeAppContext(id, appName, appVersion, ap
     this.get_clientWindowWidth = function get_clientWindowWidth() { return this._clientWindowWidth; };
     this.get_addinName = function get_addinName() { return this._addinName; };
     this.get_appDomains = function get_appDomains() { return this._appDomains; };
+    this.get_featureGates = function get_featureGates() { return this._featureGates; };
 };
 OSF.OsfControlType = {
     DocumentLevel: 0,
@@ -4358,11 +4360,12 @@ var OfficeExt;
                     }
                 }
             }
+            MacRichClientHostController.DialogEventListener = receiveMessage;
             function checkWindowClose() {
                 try {
                     if (MacRichClientHostController.popup == null || MacRichClientHostController.popup.closed) {
                         window.clearInterval(MacRichClientHostController.interval);
-                        window.removeEventListener("message", receiveMessage);
+                        window.removeEventListener("message", MacRichClientHostController.DialogEventListener);
                         MacRichClientHostController.NotifyError = null;
                         handler(id, [OSF.DialogMessageType.DialogClosed]);
                     }
@@ -4372,7 +4375,7 @@ var OfficeExt;
                 }
             }
             if (MacRichClientHostController.popup != undefined && window.dialogAPIErrorCode == undefined) {
-                window.addEventListener("message", receiveMessage);
+                window.addEventListener("message", MacRichClientHostController.DialogEventListener);
                 MacRichClientHostController.interval = window.setInterval(checkWindowClose, 500);
                 function notifyError(errorCode) {
                     handler(id, [errorCode]);
@@ -4400,6 +4403,7 @@ var OfficeExt;
                 }
                 MacRichClientHostController.popup.close();
                 MacRichClientHostController.popup = null;
+                window.removeEventListener("message", MacRichClientHostController.DialogEventListener);
                 MacRichClientHostController.NotifyError = null;
                 callback(OSF.DDA.ErrorCodeManager.errorCodes.ooeSuccess);
             }
@@ -4739,6 +4743,7 @@ var OSFWebkit;
             var callArgs = JSON.parse(targetId);
             var callUrl = callArgs.url;
             if (!callUrl) {
+                callback(OSF.DDA.ErrorCodeManager.errorCodes.ooeInvalidScheme);
                 return;
             }
             var urlParts = callUrl.split(fragmentSeparator);
@@ -4765,11 +4770,12 @@ var OSFWebkit;
                     }
                 }
             }
+            WebkitHostController.DialogEventListener = receiveMessage;
             function checkWindowClose() {
                 try {
                     if (WebkitHostController.popup == null || WebkitHostController.popup.closed) {
                         window.clearInterval(WebkitHostController.interval);
-                        window.removeEventListener("message", receiveMessage);
+                        window.removeEventListener("message", WebkitHostController.DialogEventListener);
                         WebkitHostController.NotifyError = null;
                         WebkitHostController.popup = null;
                         handler(id, [OSF.DialogMessageType.DialogClosed]);
@@ -4781,8 +4787,7 @@ var OSFWebkit;
             }
             WebkitHostController.OpenDialogCallback = function (code) {
                 if (code == OSF.DDA.ErrorCodeManager.errorCodes.ooeSuccess) {
-                    window.addEventListener("message", receiveMessage);
-                    this.messageEventListener = receiveMessage;
+                    window.addEventListener("message", WebkitHostController.DialogEventListener);
                     WebkitHostController.interval = window.setInterval(checkWindowClose, 1000);
                     function notifyError(errorCode) {
                         handler(id, [errorCode]);
@@ -4799,7 +4804,7 @@ var OSFWebkit;
                 }
                 WebkitHostController.popup.close();
                 WebkitHostController.popup = null;
-                window.removeEventListener("message", this.messageEventListener);
+                window.removeEventListener("message", WebkitHostController.DialogEventListener);
                 WebkitHostController.NotifyError = null;
                 callback(OSF.DDA.ErrorCodeManager.errorCodes.ooeSuccess);
             }
@@ -4999,7 +5004,12 @@ OSF.initializeRichCommon = function OSF_initializeRichCommon() {
             if (onCalling) {
                 onCalling();
             }
-            OSF.DDA._OsfControlContext.GetSettings().Read(keys, values);
+            if (typeof OsfOMToken != 'undefined' && OsfOMToken) {
+                OSF.DDA._OsfControlContext.GetSettings(OsfOMToken).Read(keys, values);
+            }
+            else {
+                OSF.DDA._OsfControlContext.GetSettings().Read(keys, values);
+            }
             if (onReceiving) {
                 onReceiving();
             }
@@ -5019,7 +5029,12 @@ OSF.initializeRichCommon = function OSF_initializeRichCommon() {
             if (onCalling) {
                 onCalling();
             }
-            OSF.DDA._OsfControlContext.GetSettings().Write(keys, values);
+            if (typeof OsfOMToken != 'undefined' && OsfOMToken) {
+                OSF.DDA._OsfControlContext.GetSettings(OsfOMToken).Write(keys, values);
+            }
+            else {
+                OSF.DDA._OsfControlContext.GetSettings().Write(keys, values);
+            }
             if (onReceiving) {
                 onReceiving();
             }
@@ -5552,17 +5567,10 @@ var OSFAriaLogger;
     var TelemetryEventAppActivated = { name: "AppActivated", enabled: true, basic: true, critical: true, points: [
             { name: "Browser", type: "string" },
             { name: "Message", type: "string" },
-            { name: "AppId", type: "string" },
             { name: "AppURL", type: "string" },
-            { name: "UserId", type: "string" },
             { name: "Host", type: "string" },
-            { name: "HostVersion", type: "string" },
-            { name: "CorrelationId", type: "string", rename: "HostSessionId" },
             { name: "AppSizeWidth", type: "int64" },
             { name: "AppSizeHeight", type: "int64" },
-            { name: "AppInstanceId", type: "string" },
-            { name: "OfficeJSVersion", type: "string" },
-            { name: "HostJSVersion", type: "string" },
             { name: "IsFromWacAutomation", type: "string" },
         ] };
     var TelemetryEventScriptLoad = { name: "ScriptLoad", enabled: true, basic: false, critical: false, points: [
@@ -5696,9 +5704,51 @@ var OSFAriaLogger;
         AriaLogger.prototype.isIUsageData = function (arg) {
             return arg["Fields"] !== undefined;
         };
+        AriaLogger.prototype.shouldSendDirectToAria = function () {
+            var flavor;
+            var version;
+            if (OSF._OfficeAppFactory && OSF._OfficeAppFactory.getHostInfo) {
+                flavor = OSF._OfficeAppFactory.getHostInfo()["hostPlatform"];
+            }
+            if (!flavor) {
+                return false;
+            }
+            else if (flavor.toLowerCase() !== "win32") {
+                return true;
+            }
+            if (window.external && window.external.GetContext && window.external.GetContext().GetHostVersion) {
+                version = window.external.GetContext().GetHostVersion();
+            }
+            var BASE10 = 10;
+            var MAX_MAJOR_VERSION = 16;
+            var MAX_MINOR_VERSION = 0;
+            var MAX_BUILD_VERSION = 11601;
+            if (version) {
+                var versionTokens = version.split('.');
+                if (versionTokens.length < 3) {
+                    return false;
+                }
+                else if (parseInt(versionTokens[0], BASE10) >= MAX_MAJOR_VERSION &&
+                    parseInt(versionTokens[1], BASE10) >= MAX_MINOR_VERSION &&
+                    parseInt(versionTokens[2], BASE10) >= MAX_BUILD_VERSION) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            return false;
+        };
+        AriaLogger.prototype.isDirectToAriaEnabled = function () {
+            if (this.EnableDirectToAria === undefined || this.EnableDirectToAria === null) {
+                this.EnableDirectToAria = this.shouldSendDirectToAria();
+            }
+            return this.EnableDirectToAria;
+        };
         AriaLogger.prototype.sendTelemetry = function (tableName, telemetryData) {
             var startAfterMs = 1000;
-            if (AriaLogger.EnableSendingTelemetryWithLegacyAria) {
+            var sendAriaEnabled = AriaLogger.EnableSendingTelemetryWithLegacyAria && this.isDirectToAriaEnabled();
+            if (sendAriaEnabled) {
                 OSF.OUtil.loadScript(this.getAriaCDNLocation(), function () {
                     try {
                         if (!this.ALogger) {
@@ -5733,7 +5783,7 @@ var OSFAriaLogger;
             }
         };
         AriaLogger.EnableSendingTelemetryWithOTel = true;
-        AriaLogger.EnableSendingTelemetryWithLegacyAria = true;
+        AriaLogger.EnableSendingTelemetryWithLegacyAria = false;
         return AriaLogger;
     })();
     OSFAriaLogger.AriaLogger = AriaLogger;
@@ -7033,10 +7083,11 @@ OSF.DDA.SafeArray.Delegate.sendMessage = function OSF_DDA_SafeArray_Delegate$Sen
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var AsyncStorage = __webpack_require__(1), DialogApi = __webpack_require__(2);
+    var AsyncStorage = __webpack_require__(1), DialogApi = __webpack_require__(2), officeruntime_storage_web_1 = __webpack_require__(4);
     window._OfficeRuntimeNative = {
         displayWebDialog: DialogApi.displayWebDialog,
-        AsyncStorage: AsyncStorage
+        AsyncStorage: AsyncStorage,
+        storage: officeruntime_storage_web_1.storage
     };
 }, function(module, exports, __webpack_require__) {
     "use strict";
@@ -7200,4 +7251,101 @@ OSF.DDA.SafeArray.Delegate.sendMessage = function OSF_DDA_SafeArray_Delegate$Sen
     };
 }, function(module, exports) {
     module.exports = OfficeExtensionBatch;
+}, function(module, exports, __webpack_require__) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+    var prefix = "_OfficeRuntime_Storage_", dummyUnusedKey = prefix + "|_unusedKey_";
+    function ensureFreshLocalStorage() {
+        window.localStorage.setItem(dummyUnusedKey, null), window.localStorage.removeItem(dummyUnusedKey);
+    }
+    function performAction(action) {
+        return new Promise(function(resolve, reject) {
+            try {
+                ensureFreshLocalStorage(), action(), resolve();
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+    function performActionAndReturnResult(action) {
+        return new Promise(function(resolve, reject) {
+            try {
+                ensureFreshLocalStorage(), resolve(action());
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+    function performMultiAction(collection, action) {
+        return new Promise(function(resolve, reject) {
+            var errors = [];
+            try {
+                ensureFreshLocalStorage();
+            } catch (e) {
+                errors.push(e);
+            }
+            for (var key in collection) if (collection.hasOwnProperty(key) || Array.isArray(collection)) try {
+                Array.isArray(collection) ? action(collection[key]) : action(key);
+            } catch (e) {
+                errors.push(e);
+            }
+            errors.length > 0 ? reject(new Error("Unknown error.")) : resolve();
+        });
+    }
+    exports.storage = {
+        getItem: function(key) {
+            return performActionAndReturnResult(function() {
+                return window.localStorage.getItem(prefix + key);
+            });
+        },
+        setItem: function(key, value) {
+            return performAction(function() {
+                return window.localStorage.setItem(prefix + key, value);
+            });
+        },
+        removeItem: function(key) {
+            return performAction(function() {
+                return window.localStorage.removeItem(prefix + key);
+            });
+        },
+        getItems: function(keys) {
+            return new Promise(function(resolve, reject) {
+                var result = {}, errors = [];
+                try {
+                    ensureFreshLocalStorage();
+                } catch (e) {
+                    reject(e);
+                }
+                keys.forEach(function(key) {
+                    try {
+                        var value = window.localStorage.getItem(prefix + key);
+                        result[key] = value || null;
+                    } catch (e) {
+                        errors.push(e);
+                    }
+                }), errors.length > 0 ? reject(new Error("Unknown error.")) : resolve(result);
+            });
+        },
+        setItems: function(keyValues) {
+            return performMultiAction(keyValues, function(key) {
+                return window.localStorage.setItem(prefix + key, keyValues[key]);
+            });
+        },
+        removeItems: function(keys) {
+            return performMultiAction(keys, function(key) {
+                window.localStorage.removeItem(prefix + key);
+            });
+        },
+        getKeys: function() {
+            return performActionAndReturnResult(function() {
+                return Object.keys(window.localStorage).filter(function(fullKey) {
+                    return 0 === fullKey.indexOf(prefix);
+                }).map(function(fullKey) {
+                    return fullKey.substr(prefix.length);
+                });
+            });
+        }
+    };
 } ]);
